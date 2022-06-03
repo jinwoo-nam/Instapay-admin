@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:instapay_admin/presentation/home/home_state.dart';
+import 'package:instapay_admin/presentation/home/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -9,40 +12,81 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-  final List<ListItem> _items = [
-    ListItem(
-      title: '거래 내역',
-      faIcon: const FaIcon(
-        FontAwesomeIcons.chartColumn,
-        color: Colors.white54,
-        size: 25,
-      ),
-      childrenItems: [ListChildrenItem(title: ' - 거래 내역 조회', press: () {})],
-    ),
-    ListItem(
-      title: '정산 내역',
-      faIcon: const FaIcon(
-        FontAwesomeIcons.calculator,
-        color: Colors.white54,
-        size: 25,
-      ),
-      childrenItems: [ListChildrenItem(title: ' - 정산 내역 조회', press: () {})],
-    ),
-    ListItem(
-      title: '가맹점 정보',
-      faIcon: const FaIcon(
-        FontAwesomeIcons.truck,
-        color: Colors.white54,
-        size: 25,
-      ),
-      childrenItems: [
-        ListChildrenItem(title: ' - 기본 정보', press: () {}),
-        ListChildrenItem(title: ' - QR코드 관리', press: () {}),
-      ],
-    ),
-  ];
+  List<ListItem> _items = [];
 
-  List<ExpansionPanel> _getExpansionPanels(List<ListItem> items) {
+  @override
+  void initState() {
+    super.initState();
+    final viewModel = context.read<HomeViewModel>();
+
+    _items = [
+      ListItem(
+        title: '거래 내역',
+        faIcon: const FaIcon(
+          FontAwesomeIcons.chartColumn,
+          color: Colors.white54,
+          size: 25,
+        ),
+        childrenItems: [
+          ListChildrenItem(
+            title: ' - 거래 내역 조회',
+            press: () {
+              Navigator.pop(context);
+              return viewModel
+                  .setSelectScreenType(SelectScreenType.tradeHistoryScreen);
+            },
+          )
+        ],
+      ),
+      ListItem(
+        title: '정산 내역',
+        faIcon: const FaIcon(
+          FontAwesomeIcons.calculator,
+          color: Colors.white54,
+          size: 25,
+        ),
+        childrenItems: [
+          ListChildrenItem(
+            title: ' - 정산 내역 조회',
+            press: () {
+              Navigator.pop(context);
+              return viewModel
+                  .setSelectScreenType(SelectScreenType.calculateHistoryScreen);
+            },
+          )
+        ],
+      ),
+      ListItem(
+        title: '가맹점 정보',
+        faIcon: const FaIcon(
+          FontAwesomeIcons.truck,
+          color: Colors.white54,
+          size: 25,
+        ),
+        childrenItems: [
+          ListChildrenItem(
+            title: ' - 기본 정보',
+            press: () {
+              Navigator.pop(context);
+              return viewModel
+                  .setSelectScreenType(SelectScreenType.affiliateInfoScreen);
+            },
+          ),
+          ListChildrenItem(
+            title: ' - QR코드 관리',
+            press: () {
+              Navigator.pop(context);
+              return viewModel
+                  .setSelectScreenType(SelectScreenType.qrCodeManageScreen);
+            },
+          ),
+        ],
+      ),
+    ];
+  }
+
+  List<ExpansionPanel> _getExpansionPanels(
+      List<ListItem> items, HomeViewModel viewModel) {
     return items.map<ExpansionPanel>((ListItem item) {
       return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
@@ -70,6 +114,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<HomeViewModel>();
+
     return Drawer(
       child: ListView(
         children: [
@@ -81,7 +127,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           ExpansionPanelList(
             elevation: 3,
-            children: _getExpansionPanels(_items),
+            children: _getExpansionPanels(_items, viewModel),
             expansionCallback: (panelIndex, isExpanded) {
               setState(() {
                 _items[panelIndex].isExpanded = !isExpanded;
