@@ -38,4 +38,56 @@ class HomeViewModel with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void setPeriodToday() {
+    _state = state.copyWith(
+      startDay: DateTime.now(),
+      endDay: DateTime.now(),
+    );
+    notifyListeners();
+  }
+
+  void setPeriodWeek() {
+    _state = state.copyWith(
+      startDay: DateTime(
+          DateTime.now().subtract(const Duration(days: 7)).year,
+          DateTime.now().subtract(const Duration(days: 7)).month,
+          DateTime.now().subtract(const Duration(days: 7)).day),
+      endDay: DateTime.now(),
+    );
+    notifyListeners();
+  }
+
+  void setPeriodOneMonth() {
+    _state = state.copyWith(
+      startDay: DateTime(
+          DateTime.now().subtract(const Duration(days: 30)).year,
+          DateTime.now().subtract(const Duration(days: 30)).month,
+          DateTime.now().subtract(const Duration(days: 30)).day),
+      endDay: DateTime.now(),
+    );
+    notifyListeners();
+  }
+
+  void setPeriodTwoMonth() {
+    _state = state.copyWith(
+      startDay: DateTime(
+          DateTime.now().subtract(const Duration(days: 60)).year,
+          DateTime.now().subtract(const Duration(days: 60)).month,
+          DateTime.now().subtract(const Duration(days: 60)).day),
+      endDay: DateTime.now(),
+    );
+    notifyListeners();
+  }
+
+  void setPeriodThreeMonth() {
+    _state = state.copyWith(
+      startDay: DateTime(
+          DateTime.now().subtract(const Duration(days: 90)).year,
+          DateTime.now().subtract(const Duration(days: 90)).month,
+          DateTime.now().subtract(const Duration(days: 90)).day),
+      endDay: DateTime.now(),
+    );
+    notifyListeners();
+  }
 }
