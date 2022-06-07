@@ -23,6 +23,7 @@ class TradeHistoryWidget extends StatelessWidget {
     final viewModel = context.watch<HomeViewModel>();
     final state = viewModel.state;
     final selectButtonWidth = (MediaQuery.of(context).size.width - 40) / 5;
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -347,7 +348,9 @@ class TradeHistoryWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Divider(color: Colors.white,)
+                      const Divider(
+                        color: Colors.white,
+                      )
                     ],
                   ),
                 ),
@@ -491,7 +494,9 @@ class TradeHistoryWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Divider(color: Colors.white,)
+                    const Divider(
+                      color: Colors.white,
+                    )
                   ],
                 ),
                 Column(
@@ -634,7 +639,9 @@ class TradeHistoryWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Divider(color: Colors.white,)
+                    const Divider(
+                      color: Colors.white,
+                    )
                   ],
                 ),
               ],

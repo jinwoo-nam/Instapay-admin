@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 
 class HomeViewModel with ChangeNotifier {
-  HomeViewModel();
+  HomeViewModel() {
+    setDefaultCalcDateTime();
+  }
 
   HomeState _state = HomeState();
 
   HomeState get state => _state;
+
+  void setDefaultCalcDateTime() {
+    _state = state.copyWith(
+      calcDay: DateTime.now(),
+    );
+  }
 
   void setSelectScreenType(SelectScreenType type) {
     _state = state.copyWith(

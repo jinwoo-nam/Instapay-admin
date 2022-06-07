@@ -26,6 +26,7 @@ class HomeState with _$HomeState {
     @Default(PeriodType.start) PeriodType periodType,
     DateTime? startDay,
     DateTime? endDay,
+    DateTime? calcDay,
   }) = _HomeState;
 
   factory HomeState.fromJson(Map<String, dynamic> json) =>

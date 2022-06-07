@@ -174,7 +174,7 @@ class ListItem {
     required this.title,
     required this.faIcon,
     required this.childrenItems,
-    this.isExpanded = false,
+    this.isExpanded = true,
   });
 }
 
