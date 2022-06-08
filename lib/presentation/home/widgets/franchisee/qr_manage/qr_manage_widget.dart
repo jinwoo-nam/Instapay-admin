@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
+import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/components/create_qr_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/trade_history/components/calendar_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/trade_history/components/period_select_widget.dart';
 import 'package:instapay_admin/ui/color.dart';
@@ -225,7 +226,15 @@ class QrManageWidget extends StatelessWidget {
                       width: 20,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        viewModel.setSelectedDay(null);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CreateQrWidget(),
+                          ),
+                        );
+                      },
                       child: const Text('신규 등록'),
                     ),
                   ],

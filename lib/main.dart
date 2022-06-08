@@ -6,7 +6,12 @@ import 'package:instapay_admin/ui/color.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: getProviders(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,10 +28,7 @@ class MyApp extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
       ),
-      home: MultiProvider(
-        providers: getProviders(),
-        child: const RootScreen(),
-      ),
+      home: const RootScreen(),
     );
   }
 }
