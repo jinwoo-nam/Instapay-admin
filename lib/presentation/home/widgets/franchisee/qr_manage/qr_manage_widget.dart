@@ -205,6 +205,9 @@ class QrManageWidget extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 25,
+                ),
                 Row(
                   children: [
                     ElevatedButton(
@@ -249,7 +252,7 @@ class QrCodeInfo {
   final String expireDate;
   final String createDate;
   final String state;
-  final bool isSelected;
+  bool isSelected;
 
   QrCodeInfo({
     required this.title,
@@ -261,7 +264,7 @@ class QrCodeInfo {
   });
 }
 
-class QrInfoListWidget extends StatelessWidget {
+class QrInfoListWidget extends StatefulWidget {
   final QrCodeInfo data;
   final Function(bool)? onPress;
 
@@ -272,82 +275,93 @@ class QrInfoListWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<QrInfoListWidget> createState() => _QrInfoListWidgetState();
+}
+
+class _QrInfoListWidgetState extends State<QrInfoListWidget> {
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Checkbox(
-            value: data.isSelected,
-            onChanged: (checked) {
-              if (onPress != null && checked != null) {
-                onPress!(checked);
-              }
-            }),
-         Container(
-          decoration: BoxDecoration(
-            color: secondaryColor,
-            borderRadius: BorderRadius.circular(15),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Checkbox(
+              value: widget.data.isSelected,
+              onChanged: (checked) {
+                setState(() {
+                  widget.data.isSelected = !widget.data.isSelected;
+                });
+              }),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: secondaryColor,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text('결제건명'),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(widget.data.title),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text('결제금액'),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text('${widget.data.price}'),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text('유효기간'),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(widget.data.expireDate),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text('생성일시'),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(widget.data.createDate),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text('상태'),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(widget.data.state),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
-          child: Column(
-            children: [
-              // Row(
-              //   children: [
-              //     const Expanded(
-              //       child: Text('결제건명'),
-              //     ),
-              //     Expanded(
-              //       flex: 3,
-              //       child: Text(data.title),
-              //     ),
-              //   ],
-              // ),
-              // Row(
-              //   children: [
-              //     const Expanded(
-              //       child: Text('결제금액'),
-              //     ),
-              //     Expanded(
-              //       flex: 3,
-              //       child: Text('${data.price}'),
-              //     ),
-              //   ],
-              // ),
-              // Row(
-              //   children: [
-              //     const Expanded(
-              //       child: Text('유효기간'),
-              //     ),
-              //     Expanded(
-              //       flex: 3,
-              //       child: Text(data.expireDate),
-              //     ),
-              //   ],
-              // ),
-              // Row(
-              //   children: [
-              //     const Expanded(
-              //       child: Text('생성일시'),
-              //     ),
-              //     Expanded(
-              //       flex: 3,
-              //       child: Text(data.createDate),
-              //     ),
-              //   ],
-              // ),
-              // Row(
-              //   children: [
-              //     const Expanded(
-              //       child: Text('상태'),
-              //     ),
-              //     Expanded(
-              //       flex: 3,
-              //       child: Text(data.state),
-              //     ),
-              //   ],
-              // ),
-            ],
-          ),
-         ),
-      ],
+        ],
+      ),
     );
   }
 }
