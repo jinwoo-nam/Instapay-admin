@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:instapay_admin/core/result.dart';
 import 'package:instapay_admin/data/data_source/franchisee_manager_data_source.dart';
 import 'package:instapay_admin/domain/model/franchisee_manager_info.dart';

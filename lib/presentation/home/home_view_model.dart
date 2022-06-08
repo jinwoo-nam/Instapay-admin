@@ -1,30 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:instapay_admin/domain/model/franchisee_manager_info.dart';
-import 'package:instapay_admin/domain/use_case/franchisee/add_manager_use_case.dart';
-import 'package:instapay_admin/domain/use_case/franchisee/delete_manaer_use_case.dart';
-import 'package:instapay_admin/domain/use_case/franchisee/get_manager_use_case.dart';
+import 'package:instapay_admin/domain/use_case/franchisee/manager/manager_use_case.dart';
+import 'package:instapay_admin/domain/use_case/franchisee/qr/get_qr_info_list_use_case.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 
 class HomeViewModel with ChangeNotifier {
-  final GetManagerUseCase getManager;
-  final AddManagerUseCase addManager;
-  final DeleteManagerUseCase deleteManager;
+  final ManagerUseCase managerUseCase;
+  final GetQrInfoListUseCase getQrInfo;
 
   HomeViewModel({
-    required this.getManager,
-    required this.addManager,
-    required this.deleteManager,
+    required this.managerUseCase,
+    required this.getQrInfo,
   }) {
     setDefaultCalcDateTime();
     getManagerData();
+    getQrInfoList();
   }
 
   HomeState _state = HomeState();
 
   HomeState get state => _state;
 
+  void getQrInfoList() async {
+    final qrInfo = await getQrInfo();
+    qrInfo.when(
+        success: (data) {
+          _state = state.copyWith(
+            qrInfoList: data,
+          );
+        },
+        error: (message) {});
+
+    notifyListeners();
+  }
+
   void getManagerData() async {
-    final managers = await getManager();
+    final managers = await managerUseCase.getManager();
     managers.when(
         success: (data) {
           _state = state.copyWith(managers: data);
@@ -34,13 +45,13 @@ class HomeViewModel with ChangeNotifier {
   }
 
   void addManagerData(FranchiseeManagerInfo manager) async {
-    await addManager(manager);
+    await managerUseCase.addManager(manager);
 
     getManagerData();
   }
 
   void deleteManagerData(int index) async {
-    await deleteManager(index);
+    await managerUseCase.deleteManager(index);
 
     getManagerData();
   }
@@ -77,7 +88,7 @@ class HomeViewModel with ChangeNotifier {
         endDay: selectedDay,
         isCalendarSelected: false,
       );
-    } else if(state.periodType == PeriodType.qrManage) {
+    } else if (state.periodType == PeriodType.qrManage) {
       _state = state.copyWith(
         qrManageEndDay: selectedDay,
         isCalendarSelected: false,
