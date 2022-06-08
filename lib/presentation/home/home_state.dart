@@ -1,3 +1,4 @@
+import 'package:instapay_admin/domain/model/franchisee_manager_info.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -24,6 +25,7 @@ class HomeState with _$HomeState {
         SelectScreenType selectScreenType,
     @Default(false) bool isCalendarSelected,
     @Default(PeriodType.start) PeriodType periodType,
+    @Default([]) List<FranchiseeManagerInfo> managers,
     DateTime? startDay,
     DateTime? endDay,
     DateTime? calcDay,

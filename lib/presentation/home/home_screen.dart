@@ -3,9 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/home/components/drawer_widget.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
-import 'package:instapay_admin/presentation/home/widgets/affiliate/affiliate_info/affiliate_info_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/affiliate/qr_manage/qr_manage_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/calc_history/calc_history_widget.dart';
+import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/franchisee_info_widget.dart';
+import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/qr_manage_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/trade_history/trade_history_widget.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
       case SelectScreenType.calculateHistoryScreen:
         return const CalcHistoryWidget();
       case SelectScreenType.affiliateInfoScreen:
-        return const AffiliateInfoWidget();
+        return const FranchiseeInfoWidget();
       case SelectScreenType.qrCodeManageScreen:
         return const QrManageWidget();
       default:

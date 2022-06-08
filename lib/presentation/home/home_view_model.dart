@@ -1,14 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:instapay_admin/domain/model/franchisee_manager_info.dart';
+import 'package:instapay_admin/domain/use_case/franchisee/add_manager_use_case.dart';
+import 'package:instapay_admin/domain/use_case/franchisee/delete_manaer_use_case.dart';
+import 'package:instapay_admin/domain/use_case/franchisee/get_manager_use_case.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 
 class HomeViewModel with ChangeNotifier {
-  HomeViewModel() {
+  final GetManagerUseCase getManager;
+  final AddManagerUseCase addManager;
+  final DeleteManagerUseCase deleteManager;
+
+  HomeViewModel({
+    required this.getManager,
+    required this.addManager,
+    required this.deleteManager,
+  }) {
     setDefaultCalcDateTime();
+    getManagerData();
   }
 
   HomeState _state = HomeState();
 
   HomeState get state => _state;
+
+  void getManagerData() async {
+    final managers = await getManager();
+    managers.when(
+        success: (data) {
+          _state = state.copyWith(managers: data);
+        },
+        error: (message) {});
+    notifyListeners();
+  }
+
+  void addManagerData(FranchiseeManagerInfo manager) async {
+    await addManager(manager);
+
+    getManagerData();
+  }
+
+  void deleteManagerData(int index) async {
+    await deleteManager(index);
+
+    getManagerData();
+  }
 
   void setDefaultCalcDateTime() {
     _state = state.copyWith(
