@@ -18,6 +18,7 @@ enum PeriodType {
   start,
   end,
   qrManage,
+  qrDetail,
 }
 
 @freezed
@@ -33,6 +34,7 @@ class HomeState with _$HomeState {
     DateTime? endDay,
     DateTime? calcDay,
     DateTime? qrManageEndDay,
+    DateTime? qrDetailEndDay,
   }) = _HomeState;
 
   factory HomeState.fromJson(Map<String, dynamic> json) =>

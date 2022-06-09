@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:instapay_admin/domain/model/qr_code_info.dart';
+import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/components/qr_info_detail_widget.dart';
 import 'package:instapay_admin/ui/color.dart';
 
 class QrInfoListWidget extends StatefulWidget {
   final QrCodeInfo data;
-  final Function(bool)? onPress;
 
   const QrInfoListWidget({
     Key? key,
     required this.data,
-    this.onPress,
   }) : super(key: key);
 
   @override
@@ -35,70 +34,82 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
                 });
               }),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: secondaryColor,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Text('결제건명'),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Text(widget.data.title),
-                      ),
-                    ],
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QrInfoDetailWidget(
+                      data: widget.data,
+                    ),
                   ),
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Text('결제금액'),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Text('${widget.data.price}'),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Text('유효기간'),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Text(widget.data.expireDate),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Text('생성일시'),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Text(widget.data.createDate),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Text('상태'),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Text(widget.data.state),
-                      ),
-                    ],
-                  ),
-                ],
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text('결제건명'),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(widget.data.title),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text('결제금액'),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text('${widget.data.price}'),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text('유효기간'),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(widget.data.expireDate),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text('생성일시'),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(widget.data.createDate),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text('상태'),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(widget.data.state),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

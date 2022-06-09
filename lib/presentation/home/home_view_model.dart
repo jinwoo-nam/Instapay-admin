@@ -93,6 +93,11 @@ class HomeViewModel with ChangeNotifier {
         qrManageEndDay: selectedDay,
         isCalendarSelected: false,
       );
+    } else if (state.periodType == PeriodType.qrDetail) {
+      _state = state.copyWith(
+        qrDetailEndDay: selectedDay,
+        isCalendarSelected: false,
+      );
     }
 
     notifyListeners();
