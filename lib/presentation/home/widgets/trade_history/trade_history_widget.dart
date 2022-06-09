@@ -26,6 +26,8 @@ class TradeHistoryWidget extends StatelessWidget {
     final selectButtonWidth = MediaQuery.of(context).size.width < 500
         ? (MediaQuery.of(context).size.width - 40) / 5
         : (500 - 40) / 5;
+    print(MediaQuery.of(context).size.width);
+    double dateContainerWidth = MediaQuery.of(context).size.width < 500 ? 140: 170;
 
     return SingleChildScrollView(
       child: Center(
@@ -73,7 +75,7 @@ class TradeHistoryWidget extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(15.0),
                                     color: secondaryColor,
                                   ),
-                                  width: 170,
+                                  width: dateContainerWidth,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -111,7 +113,7 @@ class TradeHistoryWidget extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(15.0),
                                     color: secondaryColor,
                                   ),
-                                  width: 170,
+                                  width: dateContainerWidth,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,

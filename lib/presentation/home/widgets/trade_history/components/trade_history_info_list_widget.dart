@@ -119,10 +119,12 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
               const SizedBox(
                 width: 30,
               ),
-              Text(
-                paymentInfo.orderNumber,
-                style: const TextStyle(
-                  fontSize: 15,
+              Expanded(
+                child: Text(
+                  paymentInfo.orderNumber,
+                  style: const TextStyle(
+                    fontSize: 15,
+                  ),
                 ),
               ),
             ],

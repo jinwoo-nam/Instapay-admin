@@ -16,6 +16,7 @@ class CalcHistoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
     final state = viewModel.state;
+    double dateContainerWidth = MediaQuery.of(context).size.width < 500 ? 140: 170;
 
     return SingleChildScrollView(
       child: Center(
@@ -58,7 +59,7 @@ class CalcHistoryWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15.0),
                             color: secondaryColor,
                           ),
-                          width: 170,
+                          width: dateContainerWidth,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

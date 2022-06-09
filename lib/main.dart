@@ -28,7 +28,9 @@ class MyApp extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
       ),
-      home: const RootScreen(),
+      home: OrientationBuilder(builder: (context,orientation) {
+        return const RootScreen();
+      }),
     );
   }
 }
