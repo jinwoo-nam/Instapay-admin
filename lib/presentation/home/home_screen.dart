@@ -7,6 +7,7 @@ import 'package:instapay_admin/presentation/home/widgets/calc_history/calc_histo
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/franchisee_info_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/qr_manage_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/trade_history/trade_history_widget.dart';
+import 'package:instapay_admin/responsive/responsive.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:provider/provider.dart';
 

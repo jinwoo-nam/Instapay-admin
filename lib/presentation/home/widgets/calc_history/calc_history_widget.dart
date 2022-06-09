@@ -18,302 +18,307 @@ class CalcHistoryWidget extends StatelessWidget {
     final state = viewModel.state;
 
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '일일 정산 내역',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                const Text(
-                  '날짜 지정',
-                  style: TextStyle(
-                    fontSize: 17,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      // viewModel.setCalendarSelectState(
-                      //     !state.isCalendarSelected, PeriodType.start);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(13),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: secondaryColor,
-                      ),
-                      width: 170,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            state.calcDay == null
-                                ? '정산일'
-                                : DateFormat('yyyy-MM-dd')
-                                    .format(state.calcDay!),
-                            style: const TextStyle(
-                              color: Colors.white54,
-                            ),
-                          ),
-                          const FaIcon(
-                            FontAwesomeIcons.calendarDays,
-                            color: Colors.white54,
-                            size: 20,
-                          ),
-                        ],
+      child: Center(
+        child: SizedBox(
+          width: 500,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '일일 정산 내역',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                ),
-                if (state.isCalendarSelected) const CalendarWidget(),
-                ElevatedButton(
-                  onPressed: () {
-                    viewModel.searchCalcHistory(
-                        DateFormat('yyyy-MM-dd').format(state.calcDay!));
-                  },
-                  child: const Text('보기'),
-                ),
-                (state.isLoadingCalcHistorySearch == false)
-                    ? (state.calcHistorySummary != null)
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    const Text(
+                      '날짜 지정',
+                      style: TextStyle(
+                        fontSize: 17,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          // viewModel.setCalendarSelectState(
+                          //     !state.isCalendarSelected, PeriodType.start);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(13),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: secondaryColor,
+                          ),
+                          width: 170,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
-                                child: DataTable2(
-                                    columnSpacing: 5,
-                                    minWidth: 400,
-                                    columns: const [
-                                      DataColumn2(
-                                        fixedWidth: 30,
-                                        label: Center(
-                                          child: Text(
-                                            '구분',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      DataColumn2(
-                                        fixedWidth: 55,
-                                        label: Center(
-                                          child: Text(
-                                            '건수',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      DataColumn2(
-                                        fixedWidth: 90,
-                                        label: Center(
-                                          child: Text(
-                                            '금액',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      DataColumn2(
-                                        fixedWidth: 80,
-                                        label: Center(
-                                          child: Text(
-                                            '수수료/VAT',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      DataColumn2(
-                                        fixedWidth: 80,
-                                        label: Center(
-                                          child: Text(
-                                            '정산액',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                    rows: [
-                                      DataRow2(
-                                        cells: [
-                                          DataCell(Center(
-                                              child: Text(state
-                                                  .calcHistorySummary!
-                                                  .complete
-                                                  .state))),
-                                          DataCell(Center(
-                                              child: Text(
-                                                  '${state.calcHistorySummary!.complete.count}'))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .complete
-                                                  .price)))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .complete
-                                                  .vat)))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .complete
-                                                  .result)))),
-                                        ],
-                                      ),
-                                      DataRow2(
-                                        cells: [
-                                          DataCell(Center(
-                                              child: Text(state
-                                                  .calcHistorySummary!
-                                                  .cancel
-                                                  .state))),
-                                          DataCell(Center(
-                                              child: Text(
-                                                  '${state.calcHistorySummary!.cancel.count}'))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .cancel
-                                                  .price)))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .cancel
-                                                  .vat)))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .cancel
-                                                  .result)))),
-                                        ],
-                                      ),
-                                      DataRow2(
-                                        cells: [
-                                          DataCell(Center(
-                                              child: Text(state
-                                                  .calcHistorySummary!
-                                                  .hold
-                                                  .state))),
-                                          DataCell(Center(
-                                              child: Text(
-                                                  '${state.calcHistorySummary!.hold.count}'))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .hold
-                                                  .price)))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .hold
-                                                  .vat)))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .hold
-                                                  .result)))),
-                                        ],
-                                      ),
-                                      DataRow2(
-                                        cells: [
-                                          DataCell(Center(
-                                              child: Text(state
-                                                  .calcHistorySummary!
-                                                  .holdCancel
-                                                  .state))),
-                                          DataCell(Center(
-                                              child: Text(
-                                                  '${state.calcHistorySummary!.holdCancel.count}'))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .holdCancel
-                                                  .price)))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .holdCancel
-                                                  .vat)))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .holdCancel
-                                                  .result)))),
-                                        ],
-                                      ),
-                                      DataRow2(
-                                        cells: [
-                                          DataCell(Center(
-                                              child: Text(state
-                                                  .calcHistorySummary!
-                                                  .finalPrice
-                                                  .state))),
-                                          const DataCell(
-                                              Center(child: Text(''))),
-                                          const DataCell(
-                                              Center(child: Text(''))),
-                                          const DataCell(
-                                              Center(child: Text(''))),
-                                          DataCell(Center(
-                                              child: Text(currencyFormat(state
-                                                  .calcHistorySummary!
-                                                  .finalPrice
-                                                  .result)))),
-                                        ],
-                                      ),
-                                    ]),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const Text(
-                                '세부 거래내역',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                  color: pointColor,
+                              Text(
+                                state.calcDay == null
+                                    ? '정산일'
+                                    : DateFormat('yyyy-MM-dd')
+                                        .format(state.calcDay!),
+                                style: const TextStyle(
+                                  color: Colors.white54,
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
+                              const FaIcon(
+                                FontAwesomeIcons.calendarDays,
+                                color: Colors.white54,
+                                size: 20,
                               ),
-                              ...state.calcDetailInfoList.map((e) {
-                                return CalcDetailHistory(
-                                  info: e,
-                                );
-                              }).toList(),
                             ],
-                          )
-                        : Container()
-                    : const Center(
-                        child: CircularProgressIndicator(),
+                          ),
+                        ),
                       ),
-              ],
-            ),
+                    ),
+                    if (state.isCalendarSelected) const CalendarWidget(),
+                    ElevatedButton(
+                      onPressed: () {
+                        viewModel.searchCalcHistory(
+                            DateFormat('yyyy-MM-dd').format(state.calcDay!));
+                      },
+                      child: const Text('보기'),
+                    ),
+                    (state.isLoadingCalcHistorySearch == false)
+                        ? (state.calcHistorySummary != null)
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 10.0),
+                                    child: DataTable2(
+                                        columnSpacing: 5,
+                                        minWidth: 400,
+                                        columns: const [
+                                          DataColumn2(
+                                            fixedWidth: 30,
+                                            label: Center(
+                                              child: Text(
+                                                '구분',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn2(
+                                            fixedWidth: 55,
+                                            label: Center(
+                                              child: Text(
+                                                '건수',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn2(
+                                            fixedWidth: 90,
+                                            label: Center(
+                                              child: Text(
+                                                '금액',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn2(
+                                            fixedWidth: 80,
+                                            label: Center(
+                                              child: Text(
+                                                '수수료/VAT',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          DataColumn2(
+                                            fixedWidth: 80,
+                                            label: Center(
+                                              child: Text(
+                                                '정산액',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        rows: [
+                                          DataRow2(
+                                            cells: [
+                                              DataCell(Center(
+                                                  child: Text(state
+                                                      .calcHistorySummary!
+                                                      .complete
+                                                      .state))),
+                                              DataCell(Center(
+                                                  child: Text(
+                                                      '${state.calcHistorySummary!.complete.count}'))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .complete
+                                                      .price)))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .complete
+                                                      .vat)))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .complete
+                                                      .result)))),
+                                            ],
+                                          ),
+                                          DataRow2(
+                                            cells: [
+                                              DataCell(Center(
+                                                  child: Text(state
+                                                      .calcHistorySummary!
+                                                      .cancel
+                                                      .state))),
+                                              DataCell(Center(
+                                                  child: Text(
+                                                      '${state.calcHistorySummary!.cancel.count}'))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .cancel
+                                                      .price)))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .cancel
+                                                      .vat)))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .cancel
+                                                      .result)))),
+                                            ],
+                                          ),
+                                          DataRow2(
+                                            cells: [
+                                              DataCell(Center(
+                                                  child: Text(state
+                                                      .calcHistorySummary!
+                                                      .hold
+                                                      .state))),
+                                              DataCell(Center(
+                                                  child: Text(
+                                                      '${state.calcHistorySummary!.hold.count}'))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .hold
+                                                      .price)))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .hold
+                                                      .vat)))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .hold
+                                                      .result)))),
+                                            ],
+                                          ),
+                                          DataRow2(
+                                            cells: [
+                                              DataCell(Center(
+                                                  child: Text(state
+                                                      .calcHistorySummary!
+                                                      .holdCancel
+                                                      .state))),
+                                              DataCell(Center(
+                                                  child: Text(
+                                                      '${state.calcHistorySummary!.holdCancel.count}'))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .holdCancel
+                                                      .price)))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .holdCancel
+                                                      .vat)))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .holdCancel
+                                                      .result)))),
+                                            ],
+                                          ),
+                                          DataRow2(
+                                            cells: [
+                                              DataCell(Center(
+                                                  child: Text(state
+                                                      .calcHistorySummary!
+                                                      .finalPrice
+                                                      .state))),
+                                              const DataCell(
+                                                  Center(child: Text(''))),
+                                              const DataCell(
+                                                  Center(child: Text(''))),
+                                              const DataCell(
+                                                  Center(child: Text(''))),
+                                              DataCell(Center(
+                                                  child: Text(currencyFormat(state
+                                                      .calcHistorySummary!
+                                                      .finalPrice
+                                                      .result)))),
+                                            ],
+                                          ),
+                                        ]),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  const Text(
+                                    '세부 거래내역',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: pointColor,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  ...state.calcDetailInfoList.map((e) {
+                                    return CalcDetailHistory(
+                                      info: e,
+                                    );
+                                  }).toList(),
+                                ],
+                              )
+                            : Container()
+                        : const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
