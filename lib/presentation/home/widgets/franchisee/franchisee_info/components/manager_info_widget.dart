@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instapay_admin/domain/model/franchisee_manager_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/franchisee_manager_info.dart';
 
 class ManagerInfoWidget extends StatelessWidget {
   final FranchiseeManagerInfo info;

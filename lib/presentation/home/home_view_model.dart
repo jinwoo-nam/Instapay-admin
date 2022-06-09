@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/franchisee_manager_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/franchisee_manager_info.dart';
+import 'package:instapay_admin/domain/use_case/calc_history/get_calc_detail_info_use_case.dart';
+import 'package:instapay_admin/domain/use_case/calc_history/get_calc_history_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/qr/get_qr_info_list_use_case.dart';
+import 'package:instapay_admin/domain/use_case/trade_history/get_payment_history_use_case.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 
 class HomeViewModel with ChangeNotifier {
   final ManagerUseCase managerUseCase;
   final GetQrInfoListUseCase getQrInfo;
+  final GetPaymentHistoryUseCase getPaymentHistory;
+  final GetCalcHistoryUseCase getCalcHistory;
+  final GetCalcDetailInfoUseCase getCalcDetailInfo;
 
   HomeViewModel({
     required this.managerUseCase,
     required this.getQrInfo,
+    required this.getPaymentHistory,
+    required this.getCalcHistory,
+    required this.getCalcDetailInfo,
   }) {
+    getPaymentHistoryList();
     setDefaultCalcDateTime();
     getManagerData();
     getQrInfoList();
@@ -20,6 +30,58 @@ class HomeViewModel with ChangeNotifier {
   HomeState _state = HomeState();
 
   HomeState get state => _state;
+
+  Future<void> searchCalcHistory(String searchDate) async {
+    _state = state.copyWith(
+      isLoadingCalcHistorySearch: true,
+    );
+    notifyListeners();
+
+    await Future.delayed(const Duration(milliseconds: 800));
+    getCalcHistoryInfo();
+    getCalcDetailInfoList();
+
+    _state = state.copyWith(
+      isLoadingCalcHistorySearch: false,
+    );
+    notifyListeners();
+  }
+
+  void getCalcDetailInfoList() async {
+    final calcDetail = await getCalcDetailInfo();
+    calcDetail.when(
+        success: (data) {
+          _state = state.copyWith(
+            calcDetailInfoList: data,
+          );
+        },
+        error: (message) {});
+  }
+
+  void getCalcHistoryInfo() async {
+    final calcHistory = await getCalcHistory();
+    calcHistory.when(
+        success: (data) {
+          _state = state.copyWith(
+            calcHistorySummary: data,
+          );
+        },
+        error: (message) {});
+  }
+
+  void getPaymentHistoryList() async {
+    final tradeHistory = await getPaymentHistory();
+    tradeHistory.when(
+      success: (data) {
+        _state = state.copyWith(
+          paymentHistoryList: data,
+        );
+      },
+      error: (message) {},
+    );
+
+    notifyListeners();
+  }
 
   void getQrInfoList() async {
     final qrInfo = await getQrInfo();

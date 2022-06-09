@@ -9,7 +9,7 @@ class FooterWidget extends StatelessWidget {
     return Container(
       color: secondaryColor,
       child: Column(
-        children: [
+        children: const [
           Text('Copyright © 2020 InstaPay - All Rights Reserved.'),
         ],
       ),

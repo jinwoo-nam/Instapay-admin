@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instapay_admin/domain/model/qr_code_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/home/widgets/trade_history/components/calendar_widget.dart';
@@ -236,7 +236,7 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                       ),
                     ),
                   ],
-                ),
+                 ),
               ),
             ],
           ),

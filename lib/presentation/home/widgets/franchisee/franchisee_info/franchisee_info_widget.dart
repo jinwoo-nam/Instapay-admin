@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/franchisee_manager_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/franchisee_manager_info.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/business_info_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/manager_info_widget.dart';

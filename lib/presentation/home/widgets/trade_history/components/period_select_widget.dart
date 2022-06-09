@@ -21,7 +21,9 @@ class PeriodSelectWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.white54)),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white54),
+      ),
       padding: const EdgeInsets.all(6),
       width: selectButtonWidth,
       height: 40,

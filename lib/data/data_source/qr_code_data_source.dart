@@ -1,10 +1,10 @@
 import 'package:instapay_admin/core/result.dart';
-import 'package:instapay_admin/domain/model/qr_code_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
 
 class QrCodeDataSource {
-  Future<Result<List<QrCodeInfo>>> getQrInfoList() async {
-    return Result.success(qrInfoList);
-  }
+    Future<Result<List<QrCodeInfo>>> getQrInfoList() async {
+      return Result.success(qrInfoList);
+    }
 }
 
 List<QrCodeInfo> qrInfoList = [

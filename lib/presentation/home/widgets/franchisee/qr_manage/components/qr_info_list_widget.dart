@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/qr_code_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/components/qr_info_detail_widget.dart';
 import 'package:instapay_admin/ui/color.dart';
 
