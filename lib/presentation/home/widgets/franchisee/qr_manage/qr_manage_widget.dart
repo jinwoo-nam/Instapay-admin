@@ -67,8 +67,8 @@ class QrManageWidget extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   viewModel.setCalendarSelectState(
-                                      !state.isCalendarSelected,
-                                      PeriodType.start);
+                                      !state.isQrManageCalendarSelected,
+                                      CalendarType.qrManage_start);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(13),
@@ -82,10 +82,10 @@ class QrManageWidget extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        state.startDay == null
+                                        state.qrManageStartDay == null
                                             ? '시작일'
                                             : DateFormat('yyyy-MM-dd')
-                                                .format(state.startDay!),
+                                                .format(state.qrManageStartDay!),
                                         style: const TextStyle(
                                           color: Colors.white54,
                                         ),
@@ -105,8 +105,8 @@ class QrManageWidget extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   viewModel.setCalendarSelectState(
-                                      !state.isCalendarSelected,
-                                      PeriodType.end);
+                                      !state.isQrManageCalendarSelected,
+                                      CalendarType.qrManage_end);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(13),
@@ -120,10 +120,10 @@ class QrManageWidget extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        state.endDay == null
+                                        state.qrManageEndDay == null
                                             ? '종료일'
                                             : DateFormat('yyyy-MM-dd')
-                                                .format(state.endDay!),
+                                                .format(state.qrManageEndDay!),
                                         style: const TextStyle(
                                           color: Colors.white54,
                                         ),
@@ -139,7 +139,7 @@ class QrManageWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                          if (state.isCalendarSelected) const CalendarWidget(),
+                          if (state.isQrManageCalendarSelected) const CalendarWidget(),
                         ],
                       ),
                     ),
@@ -159,19 +159,19 @@ class QrManageWidget extends StatelessWidget {
                                 onTap: () {
                                   switch (e.type) {
                                     case PeriodSelectType.today:
-                                      viewModel.setPeriodToday();
+                                      viewModel.setPeriodToday(PeriodGroupSelectType.qrManage);
                                       break;
                                     case PeriodSelectType.week:
-                                      viewModel.setPeriodWeek();
+                                      viewModel.setPeriodWeek(PeriodGroupSelectType.qrManage);
                                       break;
                                     case PeriodSelectType.oneMonth:
-                                      viewModel.setPeriodOneMonth();
+                                      viewModel.setPeriodOneMonth(PeriodGroupSelectType.qrManage);
                                       break;
                                     case PeriodSelectType.twoMonth:
-                                      viewModel.setPeriodTwoMonth();
+                                      viewModel.setPeriodTwoMonth(PeriodGroupSelectType.qrManage);
                                       break;
                                     case PeriodSelectType.threeMonth:
-                                      viewModel.setPeriodThreeMonth();
+                                      viewModel.setPeriodThreeMonth(PeriodGroupSelectType.qrManage);
                                       break;
                                   }
                                 },
@@ -224,6 +224,7 @@ class QrManageWidget extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
+                            viewModel.setCalendarSelectState(false,CalendarType.qrCreate);
                             viewModel.setSelectedDay(null);
                             Navigator.push(
                               context,

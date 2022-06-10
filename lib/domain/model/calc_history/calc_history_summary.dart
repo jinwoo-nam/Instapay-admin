@@ -1,5 +1,4 @@
 import 'package:instapay_admin/domain/model/calc_history/calc_history_summary_info.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'calc_history_summary.freezed.dart';
 part 'calc_history_summary.g.dart';

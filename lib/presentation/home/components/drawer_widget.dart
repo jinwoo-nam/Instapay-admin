@@ -69,7 +69,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             press: () {
               Navigator.pop(context);
               return viewModel
-                  .setSelectScreenType(SelectScreenType.affiliateInfoScreen);
+                  .setSelectScreenType(SelectScreenType.franchiseeInfoScreen);
             },
           ),
           ListChildrenItem(

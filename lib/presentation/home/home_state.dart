@@ -12,15 +12,23 @@ part 'home_state.g.dart';
 enum SelectScreenType {
   tradeHistoryScreen,
   calculateHistoryScreen,
-  affiliateInfoScreen,
+  franchiseeInfoScreen,
   qrCodeManageScreen,
 }
 
-enum PeriodType {
-  start,
-  end,
+enum PeriodGroupSelectType {
+  trade,
   qrManage,
+}
+
+enum CalendarType {
+  trade_start,
+  trade_end,
+  calc,
+  qrManage_start,
+  qrManage_end,
   qrDetail,
+  qrCreate,
 }
 
 @freezed
@@ -28,19 +36,25 @@ class HomeState with _$HomeState {
   factory HomeState({
     @Default(SelectScreenType.tradeHistoryScreen)
         SelectScreenType selectScreenType,
-    @Default(false) bool isCalendarSelected,
-    @Default(PeriodType.start) PeriodType periodType,
+    @Default(false) bool isTradeCalendarSelected,
+    @Default(false) bool isCalcCalendarSelected,
+    @Default(false) bool isQrManageCalendarSelected,
+    @Default(false) bool isQrDetailCalendarSelected,
+    @Default(false) bool isQrCreateCalendarSelected,
+    @Default(CalendarType.trade_start) CalendarType periodType,
     @Default([]) List<FranchiseeManagerInfo> managers,
     @Default([]) List<QrCodeInfo> qrInfoList,
     @Default([]) List<PaymentCompleteInfo> paymentHistoryList,
     @Default([]) List<CalcHistoryDetailInfo> calcDetailInfoList,
     CalcHistorySummary? calcHistorySummary,
     @Default(false) bool isLoadingCalcHistorySearch,
-    DateTime? startDay,
-    DateTime? endDay,
+    DateTime? tradeStartDay,
+    DateTime? tradeEndDay,
     DateTime? calcDay,
+    DateTime? qrManageStartDay,
     DateTime? qrManageEndDay,
     DateTime? qrDetailEndDay,
+    DateTime? qrCreateEndDay,
   }) = _HomeState;
 
   factory HomeState.fromJson(Map<String, dynamic> json) =>

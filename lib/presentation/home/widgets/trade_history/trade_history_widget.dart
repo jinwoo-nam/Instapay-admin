@@ -26,7 +26,6 @@ class TradeHistoryWidget extends StatelessWidget {
     final selectButtonWidth = MediaQuery.of(context).size.width < 500
         ? (MediaQuery.of(context).size.width - 40) / 5
         : (500 - 40) / 5;
-    print(MediaQuery.of(context).size.width);
     double dateContainerWidth = MediaQuery.of(context).size.width < 500 ? 140: 170;
 
     return SingleChildScrollView(
@@ -66,8 +65,8 @@ class TradeHistoryWidget extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   viewModel.setCalendarSelectState(
-                                      !state.isCalendarSelected,
-                                      PeriodType.start);
+                                      !state.isTradeCalendarSelected,
+                                      CalendarType.trade_start);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(13),
@@ -81,10 +80,10 @@ class TradeHistoryWidget extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        state.startDay == null
+                                        state.tradeStartDay == null
                                             ? '시작일'
                                             : DateFormat('yyyy-MM-dd')
-                                                .format(state.startDay!),
+                                                .format(state.tradeStartDay!),
                                         style: const TextStyle(
                                           color: Colors.white54,
                                         ),
@@ -104,8 +103,8 @@ class TradeHistoryWidget extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   viewModel.setCalendarSelectState(
-                                      !state.isCalendarSelected,
-                                      PeriodType.end);
+                                      !state.isTradeCalendarSelected,
+                                      CalendarType.trade_end);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(13),
@@ -119,10 +118,10 @@ class TradeHistoryWidget extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        state.endDay == null
+                                        state.tradeEndDay == null
                                             ? '종료일'
                                             : DateFormat('yyyy-MM-dd')
-                                                .format(state.endDay!),
+                                                .format(state.tradeEndDay!),
                                         style: const TextStyle(
                                           color: Colors.white54,
                                         ),
@@ -138,7 +137,7 @@ class TradeHistoryWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                          if (state.isCalendarSelected) const CalendarWidget(),
+                          if (state.isTradeCalendarSelected) const CalendarWidget(),
                         ],
                       ),
                     ),
@@ -158,19 +157,19 @@ class TradeHistoryWidget extends StatelessWidget {
                                 onTap: () {
                                   switch (e.type) {
                                     case PeriodSelectType.today:
-                                      viewModel.setPeriodToday();
+                                      viewModel.setPeriodToday(PeriodGroupSelectType.trade);
                                       break;
                                     case PeriodSelectType.week:
-                                      viewModel.setPeriodWeek();
+                                      viewModel.setPeriodWeek(PeriodGroupSelectType.trade);
                                       break;
                                     case PeriodSelectType.oneMonth:
-                                      viewModel.setPeriodOneMonth();
+                                      viewModel.setPeriodOneMonth(PeriodGroupSelectType.trade);
                                       break;
                                     case PeriodSelectType.twoMonth:
-                                      viewModel.setPeriodTwoMonth();
+                                      viewModel.setPeriodTwoMonth(PeriodGroupSelectType.trade);
                                       break;
                                     case PeriodSelectType.threeMonth:
-                                      viewModel.setPeriodThreeMonth();
+                                      viewModel.setPeriodThreeMonth(PeriodGroupSelectType.trade);
                                       break;
                                   }
                                 },

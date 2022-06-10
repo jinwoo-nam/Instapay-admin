@@ -109,8 +109,8 @@ class _CreateQrWidgetState extends State<CreateQrWidget> {
                                 child: GestureDetector(
                                   onTap: () {
                                     viewModel.setCalendarSelectState(
-                                        !state.isCalendarSelected,
-                                        PeriodType.qrManage);
+                                        !state.isQrCreateCalendarSelected,
+                                        CalendarType.qrCreate);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(13),
@@ -124,10 +124,10 @@ class _CreateQrWidgetState extends State<CreateQrWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          state.qrManageEndDay == null
+                                          state.qrCreateEndDay == null
                                               ? '종료일'
                                               : DateFormat('yyyy-MM-dd').format(
-                                                  state.qrManageEndDay!),
+                                                  state.qrCreateEndDay!),
                                           style: const TextStyle(
                                             color: Colors.white54,
                                           ),
@@ -146,7 +146,7 @@ class _CreateQrWidgetState extends State<CreateQrWidget> {
                               const Text('24:00 까지 유효합니다.'),
                             ],
                           ),
-                        if (state.isCalendarSelected) const CalendarWidget(),
+                        if (state.isQrCreateCalendarSelected) const CalendarWidget(),
                         const SizedBox(
                           height: 30,
                         ),

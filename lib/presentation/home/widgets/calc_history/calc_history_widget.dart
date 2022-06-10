@@ -82,7 +82,7 @@ class CalcHistoryWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (state.isCalendarSelected) const CalendarWidget(),
+                    if (state.isCalcCalendarSelected) const CalendarWidget(),
                     ElevatedButton(
                       onPressed: () {
                         viewModel.searchCalcHistory(

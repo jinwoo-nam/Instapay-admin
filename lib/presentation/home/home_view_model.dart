@@ -131,89 +131,191 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void setCalendarSelectState(bool selected, PeriodType type) {
-    _state = state.copyWith(
-      isCalendarSelected: selected,
-      periodType: type,
-    );
-    notifyListeners();
-  }
-
-  void setSelectedDay(DateTime? selectedDay) {
-    if (state.periodType == PeriodType.start) {
+  void setCalendarSelectState(bool selected, CalendarType type) {
+    if (type == CalendarType.trade_start || type == CalendarType.trade_end) {
       _state = state.copyWith(
-        startDay: selectedDay,
-        isCalendarSelected: false,
+        isTradeCalendarSelected: selected,
+        periodType: type,
       );
-    } else if (state.periodType == PeriodType.end) {
+    } else if (type == CalendarType.calc) {
       _state = state.copyWith(
-        endDay: selectedDay,
-        isCalendarSelected: false,
+        isCalcCalendarSelected: selected,
+        periodType: type,
       );
-    } else if (state.periodType == PeriodType.qrManage) {
+    } else if (type == CalendarType.qrManage_start ||
+        type == CalendarType.qrManage_end) {
       _state = state.copyWith(
-        qrManageEndDay: selectedDay,
-        isCalendarSelected: false,
+        isQrManageCalendarSelected: selected,
+        periodType: type,
       );
-    } else if (state.periodType == PeriodType.qrDetail) {
+    } else if (type == CalendarType.qrDetail) {
       _state = state.copyWith(
-        qrDetailEndDay: selectedDay,
-        isCalendarSelected: false,
+        isQrDetailCalendarSelected: selected,
+        periodType: type,
+      );
+    } else if (type == CalendarType.qrCreate) {
+      _state = state.copyWith(
+        isQrCreateCalendarSelected: selected,
+        periodType: type,
       );
     }
 
     notifyListeners();
   }
 
-  void setPeriodToday() {
-    _state = state.copyWith(
-      startDay: DateTime.now(),
-      endDay: DateTime.now(),
-    );
+  void setSelectedDay(DateTime? selectedDay) {
+    if (state.periodType == CalendarType.trade_start) {
+      _state = state.copyWith(
+        tradeStartDay: selectedDay,
+        isTradeCalendarSelected: false,
+      );
+    } else if (state.periodType == CalendarType.trade_end) {
+      _state = state.copyWith(
+        tradeEndDay: selectedDay,
+        isTradeCalendarSelected: false,
+      );
+    } else if (state.periodType == CalendarType.calc) {
+      _state = state.copyWith(
+        calcDay: selectedDay,
+        isCalcCalendarSelected: false,
+      );
+    } else if (state.periodType == CalendarType.qrManage_start) {
+      _state = state.copyWith(
+        qrManageStartDay: selectedDay,
+        isQrManageCalendarSelected: false,
+      );
+    } else if (state.periodType == CalendarType.qrManage_end) {
+      _state = state.copyWith(
+        qrManageEndDay: selectedDay,
+        isQrManageCalendarSelected: false,
+      );
+    } else if (state.periodType == CalendarType.qrDetail) {
+      _state = state.copyWith(
+        qrDetailEndDay: selectedDay,
+        isQrDetailCalendarSelected: false,
+      );
+    }else if (state.periodType == CalendarType.qrCreate) {
+      _state = state.copyWith(
+        qrCreateEndDay: selectedDay,
+        isQrCreateCalendarSelected: false,
+      );
+    }
+
     notifyListeners();
   }
 
-  void setPeriodWeek() {
-    _state = state.copyWith(
-      startDay: DateTime(
-          DateTime.now().subtract(const Duration(days: 7)).year,
-          DateTime.now().subtract(const Duration(days: 7)).month,
-          DateTime.now().subtract(const Duration(days: 7)).day),
-      endDay: DateTime.now(),
-    );
+  void setPeriodToday(PeriodGroupSelectType type) {
+    switch (type) {
+      case PeriodGroupSelectType.trade:
+        _state = state.copyWith(
+          tradeStartDay: DateTime.now(),
+          tradeEndDay: DateTime.now(),
+        );
+        break;
+      case PeriodGroupSelectType.qrManage:
+        _state = state.copyWith(
+          qrManageStartDay: DateTime.now(),
+          qrManageEndDay: DateTime.now(),
+        );
+        break;
+    }
     notifyListeners();
   }
 
-  void setPeriodOneMonth() {
-    _state = state.copyWith(
-      startDay: DateTime(
-          DateTime.now().subtract(const Duration(days: 30)).year,
-          DateTime.now().subtract(const Duration(days: 30)).month,
-          DateTime.now().subtract(const Duration(days: 30)).day),
-      endDay: DateTime.now(),
-    );
+  void setPeriodWeek(PeriodGroupSelectType type) {
+    switch (type) {
+      case PeriodGroupSelectType.trade:
+        _state = state.copyWith(
+          tradeStartDay: DateTime(
+              DateTime.now().subtract(const Duration(days: 7)).year,
+              DateTime.now().subtract(const Duration(days: 7)).month,
+              DateTime.now().subtract(const Duration(days: 7)).day),
+          tradeEndDay: DateTime.now(),
+        );
+        break;
+      case PeriodGroupSelectType.qrManage:
+        _state = state.copyWith(
+          qrManageStartDay: DateTime(
+              DateTime.now().subtract(const Duration(days: 7)).year,
+              DateTime.now().subtract(const Duration(days: 7)).month,
+              DateTime.now().subtract(const Duration(days: 7)).day),
+          qrManageEndDay: DateTime.now(),
+        );
+        break;
+    }
+
     notifyListeners();
   }
 
-  void setPeriodTwoMonth() {
-    _state = state.copyWith(
-      startDay: DateTime(
-          DateTime.now().subtract(const Duration(days: 60)).year,
-          DateTime.now().subtract(const Duration(days: 60)).month,
-          DateTime.now().subtract(const Duration(days: 60)).day),
-      endDay: DateTime.now(),
-    );
+  void setPeriodOneMonth(PeriodGroupSelectType type) {
+    switch (type) {
+      case PeriodGroupSelectType.trade:
+        _state = state.copyWith(
+          tradeStartDay: DateTime(
+              DateTime.now().subtract(const Duration(days: 30)).year,
+              DateTime.now().subtract(const Duration(days: 30)).month,
+              DateTime.now().subtract(const Duration(days: 30)).day),
+          tradeEndDay: DateTime.now(),
+        );
+        break;
+      case PeriodGroupSelectType.qrManage:
+        _state = state.copyWith(
+          qrManageStartDay: DateTime(
+              DateTime.now().subtract(const Duration(days: 30)).year,
+              DateTime.now().subtract(const Duration(days: 30)).month,
+              DateTime.now().subtract(const Duration(days: 30)).day),
+          qrManageEndDay: DateTime.now(),
+        );
+        break;
+    }
     notifyListeners();
   }
 
-  void setPeriodThreeMonth() {
-    _state = state.copyWith(
-      startDay: DateTime(
-          DateTime.now().subtract(const Duration(days: 90)).year,
-          DateTime.now().subtract(const Duration(days: 90)).month,
-          DateTime.now().subtract(const Duration(days: 90)).day),
-      endDay: DateTime.now(),
-    );
+  void setPeriodTwoMonth(PeriodGroupSelectType type) {
+    switch (type) {
+      case PeriodGroupSelectType.trade:
+        _state = state.copyWith(
+          tradeStartDay: DateTime(
+              DateTime.now().subtract(const Duration(days: 60)).year,
+              DateTime.now().subtract(const Duration(days: 60)).month,
+              DateTime.now().subtract(const Duration(days: 60)).day),
+          tradeEndDay: DateTime.now(),
+        );
+        break;
+      case PeriodGroupSelectType.qrManage:
+        _state = state.copyWith(
+          qrManageStartDay: DateTime(
+              DateTime.now().subtract(const Duration(days: 60)).year,
+              DateTime.now().subtract(const Duration(days: 60)).month,
+              DateTime.now().subtract(const Duration(days: 60)).day),
+          qrManageEndDay: DateTime.now(),
+        );
+        break;
+    }
+    notifyListeners();
+  }
+
+  void setPeriodThreeMonth(PeriodGroupSelectType type) {
+    switch (type) {
+      case PeriodGroupSelectType.trade:
+        _state = state.copyWith(
+          tradeStartDay: DateTime(
+              DateTime.now().subtract(const Duration(days: 90)).year,
+              DateTime.now().subtract(const Duration(days: 90)).month,
+              DateTime.now().subtract(const Duration(days: 90)).day),
+          tradeEndDay: DateTime.now(),
+        );
+        break;
+      case PeriodGroupSelectType.qrManage:
+        _state = state.copyWith(
+          qrManageStartDay: DateTime(
+              DateTime.now().subtract(const Duration(days: 90)).year,
+              DateTime.now().subtract(const Duration(days: 90)).month,
+              DateTime.now().subtract(const Duration(days: 90)).day),
+          qrManageEndDay: DateTime.now(),
+        );
+        break;
+    }
     notifyListeners();
   }
 }

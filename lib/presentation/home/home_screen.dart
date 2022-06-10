@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
     switch (type) {
       case SelectScreenType.calculateHistoryScreen:
         return const CalcHistoryWidget();
-      case SelectScreenType.affiliateInfoScreen:
+      case SelectScreenType.franchiseeInfoScreen:
         return const FranchiseeInfoWidget();
       case SelectScreenType.qrCodeManageScreen:
         return const QrManageWidget();

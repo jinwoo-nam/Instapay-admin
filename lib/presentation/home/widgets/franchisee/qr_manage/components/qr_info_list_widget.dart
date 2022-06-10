@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
+import 'package:instapay_admin/presentation/home/home_state.dart';
+import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/components/qr_info_detail_widget.dart';
 import 'package:instapay_admin/ui/color.dart';
+import 'package:provider/provider.dart';
 
 class QrInfoListWidget extends StatefulWidget {
   final QrCodeInfo data;
@@ -20,6 +23,8 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<HomeViewModel>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -36,6 +41,8 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
           Expanded(
             child: InkWell(
               onTap: () {
+                viewModel.setCalendarSelectState(false,CalendarType.qrDetail);
+                viewModel.setSelectedDay(null);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
