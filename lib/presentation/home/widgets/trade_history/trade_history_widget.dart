@@ -9,8 +9,16 @@ import 'package:instapay_admin/ui/color.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class TradeHistoryWidget extends StatelessWidget {
+class TradeHistoryWidget extends StatefulWidget {
   const TradeHistoryWidget({Key? key}) : super(key: key);
+
+  @override
+  State<TradeHistoryWidget> createState() => _TradeHistoryWidgetState();
+}
+
+class _TradeHistoryWidgetState extends State<TradeHistoryWidget> {
+  String startDateNotSelect = '';
+  String endDateNotSelect = '';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,8 @@ class TradeHistoryWidget extends StatelessWidget {
     final selectButtonWidth = MediaQuery.of(context).size.width < 500
         ? (MediaQuery.of(context).size.width - 40) / 5
         : (500 - 40) / 5;
-    double dateContainerWidth = MediaQuery.of(context).size.width < 500 ? 140: 170;
+    double dateContainerWidth =
+        MediaQuery.of(context).size.width < 500 ? 140 : 170;
 
     return SingleChildScrollView(
       child: Center(
@@ -62,82 +71,118 @@ class TradeHistoryWidget extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  viewModel.setCalendarSelectState(
-                                      !state.isTradeCalendarSelected,
-                                      CalendarType.trade_start);
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(13),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    color: secondaryColor,
-                                  ),
-                                  width: dateContainerWidth,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        state.tradeStartDay == null
-                                            ? '시작일'
-                                            : DateFormat('yyyy-MM-dd')
-                                                .format(state.tradeStartDay!),
-                                        style: const TextStyle(
-                                          color: Colors.white54,
-                                        ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      viewModel.setCalendarSelectState(
+                                          !state.isTradeCalendarSelected,
+                                          CalendarType.trade_start);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(13),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                        color: secondaryColor,
                                       ),
-                                      const FaIcon(
-                                        FontAwesomeIcons.calendarDays,
-                                        color: Colors.white54,
-                                        size: 20,
+                                      width: dateContainerWidth,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            state.tradeStartDay == null
+                                                ? '시작일'
+                                                : DateFormat('yyyy-MM-dd')
+                                                    .format(
+                                                        state.tradeStartDay!),
+                                            style: const TextStyle(
+                                              color: Colors.white54,
+                                            ),
+                                          ),
+                                          const FaIcon(
+                                            FontAwesomeIcons.calendarDays,
+                                            color: Colors.white54,
+                                            size: 20,
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Text(
+                                      startDateNotSelect,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               const SizedBox(
                                 width: 30,
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  viewModel.setCalendarSelectState(
-                                      !state.isTradeCalendarSelected,
-                                      CalendarType.trade_end);
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(13),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    color: secondaryColor,
-                                  ),
-                                  width: dateContainerWidth,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        state.tradeEndDay == null
-                                            ? '종료일'
-                                            : DateFormat('yyyy-MM-dd')
-                                                .format(state.tradeEndDay!),
-                                        style: const TextStyle(
-                                          color: Colors.white54,
-                                        ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      viewModel.setCalendarSelectState(
+                                          !state.isTradeCalendarSelected,
+                                          CalendarType.trade_end);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(13),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                        color: secondaryColor,
                                       ),
-                                      const FaIcon(
-                                        FontAwesomeIcons.calendarDays,
-                                        color: Colors.white54,
-                                        size: 20,
+                                      width: dateContainerWidth,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            state.tradeEndDay == null
+                                                ? '종료일'
+                                                : DateFormat('yyyy-MM-dd')
+                                                    .format(state.tradeEndDay!),
+                                            style: const TextStyle(
+                                              color: Colors.white54,
+                                            ),
+                                          ),
+                                          const FaIcon(
+                                            FontAwesomeIcons.calendarDays,
+                                            color: Colors.white54,
+                                            size: 20,
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Text(
+                                      endDateNotSelect,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          if (state.isTradeCalendarSelected) const CalendarWidget(),
+                          if (state.isTradeCalendarSelected)
+                            const CalendarWidget(),
                         ],
                       ),
                     ),
@@ -157,19 +202,24 @@ class TradeHistoryWidget extends StatelessWidget {
                                 onTap: () {
                                   switch (e.type) {
                                     case PeriodSelectType.today:
-                                      viewModel.setPeriodToday(PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodToday(
+                                          PeriodGroupSelectType.trade);
                                       break;
                                     case PeriodSelectType.week:
-                                      viewModel.setPeriodWeek(PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodWeek(
+                                          PeriodGroupSelectType.trade);
                                       break;
                                     case PeriodSelectType.oneMonth:
-                                      viewModel.setPeriodOneMonth(PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodOneMonth(
+                                          PeriodGroupSelectType.trade);
                                       break;
                                     case PeriodSelectType.twoMonth:
-                                      viewModel.setPeriodTwoMonth(PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodTwoMonth(
+                                          PeriodGroupSelectType.trade);
                                       break;
                                     case PeriodSelectType.threeMonth:
-                                      viewModel.setPeriodThreeMonth(PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodThreeMonth(
+                                          PeriodGroupSelectType.trade);
                                       break;
                                   }
                                 },
@@ -185,44 +235,86 @@ class TradeHistoryWidget extends StatelessWidget {
                     Row(
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (state.tradeStartDay != null &&
+                                state.tradeEndDay != null) {
+                              startDateNotSelect = '';
+                              endDateNotSelect = '';
+
+                              viewModel.searchTradeHistory(
+                                  DateFormat('yyyy-MM-dd')
+                                      .format(state.tradeStartDay!),
+                                  DateFormat('yyyy-MM-dd')
+                                      .format(state.tradeEndDay!));
+                            } else if (state.tradeStartDay == null &&
+                                state.tradeEndDay == null) {
+                              setState(() {
+                                startDateNotSelect = '날짜를 선택해 주세요';
+                                endDateNotSelect = '날짜를 선택해 주세요';
+                              });
+                            } else if (state.tradeStartDay == null) {
+                              setState(() {
+                                startDateNotSelect = '날짜를 선택해 주세요';
+                                endDateNotSelect = '';
+                              });
+                            } else if (state.tradeEndDay == null) {
+                              setState(() {
+                                startDateNotSelect = '';
+                                endDateNotSelect = '날짜를 선택해 주세요';
+                              });
+                            }
+                          },
                           child: const Text('검색'),
                         ),
                         const SizedBox(
                           width: 15,
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            viewModel.resetTradeHistory();
+                            setState(() {
+                              startDateNotSelect = '';
+                              endDateNotSelect = '';
+                            });
+                          },
                           child: const Text('초기화'),
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        top: 16.0,
-                        bottom: 8,
-                      ),
-                      child: Text(
-                        '결제 완료',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          color: pointColor,
-                        ),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 16.0),
-                      child: Divider(
-                        height: 1,
-                        color: Colors.white,
-                      ),
-                    ),
-                    ...state.paymentHistoryList.map((e) {
-                      return TradeHistoryInfoListWidget(
-                        paymentInfo: e,
-                      );
-                    }).toList(),
+                    (state.isLoadingTradeHistorySearch == false)
+                        ? (state.paymentHistoryList.isNotEmpty)
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 16.0,
+                                        bottom: 8,
+                                      ),
+                                      child: Text(
+                                        '결제 완료',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                          color: pointColor,
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 16.0),
+                                      child: Divider(
+                                        height: 1,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    ...state.paymentHistoryList.map((e) {
+                                      return TradeHistoryInfoListWidget(
+                                        paymentInfo: e,
+                                      );
+                                    }).toList(),
+                                  ])
+                            : Container()
+                        : const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),

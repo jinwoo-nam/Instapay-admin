@@ -21,7 +21,6 @@ class HomeViewModel with ChangeNotifier {
     required this.getCalcHistory,
     required this.getCalcDetailInfo,
   }) {
-    getPaymentHistoryList();
     setDefaultCalcDateTime();
     getManagerData();
     getQrInfoList();
@@ -43,6 +42,30 @@ class HomeViewModel with ChangeNotifier {
 
     _state = state.copyWith(
       isLoadingCalcHistorySearch: false,
+    );
+    notifyListeners();
+  }
+
+  Future<void> searchTradeHistory(String startDate,String endDate) async {
+    _state = state.copyWith(
+      isLoadingTradeHistorySearch: true,
+    );
+    notifyListeners();
+
+    await Future.delayed(const Duration(milliseconds: 800));
+    getPaymentHistoryList();
+
+    _state = state.copyWith(
+      isLoadingTradeHistorySearch: false,
+    );
+    notifyListeners();
+  }
+
+  Future<void> resetTradeHistory() async {
+    _state = state.copyWith(
+      paymentHistoryList: [],
+      tradeStartDay: null,
+      tradeEndDay: null,
     );
     notifyListeners();
   }
@@ -79,8 +102,6 @@ class HomeViewModel with ChangeNotifier {
       },
       error: (message) {},
     );
-
-    notifyListeners();
   }
 
   void getQrInfoList() async {

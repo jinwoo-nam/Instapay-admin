@@ -48,6 +48,7 @@ class HomeState with _$HomeState {
     @Default([]) List<CalcHistoryDetailInfo> calcDetailInfoList,
     CalcHistorySummary? calcHistorySummary,
     @Default(false) bool isLoadingCalcHistorySearch,
+    @Default(false) bool isLoadingTradeHistorySearch,
     DateTime? tradeStartDay,
     DateTime? tradeEndDay,
     DateTime? calcDay,
