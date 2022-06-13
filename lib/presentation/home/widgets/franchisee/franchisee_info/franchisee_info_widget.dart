@@ -78,7 +78,10 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
                             color: Colors.white54,
                           ),
                         ),
-                        const BusinessInfoWidget(),
+                        if (state.franchiseeInfoData != null)
+                          BusinessInfoWidget(
+                            info: state.franchiseeInfoData!,
+                          ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

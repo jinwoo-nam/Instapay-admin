@@ -1,9 +1,11 @@
 import 'package:instapay_admin/data/repository/calc_history_repository_impl.dart';
+import 'package:instapay_admin/data/repository/franchisee_repository_impl.dart';
 import 'package:instapay_admin/data/repository/manager_repository_impl.dart';
 import 'package:instapay_admin/data/repository/qr_code_repository_impl.dart';
 import 'package:instapay_admin/data/repository/trade_history_repository_impl.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_calc_detail_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_calc_history_use_case.dart';
+import 'package:instapay_admin/domain/use_case/franchisee/info/get_franchisee_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/add_manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/delete_manaer_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/get_manager_use_case.dart';
@@ -20,6 +22,7 @@ List<SingleChildWidget> getProviders() {
   final qrRepository = QrCodeRepositoryImpl();
   final tradeRepository = TradeHistoryRepositoryImpl();
   final calcRepository = CalcHistoryRepositoryImpl();
+  final franchiseeRepository = FranchiseeRepositoryImpl();
 
   return [
     ChangeNotifierProvider<RootViewModel>(
@@ -38,6 +41,7 @@ List<SingleChildWidget> getProviders() {
         getPaymentHistory: GetPaymentHistoryUseCase(tradeRepository),
         getCalcHistory: GetCalcHistoryUseCase(calcRepository),
         getCalcDetailInfo: GetCalcDetailInfoUseCase(calcRepository),
+        getFranchiseeInfo: GetFranchiseeInfoUseCase(franchiseeRepository),
       ),
     )
   ];

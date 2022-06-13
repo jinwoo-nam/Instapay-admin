@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instapay_admin/domain/model/franchisee/franchisee_manager_info.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_calc_detail_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_calc_history_use_case.dart';
+import 'package:instapay_admin/domain/use_case/franchisee/info/get_franchisee_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/qr/get_qr_info_list_use_case.dart';
 import 'package:instapay_admin/domain/use_case/trade_history/get_payment_history_use_case.dart';
@@ -13,6 +14,7 @@ class HomeViewModel with ChangeNotifier {
   final GetPaymentHistoryUseCase getPaymentHistory;
   final GetCalcHistoryUseCase getCalcHistory;
   final GetCalcDetailInfoUseCase getCalcDetailInfo;
+  final GetFranchiseeInfoUseCase getFranchiseeInfo;
 
   HomeViewModel({
     required this.managerUseCase,
@@ -20,15 +22,28 @@ class HomeViewModel with ChangeNotifier {
     required this.getPaymentHistory,
     required this.getCalcHistory,
     required this.getCalcDetailInfo,
+    required this.getFranchiseeInfo,
   }) {
     setDefaultCalcDateTime();
     getManagerData();
-    getQrInfoList();
+    getFranchiseeInfoList();
   }
 
   HomeState _state = HomeState();
 
   HomeState get state => _state;
+
+  Future<void> getFranchiseeInfoList() async {
+    final FranchiseeInfo = await getFranchiseeInfo();
+    FranchiseeInfo.when(
+      success: (data) {
+        _state = state.copyWith(
+          franchiseeInfoData: data,
+        );
+      },
+      error: (message) {},
+    );
+  }
 
   Future<void> searchCalcHistory(String searchDate) async {
     _state = state.copyWith(
@@ -46,7 +61,7 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> searchTradeHistory(String startDate,String endDate) async {
+  Future<void> searchTradeHistory(String startDate, String endDate) async {
     _state = state.copyWith(
       isLoadingTradeHistorySearch: true,
     );
@@ -61,11 +76,35 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> searchQrInfoList(String startDate, String endDate) async {
+    _state = state.copyWith(
+      isLoadingQrManageSearch: true,
+    );
+    notifyListeners();
+
+    await Future.delayed(const Duration(milliseconds: 800));
+    getQrInfoList();
+
+    _state = state.copyWith(
+      isLoadingQrManageSearch: false,
+    );
+    notifyListeners();
+  }
+
   Future<void> resetTradeHistory() async {
     _state = state.copyWith(
       paymentHistoryList: [],
       tradeStartDay: null,
       tradeEndDay: null,
+    );
+    notifyListeners();
+  }
+
+  Future<void> resetQrManage() async {
+    _state = state.copyWith(
+      qrInfoList: [],
+      qrManageStartDay: null,
+      qrManageEndDay: null,
     );
     notifyListeners();
   }
@@ -215,7 +254,7 @@ class HomeViewModel with ChangeNotifier {
         qrDetailEndDay: selectedDay,
         isQrDetailCalendarSelected: false,
       );
-    }else if (state.periodType == CalendarType.qrCreate) {
+    } else if (state.periodType == CalendarType.qrCreate) {
       _state = state.copyWith(
         qrCreateEndDay: selectedDay,
         isQrCreateCalendarSelected: false,

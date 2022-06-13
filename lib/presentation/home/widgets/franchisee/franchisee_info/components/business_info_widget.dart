@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:instapay_admin/domain/model/franchisee/franchisee_info.dart';
 
 class BusinessInfoWidget extends StatelessWidget {
+  final FranchiseeInfo info;
+
   const BusinessInfoWidget({
     Key? key,
+    required this.info,
   }) : super(key: key);
 
   @override
@@ -12,8 +16,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '가맹점명',
                   style: TextStyle(
@@ -24,8 +28,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '장나라 팬클럽',
-                  style: TextStyle(
+                  info.title,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -36,8 +40,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '구분',
                   style: TextStyle(
@@ -48,8 +52,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '개인 사업자',
-                  style: TextStyle(
+                  info.category,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -60,8 +64,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '대표자명',
                   style: TextStyle(
@@ -72,8 +76,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '배재광',
-                  style: TextStyle(
+                  info.ceoName,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -84,8 +88,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '사업자번호',
                   style: TextStyle(
@@ -96,8 +100,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '1122111080',
-                  style: TextStyle(
+                  info.businessNumber,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -108,8 +112,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   'ID',
                   style: TextStyle(
@@ -120,8 +124,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  'yuki@instapay.kr',
-                  style: TextStyle(
+                  info.id,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -132,8 +136,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '계약일자',
                   style: TextStyle(
@@ -144,8 +148,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '2017-05-17 15:25:33',
-                  style: TextStyle(
+                  info.contractDate,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -156,8 +160,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '업종',
                   style: TextStyle(
@@ -168,8 +172,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '--',
-                  style: TextStyle(
+                  info.typeOfBusiness,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -180,8 +184,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '주소지',
                   style: TextStyle(
@@ -192,8 +196,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '서울 특별시 강남구 영동대로 85길 38 진성빌딩',
-                  style: TextStyle(
+                  info.address,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -204,8 +208,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '정산계좌',
                   style: TextStyle(
@@ -216,8 +220,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '우리은행 1005503862118',
-                  style: TextStyle(
+                  info.bankAccount,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -228,8 +232,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '예금주',
                   style: TextStyle(
@@ -240,8 +244,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '배재광',
-                  style: TextStyle(
+                  info.nameOfBankUser,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -252,8 +256,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   '거래 형태',
                   style: TextStyle(
@@ -264,8 +268,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  '',
-                  style: TextStyle(
+                  info.typeOfTrade,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),

@@ -41,7 +41,8 @@ class CalcHistoryWidget extends StatelessWidget {
                       height: 40,
                     ),
                     const Text(
-                      '날짜 지정',
+                      //'날짜 지정',
+                      '날짜',
                       style: TextStyle(
                         fontSize: 17,
                       ),
@@ -72,11 +73,11 @@ class CalcHistoryWidget extends StatelessWidget {
                                   color: Colors.white54,
                                 ),
                               ),
-                              const FaIcon(
-                                FontAwesomeIcons.calendarDays,
-                                color: Colors.white54,
-                                size: 20,
-                              ),
+                              // const FaIcon(
+                              //   FontAwesomeIcons.calendarDays,
+                              //   color: Colors.white54,
+                              //   size: 20,
+                              // ),
                             ],
                           ),
                         ),
