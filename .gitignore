@@ -49,4 +49,4 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 
-**/constant.dart
+/Users/jinwoonam/work/instapay_admin/lib/util/constant.dart
