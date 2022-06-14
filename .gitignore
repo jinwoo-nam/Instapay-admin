@@ -49,4 +49,4 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 
-constant.dart
+/constant.dart
