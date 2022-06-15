@@ -119,7 +119,8 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
                                 child: GestureDetector(
                                   onTap: () {
                                     viewModel.setCalendarSelectState(
@@ -140,8 +141,8 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                                         Text(
                                           state.qrDetailEndDay == null
                                               ? '종료일'
-                                              : DateFormat('yyyy-MM-dd')
-                                                  .format(state.qrDetailEndDay!),
+                                              : DateFormat('yyyy-MM-dd').format(
+                                                  state.qrDetailEndDay!),
                                           style: const TextStyle(
                                             color: Colors.white54,
                                           ),
@@ -165,7 +166,8 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                               ),
                             ],
                           ),
-                        if (state.isQrDetailCalendarSelected) const CalendarWidget(),
+                        if (state.isQrDetailCalendarSelected)
+                          const CalendarWidget(),
                         const SizedBox(
                           height: 30,
                         ),
@@ -203,7 +205,8 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                minimumSize: const Size(120, 40), //width, height
+                                minimumSize:
+                                    const Size(120, 40), //width, height
                               ),
                               onPressed: () {},
                               child: const Text('다운로드'),
@@ -217,7 +220,8 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                minimumSize: const Size(120, 40), //width, height
+                                minimumSize:
+                                    const Size(120, 40), //width, height
                               ),
                               onPressed: () {},
                               child: const Text('소스보기'),
@@ -231,7 +235,8 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                minimumSize: const Size(120, 40), //width, height
+                                minimumSize:
+                                    const Size(120, 40), //width, height
                               ),
                               onPressed: () {},
                               child: const Text('복사하기'),
@@ -239,7 +244,7 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                           ),
                         ),
                       ],
-                     ),
+                    ),
                   ),
                 ],
               ),

@@ -160,7 +160,6 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-
   void addManagerData(Contact manager) async {
     //await managerUseCase.addManager(manager);
   }

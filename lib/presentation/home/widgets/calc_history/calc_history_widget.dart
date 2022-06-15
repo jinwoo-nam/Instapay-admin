@@ -1,6 +1,5 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/domain/model/calc_history/calc_history_detail_info.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/home/widgets/trade_history/components/calendar_widget.dart';
@@ -16,7 +15,8 @@ class CalcHistoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
     final state = viewModel.state;
-    double dateContainerWidth = MediaQuery.of(context).size.width < 500 ? 140: 170;
+    double dateContainerWidth =
+        MediaQuery.of(context).size.width < 500 ? 140 : 170;
 
     return SingleChildScrollView(
       child: Center(
@@ -97,8 +97,8 @@ class CalcHistoryWidget extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 10.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
                                     child: DataTable2(
                                         columnSpacing: 5,
                                         minWidth: 400,
@@ -171,20 +171,17 @@ class CalcHistoryWidget extends StatelessWidget {
                                                   child: Text(
                                                       '${state.calcHistorySummary!.complete.count}'))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .complete
-                                                      .price)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .complete.price)))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .complete
-                                                      .vat)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .complete.vat)))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .complete
-                                                      .result)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .complete.result)))),
                                             ],
                                           ),
                                           DataRow2(
@@ -198,20 +195,17 @@ class CalcHistoryWidget extends StatelessWidget {
                                                   child: Text(
                                                       '${state.calcHistorySummary!.cancel.count}'))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .cancel
-                                                      .price)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .cancel.price)))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .cancel
-                                                      .vat)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .cancel.vat)))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .cancel
-                                                      .result)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .cancel.result)))),
                                             ],
                                           ),
                                           DataRow2(
@@ -225,20 +219,17 @@ class CalcHistoryWidget extends StatelessWidget {
                                                   child: Text(
                                                       '${state.calcHistorySummary!.hold.count}'))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .hold
-                                                      .price)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .hold.price)))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .hold
-                                                      .vat)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .hold.vat)))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .hold
-                                                      .result)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .hold.result)))),
                                             ],
                                           ),
                                           DataRow2(
@@ -252,20 +243,19 @@ class CalcHistoryWidget extends StatelessWidget {
                                                   child: Text(
                                                       '${state.calcHistorySummary!.holdCancel.count}'))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .holdCancel
-                                                      .price)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .holdCancel.price)))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .holdCancel
-                                                      .vat)))),
+                                                  child: Text(currencyFormat(
+                                                      state.calcHistorySummary!
+                                                          .holdCancel.vat)))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .holdCancel
-                                                      .result)))),
+                                                  child: Text(currencyFormat(
+                                                      state
+                                                          .calcHistorySummary!
+                                                          .holdCancel
+                                                          .result)))),
                                             ],
                                           ),
                                           DataRow2(
@@ -282,10 +272,11 @@ class CalcHistoryWidget extends StatelessWidget {
                                               const DataCell(
                                                   Center(child: Text(''))),
                                               DataCell(Center(
-                                                  child: Text(currencyFormat(state
-                                                      .calcHistorySummary!
-                                                      .finalPrice
-                                                      .result)))),
+                                                  child: Text(currencyFormat(
+                                                      state
+                                                          .calcHistorySummary!
+                                                          .finalPrice
+                                                          .result)))),
                                             ],
                                           ),
                                         ]),

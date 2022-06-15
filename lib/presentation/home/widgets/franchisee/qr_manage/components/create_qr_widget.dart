@@ -146,7 +146,8 @@ class _CreateQrWidgetState extends State<CreateQrWidget> {
                               const Text('24:00 까지 유효합니다.'),
                             ],
                           ),
-                        if (state.isQrCreateCalendarSelected) const CalendarWidget(),
+                        if (state.isQrCreateCalendarSelected)
+                          const CalendarWidget(),
                         const SizedBox(
                           height: 30,
                         ),

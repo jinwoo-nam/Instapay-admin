@@ -65,17 +65,17 @@ class ManagerInfoWidget extends StatelessWidget {
         Expanded(
           child: Center(
               child: IconButton(
-                onPressed: () {
-                  if (onDelete != null) {
-                    onDelete!(index);
-                  }
-                },
-                icon: const FaIcon(
-                  FontAwesomeIcons.circleXmark,
-                  color: Colors.white54,
-                  size: 20,
-                ),
-              )),
+            onPressed: () {
+              if (onDelete != null) {
+                onDelete!(index);
+              }
+            },
+            icon: const FaIcon(
+              FontAwesomeIcons.circleXmark,
+              color: Colors.white54,
+              size: 20,
+            ),
+          )),
         ),
       ],
     );

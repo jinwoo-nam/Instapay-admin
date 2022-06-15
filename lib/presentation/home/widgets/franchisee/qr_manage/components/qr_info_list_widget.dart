@@ -41,7 +41,7 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
           Expanded(
             child: InkWell(
               onTap: () {
-                viewModel.setCalendarSelectState(false,CalendarType.qrDetail);
+                viewModel.setCalendarSelectState(false, CalendarType.qrDetail);
                 viewModel.setSelectedDay(null);
                 Navigator.push(
                   context,
