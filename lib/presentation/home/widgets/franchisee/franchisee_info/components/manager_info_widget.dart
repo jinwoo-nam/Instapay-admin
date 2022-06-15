@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instapay_admin/domain/model/franchisee/franchisee_manager_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 
 class ManagerInfoWidget extends StatelessWidget {
-  final FranchiseeManagerInfo info;
+  final Contact contact;
   final int index;
   final Function(int)? onDelete;
 
   const ManagerInfoWidget({
     Key? key,
-    required this.info,
+    required this.contact,
     required this.index,
     this.onDelete,
   }) : super(key: key);
@@ -22,7 +22,7 @@ class ManagerInfoWidget extends StatelessWidget {
           flex: 2,
           child: Center(
             child: Text(
-              info.name,
+              contact.cname,
               style: const TextStyle(
                 fontSize: 14,
               ),
@@ -33,7 +33,7 @@ class ManagerInfoWidget extends StatelessWidget {
           flex: 2,
           child: Center(
             child: Text(
-              info.department,
+              contact.dep,
               style: const TextStyle(
                 fontSize: 14,
               ),
@@ -44,7 +44,7 @@ class ManagerInfoWidget extends StatelessWidget {
           flex: 4,
           child: Center(
             child: Text(
-              info.email,
+              contact.email,
               style: const TextStyle(
                 fontSize: 14,
               ),
@@ -55,7 +55,7 @@ class ManagerInfoWidget extends StatelessWidget {
           flex: 3,
           child: Center(
             child: Text(
-              info.phone,
+              contact.tel,
               style: const TextStyle(
                 fontSize: 14,
               ),

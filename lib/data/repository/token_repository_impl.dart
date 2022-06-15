@@ -15,4 +15,14 @@ class TokenRepositoryImpl implements TokenRepository {
   Future<void> saveAccessToken(String token) async {
     await tokenLocalDataSource.saveAccessToken(token);
   }
+
+  @override
+  Future<String> loadLoginHash() async{
+    return await tokenLocalDataSource.loadLoginHash();
+  }
+
+  @override
+  Future<void> saveLoginHash(String hash) async {
+    await tokenLocalDataSource.saveLoginHash(hash);
+  }
 }

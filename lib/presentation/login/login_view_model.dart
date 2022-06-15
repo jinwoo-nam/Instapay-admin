@@ -16,10 +16,6 @@ class LoginViewModel with ChangeNotifier {
   });
 
   Future<bool> isLoginPass(String id, String pw) async {
-    // var jin = {"sub": "aaa", "name": "jin", "age": 33};
-    // final tempTest = encodeJWTWithHS256(jin, 'password');
-    // print(tempTest);
-    ///////////////////
     bool result = false;
 
     var j = {};
@@ -30,19 +26,21 @@ class LoginViewModel with ChangeNotifier {
     var byte = utf8.encode(jsonStr);
     var hash = sha256.convert(byte);
     final data = await loginUseCase(loginAid, hash.toString());
-    await data.when(
-        success: (data) async {
-          if (data["result"] == "ok") {
-            result = true;
-            await tokenUseCase.saveToken(data["token"]);
-          }
-        },
-        error: (message) {
-          print(message);
-        });
+    await data.when(success: (data) async {
+      if (data["result"] == "ok") {
+        result = true;
+        await tokenUseCase.saveLoginHash(hash.toString());
+        await tokenUseCase.saveToken(data["token"]);
+      }
+    }, error: (message) {
+      print(message);
+    });
 
-    // String token = await tokenUseCase.loadAccessToken();
-    // print(token);
+    String token = await tokenUseCase.loadAccessToken();
+    print('token : $token');
+
+    String hashString = await tokenUseCase.loadLoginHash();
+    print('hash : $hashString');
     return result;
   }
 }

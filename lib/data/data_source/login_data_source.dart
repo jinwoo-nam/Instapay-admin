@@ -10,7 +10,7 @@ class LoginDataSource {
       Response response;
       var dio = Dio();
       response = await dio.get(
-        baseUrl,
+        loginBaseUrl,
         queryParameters: {'aid': aid, 'pack': pack},
       );
       return Result.success(response.data);

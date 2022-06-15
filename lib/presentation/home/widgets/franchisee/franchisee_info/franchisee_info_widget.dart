@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/franchisee/franchisee_manager_info.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/business_info_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/manager_info_widget.dart';
@@ -78,9 +77,9 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
                             color: Colors.white54,
                           ),
                         ),
-                        if (state.franchiseeInfoData != null)
+                        if (state.storeData != null)
                           BusinessInfoWidget(
-                            info: state.franchiseeInfoData!,
+                            store: state.storeData!,
                           ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,15 +96,15 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
                               onPressed: () {
                                 if (_globalKey.currentState != null) {
                                   if (_globalKey.currentState!.validate()) {
-                                    final manager = FranchiseeManagerInfo(
-                                      name: _nameEditController.text,
-                                      department:
-                                          _departmentEditController.text,
-                                      email: _emailEditController.text,
-                                      phone: _phoneEditController.text,
-                                    );
-                                    clearTextField();
-                                    viewModel.addManagerData(manager);
+                                    // final manager = FranchiseeManagerInfo(
+                                    //   name: _nameEditController.text,
+                                    //   department:
+                                    //       _departmentEditController.text,
+                                    //   email: _emailEditController.text,
+                                    //   phone: _phoneEditController.text,
+                                    // );
+                                    // clearTextField();
+                                    //viewModel.addManagerData(manager);
                                   }
                                 }
                               },
@@ -328,14 +327,15 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
                                     height: 1,
                                   ),
                                 ),
-                                ...state.managers.map((e) {
-                                  index += 1;
-                                  return ManagerInfoWidget(
-                                    info: e,
-                                    index: index,
-                                    onDelete: viewModel.deleteManagerData,
-                                  );
-                                }).toList(),
+                                if (state.storeData != null)
+                                  ...state.storeData!.contacts.map((e) {
+                                    index += 1;
+                                    return ManagerInfoWidget(
+                                      contact: e,
+                                      index: index,
+                                      onDelete: viewModel.deleteManagerData,
+                                    );
+                                  }).toList(),
                                 const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 8.0),
                                   child: Divider(

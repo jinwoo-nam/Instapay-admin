@@ -1,9 +1,8 @@
 import 'package:instapay_admin/domain/model/calc_history/calc_history_detail_info.dart';
 import 'package:instapay_admin/domain/model/calc_history/calc_history_summary.dart';
-import 'package:instapay_admin/domain/model/franchisee/franchisee_info.dart';
-import 'package:instapay_admin/domain/model/franchisee/franchisee_manager_info.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/store.dart';
 import 'package:instapay_admin/domain/model/trade_history/payment_complete_info.dart';
 
 part 'home_state.freezed.dart';
@@ -43,11 +42,10 @@ class HomeState with _$HomeState {
     @Default(false) bool isQrDetailCalendarSelected,
     @Default(false) bool isQrCreateCalendarSelected,
     @Default(CalendarType.trade_start) CalendarType periodType,
-    @Default([]) List<FranchiseeManagerInfo> managers,
     @Default([]) List<QrCodeInfo> qrInfoList,
     @Default([]) List<PaymentCompleteInfo> paymentHistoryList,
     @Default([]) List<CalcHistoryDetailInfo> calcDetailInfoList,
-    FranchiseeInfo? franchiseeInfoData,
+    Store? storeData,
     CalcHistorySummary? calcHistorySummary,
     @Default(false) bool isLoadingCalcHistorySearch,
     @Default(false) bool isLoadingTradeHistorySearch,

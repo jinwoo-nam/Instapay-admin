@@ -1,6 +1,6 @@
 import 'package:instapay_admin/core/result.dart';
-import 'package:instapay_admin/domain/model/franchisee/franchisee_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/store.dart';
 
 abstract class FranchiseeRepository {
-  Future<Result<FranchiseeInfo>> getFranchiseeInfo();
+  Future<Result<Store>> getStoreInfo(String token);
 }

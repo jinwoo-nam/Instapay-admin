@@ -1,22 +1,28 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:instapay_admin/core/result.dart';
-import 'package:instapay_admin/domain/model/franchisee/franchisee_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/store.dart';
+import 'package:instapay_admin/util/constant.dart';
 
 class FranchiseeInfoDataSource {
-  Future<Result<FranchiseeInfo>> getFranchiseeInfo() async {
-    return Result.success(franchiseeInfoList);
+  Future<Result<Store>> getStoreInfo(String token) async {
+    try {
+      Response response;
+      var dio = Dio();
+      response = await dio.get(getStoreBaseUrl,
+          options: Options(
+              headers: {HttpHeaders.authorizationHeader: 'Bearer $token'}));
+
+      if (response.data["result"] == "ok") {
+        Store store = Store.fromJson(response.data["store"]);
+        return Result.success(store);
+      } else {
+        throw Exception('result is not ok result : ${response.data["result"]}');
+      }
+    } catch (e) {
+      return Result.error(e.toString());
+    }
   }
 }
 
-FranchiseeInfo franchiseeInfoList = FranchiseeInfo(
-  title: '장나라 팬클럽',
-  category: '개인 사업자',
-  ceoName: '배재광',
-  businessNumber: '1122111080',
-  id: 'yuki@instapay.kr',
-  contractDate: '2017-05-17 15:25:33',
-  typeOfBusiness: '--',
-  address: '서울 특별시 강남구 영동대로 85길 38 진성빌딩',
-  bankAccount: '우리은행 1005503862118',
-  nameOfBankUser: '배제광',
-  typeOfTrade: '',
-);

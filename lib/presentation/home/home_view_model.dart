@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/franchisee/franchisee_manager_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_calc_detail_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_calc_history_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/info/get_franchisee_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/qr/get_qr_info_list_use_case.dart';
+import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
 import 'package:instapay_admin/domain/use_case/trade_history/get_payment_history_use_case.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 
@@ -15,6 +16,7 @@ class HomeViewModel with ChangeNotifier {
   final GetCalcHistoryUseCase getCalcHistory;
   final GetCalcDetailInfoUseCase getCalcDetailInfo;
   final GetFranchiseeInfoUseCase getFranchiseeInfo;
+  final TokenUseCase tokenUseCase;
 
   HomeViewModel({
     required this.managerUseCase,
@@ -23,9 +25,9 @@ class HomeViewModel with ChangeNotifier {
     required this.getCalcHistory,
     required this.getCalcDetailInfo,
     required this.getFranchiseeInfo,
+    required this.tokenUseCase,
   }) {
     setDefaultCalcDateTime();
-    getManagerData();
     getFranchiseeInfoList();
   }
 
@@ -34,15 +36,17 @@ class HomeViewModel with ChangeNotifier {
   HomeState get state => _state;
 
   Future<void> getFranchiseeInfoList() async {
-    final FranchiseeInfo = await getFranchiseeInfo();
-    FranchiseeInfo.when(
-      success: (data) {
-        _state = state.copyWith(
-          franchiseeInfoData: data,
-        );
-      },
-      error: (message) {},
-    );
+    final token = await tokenUseCase.loadAccessToken();
+    final storeInfo = await getFranchiseeInfo.getStoreInfo(token);
+    storeInfo.when(
+        success: (data) {
+          _state = state.copyWith(
+            storeData: data,
+          );
+        },
+        error: (message) {});
+
+    notifyListeners();
   }
 
   Future<void> searchCalcHistory(String searchDate) async {
@@ -156,26 +160,13 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void getManagerData() async {
-    final managers = await managerUseCase.getManager();
-    managers.when(
-        success: (data) {
-          _state = state.copyWith(managers: data);
-        },
-        error: (message) {});
-    notifyListeners();
-  }
 
-  void addManagerData(FranchiseeManagerInfo manager) async {
-    await managerUseCase.addManager(manager);
-
-    getManagerData();
+  void addManagerData(Contact manager) async {
+    //await managerUseCase.addManager(manager);
   }
 
   void deleteManagerData(int index) async {
-    await managerUseCase.deleteManager(index);
-
-    getManagerData();
+    //await managerUseCase.deleteManager(index);
   }
 
   void setDefaultCalcDateTime() {

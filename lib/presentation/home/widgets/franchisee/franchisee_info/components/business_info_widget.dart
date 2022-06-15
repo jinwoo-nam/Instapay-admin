@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/franchisee/franchisee_info.dart';
+import 'package:instapay_admin/domain/model/franchisee/store.dart';
 
 class BusinessInfoWidget extends StatelessWidget {
-  final FranchiseeInfo info;
+  final Store store;
 
   const BusinessInfoWidget({
     Key? key,
-    required this.info,
+    required this.store,
   }) : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.title,
+                  store.sname,
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -52,7 +52,7 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.category,
+                  store.info?.stype ?? '',
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -76,7 +76,7 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.ceoName,
+                  store.info?.ceo ?? '',
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -100,7 +100,7 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.businessNumber,
+                  store.info?.biz ?? '',
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -112,8 +112,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: [
-              const Expanded(
+            children: const [
+              Expanded(
                 child: Text(
                   'ID',
                   style: TextStyle(
@@ -124,8 +124,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.id,
-                  style: const TextStyle(
+                  'id',
+                  style: TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -148,7 +148,7 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.contractDate,
+                  store.adate,
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -172,7 +172,7 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.typeOfBusiness,
+                  store.info?.industry ?? '',
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -196,7 +196,7 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.address,
+                  '${store.juso?.fixed ?? ''} ${store.juso?.user ?? ''} ${store.juso?.zip ?? ''}',
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -220,7 +220,7 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.bankAccount,
+                  '${store.adjust?.bank ?? ''} ${store.adjust?.account ?? ''}',
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -244,7 +244,7 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.nameOfBankUser,
+                  store.info?.ceo ?? '',
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -256,8 +256,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: [
-              const Expanded(
+            children: const [
+              Expanded(
                 child: Text(
                   '거래 형태',
                   style: TextStyle(
@@ -268,8 +268,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  info.typeOfTrade,
-                  style: const TextStyle(
+                  '--',
+                  style: TextStyle(
                     fontSize: 15,
                   ),
                 ),

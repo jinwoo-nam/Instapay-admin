@@ -12,4 +12,13 @@ class TokenUseCase {
   Future<String> loadAccessToken() async {
     return await repository.loadAccessToken();
   }
+
+
+  Future<void> saveLoginHash(String hash) async {
+    await repository.saveLoginHash(hash);
+  }
+
+  Future<String> loadLoginHash() async {
+    return await repository.loadLoginHash();
+  }
 }
