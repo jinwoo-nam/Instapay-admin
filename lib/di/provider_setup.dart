@@ -3,6 +3,7 @@ import 'package:instapay_admin/data/repository/franchisee_repository_impl.dart';
 import 'package:instapay_admin/data/repository/login_repository_impl.dart';
 import 'package:instapay_admin/data/repository/manager_repository_impl.dart';
 import 'package:instapay_admin/data/repository/qr_code_repository_impl.dart';
+import 'package:instapay_admin/data/repository/token_repository_impl.dart';
 import 'package:instapay_admin/data/repository/trade_history_repository_impl.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_calc_detail_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_calc_history_use_case.dart';
@@ -13,6 +14,7 @@ import 'package:instapay_admin/domain/use_case/franchisee/manager/get_manager_us
 import 'package:instapay_admin/domain/use_case/franchisee/manager/manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/qr/get_qr_info_list_use_case.dart';
 import 'package:instapay_admin/domain/use_case/login/login_use_case.dart';
+import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
 import 'package:instapay_admin/domain/use_case/trade_history/get_payment_history_use_case.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/login/login_view_model.dart';
@@ -27,33 +29,33 @@ List<SingleChildWidget> getProviders() {
   final calcRepository = CalcHistoryRepositoryImpl();
   final franchiseeRepository = FranchiseeRepositoryImpl();
   final loginRepository = LoginRepositoryImpl();
+  final tokenRepository = TokenRepositoryImpl();
 
   return [
     ChangeNotifierProvider<RootViewModel>(
       create: (context) => RootViewModel(),
     ),
     ChangeNotifierProvider<LoginViewModel>(
-      create: (context) =>
-          LoginViewModel(
-              loginUseCase: LoginUseCase(loginRepository),
-          ),
+      create: (context) => LoginViewModel(
+        loginUseCase: LoginUseCase(loginRepository),
+        tokenUseCase: TokenUseCase(tokenRepository),
+      ),
     ),
     ChangeNotifierProvider<HomeViewModel>(
-      create: (context) =>
-          HomeViewModel(
-            managerUseCase: ManagerUseCase(
-              getManager: GetManagerUseCase(managerRepository),
-              addManager: AddManagerUseCase(managerRepository),
-              deleteManager: DeleteManagerUseCase(managerRepository),
-            ),
-            getQrInfo: GetQrInfoListUseCase(
-              qrRepository,
-            ),
-            getPaymentHistory: GetPaymentHistoryUseCase(tradeRepository),
-            getCalcHistory: GetCalcHistoryUseCase(calcRepository),
-            getCalcDetailInfo: GetCalcDetailInfoUseCase(calcRepository),
-            getFranchiseeInfo: GetFranchiseeInfoUseCase(franchiseeRepository),
-          ),
+      create: (context) => HomeViewModel(
+        managerUseCase: ManagerUseCase(
+          getManager: GetManagerUseCase(managerRepository),
+          addManager: AddManagerUseCase(managerRepository),
+          deleteManager: DeleteManagerUseCase(managerRepository),
+        ),
+        getQrInfo: GetQrInfoListUseCase(
+          qrRepository,
+        ),
+        getPaymentHistory: GetPaymentHistoryUseCase(tradeRepository),
+        getCalcHistory: GetCalcHistoryUseCase(calcRepository),
+        getCalcDetailInfo: GetCalcDetailInfoUseCase(calcRepository),
+        getFranchiseeInfo: GetFranchiseeInfoUseCase(franchiseeRepository),
+      ),
     )
   ];
 }
