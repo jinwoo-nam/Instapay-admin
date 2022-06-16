@@ -10,9 +10,11 @@ class FranchiseeInfoDataSource {
     try {
       Response response;
       var dio = Dio();
-      response = await dio.get(getStoreBaseUrl,
-          options: Options(
-              headers: {HttpHeaders.authorizationHeader: 'Bearer $token'}));
+      response = await dio.get(
+        storeBaseUrl,
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: 'Bearer $token'}),
+      );
 
       if (response.data["result"] == "ok") {
         Store store = Store.fromJson(response.data["store"]);
@@ -25,4 +27,3 @@ class FranchiseeInfoDataSource {
     }
   }
 }
-

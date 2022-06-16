@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_calc_detail_info_use_case.dart';
@@ -8,6 +10,7 @@ import 'package:instapay_admin/domain/use_case/franchisee/qr/get_qr_info_list_us
 import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
 import 'package:instapay_admin/domain/use_case/trade_history/get_payment_history_use_case.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
+import 'package:instapay_admin/presentation/home/home_ui_event.dart';
 
 class HomeViewModel with ChangeNotifier {
   final ManagerUseCase managerUseCase;
@@ -35,6 +38,10 @@ class HomeViewModel with ChangeNotifier {
 
   HomeState get state => _state;
 
+  final _eventController = StreamController<HomeUiEvent>.broadcast();
+
+  Stream<HomeUiEvent> get eventStream => _eventController.stream;
+
   Future<void> getFranchiseeInfoList() async {
     final token = await tokenUseCase.loadAccessToken();
     final storeInfo = await getFranchiseeInfo.getStoreInfo(token);
@@ -42,7 +49,9 @@ class HomeViewModel with ChangeNotifier {
         success: (data) {
           _state = state.copyWith(
             storeData: data,
+            managers: data.contacts,
           );
+          managerUseCase.setManagers(state.managers);
         },
         error: (message) {});
 
@@ -161,11 +170,39 @@ class HomeViewModel with ChangeNotifier {
   }
 
   void addManagerData(Contact manager) async {
-    //await managerUseCase.addManager(manager);
+    String token = await tokenUseCase.loadAccessToken();
+    final res = await managerUseCase.addManager(manager, token);
+    res.when(success: (data) {
+      if (data == "ok") {
+        _state = state.copyWith(
+          managers: managerUseCase.getManagers(),
+        );
+      } else {
+        _eventController
+            .add(const HomeUiEvent.showSnackBar('담당자 추가에 실패 했습니다.'));
+      }
+    }, error: (message) {
+      _eventController.add(const HomeUiEvent.showSnackBar('담당자 추가에 실패 했습니다.'));
+    });
+    notifyListeners();
   }
 
   void deleteManagerData(int index) async {
-    //await managerUseCase.deleteManager(index);
+    String token = await tokenUseCase.loadAccessToken();
+    final res = await managerUseCase.deleteManager(index, token);
+    res.when(success: (data) {
+      if (data == "ok") {
+        _state = state.copyWith(
+          managers: managerUseCase.getManagers(),
+        );
+      } else {
+        _eventController
+            .add(const HomeUiEvent.showSnackBar('담당자 삭제에 실패 했습니다.'));
+      }
+    }, error: (message) {
+      _eventController.add(const HomeUiEvent.showSnackBar('담당자 삭제에 실패 했습니다.'));
+    });
+    notifyListeners();
   }
 
   void setDefaultCalcDateTime() {

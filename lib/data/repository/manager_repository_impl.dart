@@ -1,3 +1,4 @@
+import 'package:instapay_admin/core/result.dart';
 import 'package:instapay_admin/data/data_source/franchisee_manager_data_source.dart';
 import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/domain/repository/manaer_repository.dart';
@@ -6,12 +7,22 @@ class ManagerRepositoryImpl implements ManagerRepository {
   final dataSource = FranchiseeManagerDataSource();
 
   @override
-  Future<void> addManagerInfo(Contact manager) async {
-    await dataSource.addManagerInfo(manager);
+  List<Contact> getManagers() {
+    return dataSource.getManagers();
   }
 
   @override
-  Future<void> deleteManagerInfo(int index) async {
-    await dataSource.deleteManagerInfo(index);
+  void setManagers(List<Contact> managers) {
+    dataSource.setManagers(managers);
+  }
+
+  @override
+  Future<Result<String>> addManagerInfo(Contact manager, String token) async {
+    return await dataSource.addManager(manager, token);
+  }
+
+  @override
+  Future<Result<String>> deleteManagerInfo(int index, String token) async {
+    return await dataSource.deleteManager(index, token);
   }
 }

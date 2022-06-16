@@ -1,3 +1,4 @@
+import 'package:instapay_admin/core/result.dart';
 import 'package:instapay_admin/domain/repository/manaer_repository.dart';
 
 class DeleteManagerUseCase {
@@ -5,7 +6,7 @@ class DeleteManagerUseCase {
 
   DeleteManagerUseCase(this.repository);
 
-  Future<void> call(int index) async {
-    await repository.deleteManagerInfo(index);
+  Future<Result<String>> call(int index, String token) async {
+    return await repository.deleteManagerInfo(index, token);
   }
 }

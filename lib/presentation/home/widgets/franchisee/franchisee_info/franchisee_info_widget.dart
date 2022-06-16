@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/business_info_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/manager_info_widget.dart';
 import 'package:instapay_admin/ui/color.dart';
+import 'package:instapay_admin/util/constant.dart';
 import 'package:provider/provider.dart';
 
 class FranchiseeInfoWidget extends StatefulWidget {
@@ -18,10 +23,60 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
   final _emailEditController = TextEditingController();
   final _phoneEditController = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  StreamSubscription? _streamSubscription;
+
+  late FToast fToast;
+  late Widget toast;
+
+  _removeToast() {
+    fToast.removeCustomToast();
+  }
+
+  _showToast(String message) {
+    _removeToast();
+
+    fToast.showToast(
+      child: Container(
+          width: 250,
+          height: 50,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.zero,
+            color: Colors.grey,
+          ),
+          child: Center(
+            child: Text(message),
+          )),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 4),
+    );
+  }
+
+  @override
+  void initState() {
+    Future.microtask(() {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          fToast = FToast();
+          fToast.init(context);
+        },
+      );
+
+      final viewModel = context.read<HomeViewModel>();
+
+      _streamSubscription = viewModel.eventStream.listen((event) {
+        event.when(showSnackBar: (message) {
+          _showToast(message);
+        });
+      });
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
     super.dispose();
+    _streamSubscription?.cancel();
     _nameEditController.dispose();
     _departmentEditController.dispose();
     _emailEditController.dispose();
@@ -96,15 +151,14 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
                               onPressed: () {
                                 if (_globalKey.currentState != null) {
                                   if (_globalKey.currentState!.validate()) {
-                                    // final manager = FranchiseeManagerInfo(
-                                    //   name: _nameEditController.text,
-                                    //   department:
-                                    //       _departmentEditController.text,
-                                    //   email: _emailEditController.text,
-                                    //   phone: _phoneEditController.text,
-                                    // );
-                                    // clearTextField();
-                                    //viewModel.addManagerData(manager);
+                                    final manager = Contact(
+                                      cname: _nameEditController.text,
+                                      dep: _departmentEditController.text,
+                                      email: _emailEditController.text,
+                                      tel: _phoneEditController.text,
+                                    );
+                                    viewModel.addManagerData(manager);
+                                    clearTextField();
                                   }
                                 }
                               },
@@ -327,15 +381,15 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
                                     height: 1,
                                   ),
                                 ),
-                                if (state.storeData != null)
-                                  ...state.storeData!.contacts.map((e) {
-                                    index += 1;
-                                    return ManagerInfoWidget(
-                                      contact: e,
-                                      index: index,
-                                      onDelete: viewModel.deleteManagerData,
-                                    );
-                                  }).toList(),
+                                //if (state.storeData != null)
+                                ...state.managers.map((e) {
+                                  index += 1;
+                                  return ManagerInfoWidget(
+                                    contact: e,
+                                    index: index,
+                                    onDelete: viewModel.deleteManagerData,
+                                  );
+                                }).toList(),
                                 const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 8.0),
                                   child: Divider(

@@ -1,6 +1,7 @@
 import 'package:instapay_admin/domain/model/calc_history/calc_history_detail_info.dart';
 import 'package:instapay_admin/domain/model/calc_history/calc_history_summary.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
 import 'package:instapay_admin/domain/model/franchisee/store.dart';
 import 'package:instapay_admin/domain/model/trade_history/payment_complete_info.dart';
@@ -45,6 +46,7 @@ class HomeState with _$HomeState {
     @Default([]) List<QrCodeInfo> qrInfoList,
     @Default([]) List<PaymentCompleteInfo> paymentHistoryList,
     @Default([]) List<CalcHistoryDetailInfo> calcDetailInfoList,
+    @Default([]) List<Contact> managers,
     Store? storeData,
     CalcHistorySummary? calcHistorySummary,
     @Default(false) bool isLoadingCalcHistorySearch,

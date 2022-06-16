@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:instapay_admin/domain/use_case/login/login_use_case.dart';
 import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
 import 'package:instapay_admin/util/constant.dart';
+import 'package:instapay_admin/util/util.dart';
 
 class LoginViewModel with ChangeNotifier {
   final LoginUseCase loginUseCase;
@@ -16,6 +17,7 @@ class LoginViewModel with ChangeNotifier {
   });
 
   Future<bool> isLoginPass(String id, String pw) async {
+    ///////////////////////////
     bool result = false;
 
     var j = {};
@@ -38,9 +40,6 @@ class LoginViewModel with ChangeNotifier {
 
     String token = await tokenUseCase.loadAccessToken();
     print('token : $token');
-
-    String hashString = await tokenUseCase.loadLoginHash();
-    print('hash : $hashString');
     return result;
   }
 }

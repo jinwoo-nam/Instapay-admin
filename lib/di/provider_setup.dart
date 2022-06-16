@@ -10,7 +10,9 @@ import 'package:instapay_admin/domain/use_case/calc_history/get_calc_history_use
 import 'package:instapay_admin/domain/use_case/franchisee/info/get_franchisee_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/add_manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/delete_manaer_use_case.dart';
+import 'package:instapay_admin/domain/use_case/franchisee/manager/get_managers_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/manager_use_case.dart';
+import 'package:instapay_admin/domain/use_case/franchisee/manager/set_manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/qr/get_qr_info_list_use_case.dart';
 import 'package:instapay_admin/domain/use_case/login/login_use_case.dart';
 import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
@@ -45,6 +47,8 @@ List<SingleChildWidget> getProviders() {
     ChangeNotifierProvider<HomeViewModel>(
       create: (context) => HomeViewModel(
         managerUseCase: ManagerUseCase(
+          getManagers: GetManagersUseCase(managerRepository),
+          setManagers: SetManagerUseCase(managerRepository),
           addManager: AddManagerUseCase(managerRepository),
           deleteManager: DeleteManagerUseCase(managerRepository),
         ),
