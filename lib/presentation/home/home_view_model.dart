@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:instapay_admin/domain/model/franchisee/contact.dart';
-import 'package:instapay_admin/domain/use_case/calc_history/get_calc_detail_info_use_case.dart';
-import 'package:instapay_admin/domain/use_case/calc_history/get_calc_history_use_case.dart';
+import 'package:instapay_admin/domain/use_case/calc_history/get_tras_history_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/info/get_franchisee_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/qr/get_qr_info_list_use_case.dart';
@@ -16,19 +15,17 @@ class HomeViewModel with ChangeNotifier {
   final ManagerUseCase managerUseCase;
   final GetQrInfoListUseCase getQrInfo;
   final GetPaymentHistoryUseCase getPaymentHistory;
-  final GetCalcHistoryUseCase getCalcHistory;
-  final GetCalcDetailInfoUseCase getCalcDetailInfo;
   final GetFranchiseeInfoUseCase getFranchiseeInfo;
   final TokenUseCase tokenUseCase;
+  final GetTrasHistoryUseCase getTrasHistory;
 
   HomeViewModel({
     required this.managerUseCase,
     required this.getQrInfo,
     required this.getPaymentHistory,
-    required this.getCalcHistory,
-    required this.getCalcDetailInfo,
     required this.getFranchiseeInfo,
     required this.tokenUseCase,
+    required this.getTrasHistory,
   }) {
     setDefaultCalcDateTime();
     getFranchiseeInfoList();
@@ -64,9 +61,7 @@ class HomeViewModel with ChangeNotifier {
     );
     notifyListeners();
 
-    await Future.delayed(const Duration(milliseconds: 800));
-    getCalcHistoryInfo();
-    getCalcDetailInfoList();
+    await getCalcHistoryInfo();
 
     _state = state.copyWith(
       isLoadingCalcHistorySearch: false,
@@ -122,26 +117,19 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void getCalcDetailInfoList() async {
-    final calcDetail = await getCalcDetailInfo();
-    calcDetail.when(
-        success: (data) {
-          _state = state.copyWith(
-            calcDetailInfoList: data,
-          );
-        },
-        error: (message) {});
-  }
-
-  void getCalcHistoryInfo() async {
-    final calcHistory = await getCalcHistory();
-    calcHistory.when(
-        success: (data) {
-          _state = state.copyWith(
-            calcHistorySummary: data,
-          );
-        },
-        error: (message) {});
+  Future<void> getCalcHistoryInfo() async {
+    String token = await tokenUseCase.loadAccessToken();
+    final history = await getTrasHistory(token, '', 10);
+    history.when(
+      success: (data) {
+        _state = state.copyWith(
+          trasHistory: data,
+        );
+      },
+      error: (message) {
+        print(message);
+      },
+    );
   }
 
   void getPaymentHistoryList() async {
@@ -177,6 +165,7 @@ class HomeViewModel with ChangeNotifier {
         _state = state.copyWith(
           managers: managerUseCase.getManagers(),
         );
+        _eventController.add(const HomeUiEvent.showSnackBar('담당자 추가 성공'));
       } else {
         _eventController
             .add(const HomeUiEvent.showSnackBar('담당자 추가에 실패 했습니다.'));
@@ -195,6 +184,7 @@ class HomeViewModel with ChangeNotifier {
         _state = state.copyWith(
           managers: managerUseCase.getManagers(),
         );
+        _eventController.add(const HomeUiEvent.showSnackBar('담당자 삭제'));
       } else {
         _eventController
             .add(const HomeUiEvent.showSnackBar('담당자 삭제에 실패 했습니다.'));

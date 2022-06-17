@@ -20,7 +20,8 @@ class FranchiseeInfoDataSource {
         Store store = Store.fromJson(response.data["store"]);
         return Result.success(store);
       } else {
-        throw Exception('result is not ok result : ${response.data["result"]}');
+        throw Exception(
+            'getStoreInfo result is not ok result : ${response.data["result"]}');
       }
     } catch (e) {
       return Result.error(e.toString());

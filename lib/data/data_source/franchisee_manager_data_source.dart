@@ -24,8 +24,7 @@ class FranchiseeManagerDataSource {
         storeBaseUrl,
         data: jwt,
       );
-      //return Result.success(response.data["result"]);
-      return Result.success("false");
+      return Result.success(response.data["result"]);
     } catch (e) {
       return Result.error(e.toString());
     }

@@ -14,7 +14,7 @@ class LoginDataSource {
         queryParameters: {'aid': aid, 'pack': pack},
       );
       return Result.success(response.data);
-    } on Exception catch (e) {
+    } catch (e) {
       return Result.error(e.toString());
     }
   }

@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/home/components/drawer_widget.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
-import 'package:instapay_admin/presentation/home/widgets/calc_history/calc_history_widget.dart';
+import 'package:instapay_admin/presentation/home/widgets/calc_history/tras_history_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/franchisee_info_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/qr_manage_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/trade_history/trade_history_widget.dart';
@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
   Widget getScreen(SelectScreenType type) {
     switch (type) {
       case SelectScreenType.calculateHistoryScreen:
-        return const CalcHistoryWidget();
+        return const TrasHistoryWidget();
       case SelectScreenType.franchiseeInfoScreen:
         return const FranchiseeInfoWidget();
       case SelectScreenType.qrCodeManageScreen:
