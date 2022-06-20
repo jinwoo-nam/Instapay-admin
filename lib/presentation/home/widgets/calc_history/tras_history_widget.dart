@@ -1,8 +1,8 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_date_select_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_detail_history_table_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_detail_history_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_summary_table_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/trade_history/components/calendar_widget.dart';
 import 'package:instapay_admin/responsive/responsive.dart';
@@ -10,8 +10,16 @@ import 'package:instapay_admin/ui/color.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class TrasHistoryWidget extends StatelessWidget {
+class TrasHistoryWidget extends StatefulWidget {
   const TrasHistoryWidget({Key? key}) : super(key: key);
+
+  @override
+  State<TrasHistoryWidget> createState() => _TrasHistoryWidgetState();
+}
+
+class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
+  final items = [10, 30, 50];
+  int selectedValue = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +78,78 @@ class TrasHistoryWidget extends StatelessWidget {
                       ),
                     ),
                     if (state.isCalcCalendarSelected) const CalendarWidget(),
-                    ElevatedButton(
-                      onPressed: () {
-                        viewModel.searchCalcHistory(
-                          DateFormat('yyyy-MM-dd').format(state.calcDay!),
-                        );
-                      },
-                      child: const Text('보기'),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            viewModel.searchCalcHistory(
+                              DateFormat('yyyy-MM-dd').format(state.calcDay!),
+                              '',
+                              selectedValue,
+                            );
+                          },
+                          child: const Text('보기'),
+                        ),
+                        const SizedBox(
+                          width: 50,
+                        ),
+                        DropdownButton2(
+                          isExpanded: true,
+                          items: items
+                              .map((item) => DropdownMenuItem<int>(
+                                    value: item,
+                                    child: Text(
+                                      '$item',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ))
+                              .toList(),
+                          value: selectedValue,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedValue = value as int;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                          ),
+                          iconSize: 14,
+                          //iconEnabledColor: Colors.yellow,
+                          iconDisabledColor: Colors.grey,
+                          buttonHeight: 40,
+                          buttonWidth: 100,
+                          buttonPadding:
+                              const EdgeInsets.only(left: 14, right: 14),
+                          buttonDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            // border: Border.all(
+                            //   color: Colors.black26,
+                            // ),
+                            //color: Colors.redAccent,
+                          ),
+                          //buttonElevation: 2,
+                          itemHeight: 40,
+                          itemPadding:
+                              const EdgeInsets.only(left: 14, right: 14),
+                          dropdownMaxHeight: 200,
+                          dropdownWidth: 200,
+                          dropdownPadding: null,
+                          dropdownDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            //color: Colors.redAccent,
+                          ),
+                          dropdownElevation: 8,
+                          scrollbarRadius: const Radius.circular(40),
+                          scrollbarThickness: 6,
+                          scrollbarAlwaysShow: true,
+                          offset: const Offset(-20, 0),
+                        ),
+                      ],
                     ),
                     (state.isLoadingCalcHistorySearch == false)
                         ? (state.trasHistory != null)
@@ -109,6 +182,8 @@ class TrasHistoryWidget extends StatelessWidget {
                                   if (state.trasHistory != null)
                                     TrasDetailHistoryTableWidget(
                                       info: state.trasHistory!.tras,
+                                      totalCount: state.trasHistory!.count,
+                                      selectedCount: selectedValue,
                                     ),
                                   // ...state.trasHistory!.tras.map((e) {
                                   //   return TrasDetailHistoryTableWidget(
