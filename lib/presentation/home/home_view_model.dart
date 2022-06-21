@@ -55,13 +55,14 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> searchCalcHistory(String searchDate,String tid,int limit) async {
+  Future<void> searchCalcHistory(
+      String searchDate, String tid, int limit) async {
     _state = state.copyWith(
       isLoadingCalcHistorySearch: true,
     );
     notifyListeners();
 
-    await getTrasHistoryInfo(tid,limit);
+    await getTrasHistoryInfo(tid, limit);
 
     _state = state.copyWith(
       isLoadingCalcHistorySearch: false,
@@ -117,7 +118,7 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getTrasHistoryInfo(String tid,int limit) async {
+  Future<void> getTrasHistoryInfo(String tid, int limit) async {
     String token = await tokenUseCase.loadAccessToken();
     final history = await getTrasHistory(token, tid, limit);
     history.when(
@@ -132,9 +133,7 @@ class HomeViewModel with ChangeNotifier {
     );
   }
 
-  Future<void> getTrasPagination(int limit) async {
-
-  }
+  Future<void> getTrasPagination(int limit) async {}
 
   void getPaymentHistoryList() async {
     final tradeHistory = await getPaymentHistory();

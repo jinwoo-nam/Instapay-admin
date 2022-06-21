@@ -1,7 +1,9 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
+import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
+import 'package:provider/provider.dart';
 
 class TrasDetailHistoryTableWidget extends StatefulWidget {
   final List<TrasInfo> info;
@@ -27,6 +29,8 @@ class _TrasDetailHistoryTableWidgetState
   @override
   Widget build(BuildContext context) {
     final int count = (widget.totalCount / widget.selectedCount).ceil();
+    final viewModel = context.watch<HomeViewModel>();
+    final state = viewModel.state;
 
     return Column(
       children: [
@@ -193,6 +197,11 @@ class _TrasDetailHistoryTableWidgetState
                   setState(() {
                     if (curIndex > 0) {
                       curIndex -= 1;
+
+                      // viewModel.searchCalcHistory(
+                      //     'date',
+                      //     state.trasHistory?.tras.last.tid ?? '',
+                      //     widget.selectedCount);
                     }
                   });
                 },
@@ -224,6 +233,11 @@ class _TrasDetailHistoryTableWidgetState
                   setState(() {
                     if (curIndex < count - 1) {
                       curIndex += 1;
+
+                      viewModel.searchCalcHistory(
+                          'date',
+                          state.trasHistory?.tras.last.tid ?? '',
+                          widget.selectedCount);
                     }
                   });
                 },
@@ -255,7 +269,7 @@ class _TrasDetailHistoryTableWidgetState
         Padding(
           padding: EdgeInsets.symmetric(vertical: 10.0),
           child: Text(
-              'Showing 1 to ${widget.selectedCount} of ${widget.totalCount} records'),
+              'Showing 1 to ${widget.totalCount} of ${widget.totalCount} records'),
         ),
       ],
     );
