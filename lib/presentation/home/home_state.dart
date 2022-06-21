@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:instapay_admin/domain/model/calc_history/tras_history.dart';
+import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
 import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
 import 'package:instapay_admin/domain/model/franchisee/store.dart';
@@ -47,6 +48,8 @@ class HomeState with _$HomeState {
     TrasHistory? trasHistory,
     @Default([]) List<Contact> managers,
     Store? storeData,
+    @Default(0) int trasHistoryTotalCount,
+    @Default([]) List<TrasInfo> totalTrasHistoryData,
     @Default(false) bool isLoadingCalcHistorySearch,
     @Default(false) bool isLoadingTradeHistorySearch,
     @Default(false) bool isLoadingQrManageSearch,

@@ -1,8 +1,11 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_date_select_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_detail_history_table_widget.dart';
+import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_detail_history_widget.dart';
+import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_history_table.dart';
 import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_summary_table_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/trade_history/components/calendar_widget.dart';
 import 'package:instapay_admin/responsive/responsive.dart';
@@ -20,6 +23,20 @@ class TrasHistoryWidget extends StatefulWidget {
 class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
   final items = [10, 30, 50];
   int selectedValue = 10;
+  final _pagingController = PagingController<int, TrasInfo>(firstPageKey: 1);
+
+  @override
+  void initState() {
+    Future.microtask(() {
+      final viewModel = context.read<HomeViewModel>();
+      _pagingController.addPageRequestListener((pageKey) {
+        viewModel.fetchHistoryPage(pageKey, selectedValue);
+      });
+      viewModel.pagingController = _pagingController;
+      //viewModel.fetchHistoryPage(0, selectedValue);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,28 +185,56 @@ class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  const Text(
-                                    '세부 거래내역',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                      color: pointColor,
-                                    ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        '세부 거래내역',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                          color: pointColor,
+                                        ),
+                                      ),
+                                      Text(
+                                          '항목 갯수 : ${state.totalTrasHistoryData.length} / ${state.trasHistoryTotalCount}')
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  if (state.trasHistory != null)
-                                    TrasDetailHistoryTableWidget(
-                                      info: state.trasHistory!.tras,
-                                      totalCount: state.trasHistory!.count,
-                                      selectedCount: selectedValue,
-                                    ),
-                                  // ...state.trasHistory!.tras.map((e) {
-                                  //   return TrasDetailHistoryTableWidget(
-                                  //     info: e,
-                                  //   );
-                                  // }).toList(),
+                                  Column(
+                                    children: [
+                                      if (!Responsive.isMobile(context))
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 8.0),
+                                          child: TrasHistoryTableHeader(),
+                                        ),
+                                      SizedBox(
+                                        height: 600,
+                                        child: PagedListView(
+                                          pagingController: _pagingController,
+                                          builderDelegate:
+                                              PagedChildBuilderDelegate<
+                                                      TrasInfo>(
+                                                  itemBuilder:
+                                                      (context, tras, index) {
+                                            if (Responsive.isMobile(context)) {
+                                              return TrasDetailHistoryWidget(
+                                                info: tras,
+                                              );
+                                            } else {
+                                              return TrasHistoryTableBody(
+                                                info: tras,
+                                              );
+                                            }
+                                          }),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               )
                             : Container()

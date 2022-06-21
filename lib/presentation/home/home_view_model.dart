@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
 import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_tras_history_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/info/get_franchisee_info_use_case.dart';
@@ -35,6 +37,12 @@ class HomeViewModel with ChangeNotifier {
 
   HomeState get state => _state;
 
+  late PagingController<int, TrasInfo> _pagingController;
+
+  set pagingController(PagingController<int, TrasInfo> controller) {
+    _pagingController = controller;
+  }
+
   final _eventController = StreamController<HomeUiEvent>.broadcast();
 
   Stream<HomeUiEvent> get eventStream => _eventController.stream;
@@ -63,9 +71,11 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
 
     await getTrasHistoryInfo(tid, limit);
+    _pagingController.appendPage(state.trasHistory!.tras, 1);
 
     _state = state.copyWith(
       isLoadingCalcHistorySearch: false,
+      trasHistoryTotalCount: state.trasHistory!.count,
     );
     notifyListeners();
   }
@@ -118,13 +128,35 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void fetchHistoryPage(int page, int limit) async {
+    String tid = '';
+    if (state.trasHistory!.tras.isNotEmpty) {
+      tid = state.trasHistory!.tras.last.tid!;
+    }
+
+    await getTrasHistoryInfo(tid, limit);
+
+    final isLastPage = state.trasHistory!.tras.length < limit;
+    if (isLastPage) {
+      _pagingController.appendLastPage(state.trasHistory!.tras);
+    } else {
+      final nextPageKey = page + 1;
+      _pagingController.appendPage(state.trasHistory!.tras, nextPageKey);
+    }
+
+    notifyListeners();
+  }
+
   Future<void> getTrasHistoryInfo(String tid, int limit) async {
     String token = await tokenUseCase.loadAccessToken();
     final history = await getTrasHistory(token, tid, limit);
+    List<TrasInfo> trasInfoList = List.from(state.totalTrasHistoryData);
     history.when(
       success: (data) {
+        List<TrasInfo> temp = List.from(trasInfoList)..addAll(data.tras);
         _state = state.copyWith(
           trasHistory: data,
+          totalTrasHistoryData: temp,
         );
       },
       error: (message) {
