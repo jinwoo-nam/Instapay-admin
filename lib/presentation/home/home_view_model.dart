@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
@@ -20,6 +21,7 @@ class HomeViewModel with ChangeNotifier {
   final GetFranchiseeInfoUseCase getFranchiseeInfo;
   final TokenUseCase tokenUseCase;
   final GetTrasHistoryUseCase getTrasHistory;
+  final excel = Excel.createExcel();
 
   HomeViewModel({
     required this.managerUseCase,
@@ -67,6 +69,7 @@ class HomeViewModel with ChangeNotifier {
       String searchDate, String tid, int limit) async {
     _state = state.copyWith(
       isLoadingCalcHistorySearch: true,
+      totalTrasHistoryData: [],
     );
     notifyListeners();
 
@@ -429,5 +432,68 @@ class HomeViewModel with ChangeNotifier {
         break;
     }
     notifyListeners();
+  }
+
+  void ExcelExport() async {
+    final Sheet sheet = excel[excel.getDefaultSheet()!];
+
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0)).value =
+        '구분';
+
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0)).value =
+        '승인 일자';
+
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0)).value =
+        "거래 금액";
+
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 0)).value =
+        "결제수단";
+
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: 0)).value =
+        "수수료";
+
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: 0)).value =
+        "VAT";
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 6, rowIndex: 0)).value =
+        "정산금액";
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: 0)).value =
+        "이용자";
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 8, rowIndex: 0)).value =
+        "결제내용";
+
+    for (var row = 0; row < state.totalTrasHistoryData.length; row++) {
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: row+1))
+          .value = state.totalTrasHistoryData[row].tstatus;
+
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: row+1))
+          .value = state.totalTrasHistoryData[row].adate;
+
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: row+1))
+          .value = state.totalTrasHistoryData[row].paymentAmount;
+
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: row+1))
+          .value = state.totalTrasHistoryData[row].paymentMethods;
+
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: row+1))
+          .value = '0';
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: row+1))
+          .value = "0";
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 6, rowIndex: row+1))
+          .value = state.totalTrasHistoryData[row].paymentAmount;
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: row+1))
+          .value = state.totalTrasHistoryData[row].payerName;
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 8, rowIndex: row+1))
+          .value = state.totalTrasHistoryData[row].productName;
+    }
+    excel.save(fileName: "세부 거래내역.xlsx");
   }
 }

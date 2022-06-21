@@ -33,7 +33,8 @@ class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
         viewModel.fetchHistoryPage(pageKey, selectedValue);
       });
       viewModel.pagingController = _pagingController;
-      //viewModel.fetchHistoryPage(0, selectedValue);
+
+      _pagingController.appendPage(viewModel.state.totalTrasHistoryData, 1);
     });
     super.initState();
   }
@@ -197,8 +198,21 @@ class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
                                           color: pointColor,
                                         ),
                                       ),
-                                      Text(
-                                          '항목 갯수 : ${state.totalTrasHistoryData.length} / ${state.trasHistoryTotalCount}')
+                                      Row(
+                                        children: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              viewModel.ExcelExport();
+                                            },
+                                            child: const Text('엑셀로 내려받기'),
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text(
+                                              '거래 내역 : ${state.totalTrasHistoryData.length} / ${state.trasHistoryTotalCount}'),
+                                        ],
+                                      )
                                     ],
                                   ),
                                   const SizedBox(
