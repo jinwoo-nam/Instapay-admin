@@ -1,6 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:instapay_admin/domain/model/calc_history/tras_history.dart';
-import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
 import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
 import 'package:instapay_admin/domain/model/franchisee/store.dart';
@@ -15,11 +13,6 @@ enum SelectScreenType {
   calculateHistoryScreen,
   franchiseeInfoScreen,
   qrCodeManageScreen,
-}
-
-enum PeriodGroupSelectType {
-  trade,
-  qrManage,
 }
 
 enum CalendarType {
@@ -38,28 +31,7 @@ class HomeState with _$HomeState {
     @Default(SelectScreenType.tradeHistoryScreen)
         SelectScreenType selectScreenType,
     @Default(false) bool isTradeCalendarSelected,
-    @Default(false) bool isCalcCalendarSelected,
-    @Default(false) bool isQrManageCalendarSelected,
-    @Default(false) bool isQrDetailCalendarSelected,
-    @Default(false) bool isQrCreateCalendarSelected,
     @Default(CalendarType.trade_start) CalendarType periodType,
-    @Default([]) List<QrCodeInfo> qrInfoList,
-    @Default([]) List<PaymentCompleteInfo> paymentHistoryList,
-    TrasHistory? trasHistory,
-    @Default([]) List<Contact> managers,
-    Store? storeData,
-    @Default(0) int trasHistoryTotalCount,
-    @Default([]) List<TrasInfo> totalTrasHistoryData,
-    @Default(false) bool isLoadingCalcHistorySearch,
-    @Default(false) bool isLoadingTradeHistorySearch,
-    @Default(false) bool isLoadingQrManageSearch,
-    DateTime? tradeStartDay,
-    DateTime? tradeEndDay,
-    DateTime? calcDay,
-    DateTime? qrManageStartDay,
-    DateTime? qrManageEndDay,
-    DateTime? qrDetailEndDay,
-    DateTime? qrCreateEndDay,
   }) = _HomeState;
 
   factory HomeState.fromJson(Map<String, dynamic> json) =>

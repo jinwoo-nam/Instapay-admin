@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instapay_admin/presentation/home/home_state.dart';
-import 'package:instapay_admin/presentation/home/home_view_model.dart';
-import 'package:instapay_admin/presentation/home/widgets/trade_history/components/calendar_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/trade_history/components/period_select_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/trade_history/components/trade_history_info_list_widget.dart';
+import 'package:instapay_admin/presentation/trade_histroy/trade_history_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class TradeHistoryWidget extends StatefulWidget {
-  const TradeHistoryWidget({Key? key}) : super(key: key);
+import '../common_widget/calendar_widget.dart';
+import '../common_widget/period_select_widget.dart';
+import 'components/trade_history_info_list_widget.dart';
+
+class TradeHistoryScreen extends StatefulWidget {
+  const TradeHistoryScreen({Key? key}) : super(key: key);
 
   @override
-  State<TradeHistoryWidget> createState() => _TradeHistoryWidgetState();
+  State<TradeHistoryScreen> createState() => _TradeHistoryScreenState();
 }
 
-class _TradeHistoryWidgetState extends State<TradeHistoryWidget> {
+class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
   String startDateNotSelect = '';
   String endDateNotSelect = '';
 
@@ -29,7 +29,7 @@ class _TradeHistoryWidgetState extends State<TradeHistoryWidget> {
       PeriodSelectData(title: '2개월', type: PeriodSelectType.twoMonth),
       PeriodSelectData(title: '3개월', type: PeriodSelectType.threeMonth),
     ];
-    final viewModel = context.watch<HomeViewModel>();
+    final viewModel = context.watch<TradeHistoryViewModel>();
     final state = viewModel.state;
     final selectButtonWidth = MediaQuery.of(context).size.width < 500
         ? (MediaQuery.of(context).size.width - 40) / 5
@@ -77,9 +77,9 @@ class _TradeHistoryWidgetState extends State<TradeHistoryWidget> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      viewModel.setCalendarSelectState(
-                                          !state.isTradeCalendarSelected,
-                                          CalendarType.trade_start);
+                                      // viewModel.setCalendarSelectState(
+                                      //     !state.isTradeCalendarSelected,
+                                      //     CalendarType.trade_start);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),
@@ -133,9 +133,9 @@ class _TradeHistoryWidgetState extends State<TradeHistoryWidget> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      viewModel.setCalendarSelectState(
-                                          !state.isTradeCalendarSelected,
-                                          CalendarType.trade_end);
+                                      // viewModel.setCalendarSelectState(
+                                      //     !state.isTradeCalendarSelected,
+                                      //     CalendarType.trade_end);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),
@@ -202,24 +202,19 @@ class _TradeHistoryWidgetState extends State<TradeHistoryWidget> {
                                 onTap: () {
                                   switch (e.type) {
                                     case PeriodSelectType.today:
-                                      viewModel.setPeriodToday(
-                                          PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodToday();
                                       break;
                                     case PeriodSelectType.week:
-                                      viewModel.setPeriodWeek(
-                                          PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodWeek();
                                       break;
                                     case PeriodSelectType.oneMonth:
-                                      viewModel.setPeriodOneMonth(
-                                          PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodOneMonth();
                                       break;
                                     case PeriodSelectType.twoMonth:
-                                      viewModel.setPeriodTwoMonth(
-                                          PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodTwoMonth();
                                       break;
                                     case PeriodSelectType.threeMonth:
-                                      viewModel.setPeriodThreeMonth(
-                                          PeriodGroupSelectType.trade);
+                                      viewModel.setPeriodThreeMonth();
                                       break;
                                   }
                                 },

@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instapay_admin/presentation/home/home_state.dart';
-import 'package:instapay_admin/presentation/home/home_view_model.dart';
-import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/components/create_qr_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/components/qr_info_list_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/trade_history/components/calendar_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/trade_history/components/period_select_widget.dart';
+import 'package:instapay_admin/presentation/store/qr_manage/qr_manage_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class QrManageWidget extends StatefulWidget {
-  const QrManageWidget({Key? key}) : super(key: key);
+import '../../common_widget/calendar_widget.dart';
+import '../../common_widget/period_select_widget.dart';
+import 'components/create_qr_widget.dart';
+import 'components/qr_info_list_widget.dart';
+
+
+class QrManageScreen extends StatefulWidget {
+  const QrManageScreen({Key? key}) : super(key: key);
 
   @override
-  State<QrManageWidget> createState() => _QrManageWidgetState();
+  State<QrManageScreen> createState() => _QrManageScreenState();
 }
 
-class _QrManageWidgetState extends State<QrManageWidget> {
+class _QrManageScreenState extends State<QrManageScreen> {
   String startDateNotSelect = '';
   String endDateNotSelect = '';
 
@@ -30,7 +31,7 @@ class _QrManageWidgetState extends State<QrManageWidget> {
       PeriodSelectData(title: '2개월', type: PeriodSelectType.twoMonth),
       PeriodSelectData(title: '3개월', type: PeriodSelectType.threeMonth),
     ];
-    final viewModel = context.watch<HomeViewModel>();
+    final viewModel = context.watch<QrManageViewModel>();
     final state = viewModel.state;
     final selectButtonWidth = MediaQuery.of(context).size.width < 500
         ? (MediaQuery.of(context).size.width - 40) / 5
@@ -78,9 +79,9 @@ class _QrManageWidgetState extends State<QrManageWidget> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      viewModel.setCalendarSelectState(
-                                          !state.isQrManageCalendarSelected,
-                                          CalendarType.qrManage_start);
+                                      // viewModel.setCalendarSelectState(
+                                      //     !state.isQrManageCalendarSelected,
+                                      //     CalendarType.qrManage_start);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),
@@ -132,9 +133,9 @@ class _QrManageWidgetState extends State<QrManageWidget> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      viewModel.setCalendarSelectState(
-                                          !state.isQrManageCalendarSelected,
-                                          CalendarType.qrManage_end);
+                                      // viewModel.setCalendarSelectState(
+                                      //     !state.isQrManageCalendarSelected,
+                                      //     CalendarType.qrManage_end);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),
@@ -202,24 +203,19 @@ class _QrManageWidgetState extends State<QrManageWidget> {
                                 onTap: () {
                                   switch (e.type) {
                                     case PeriodSelectType.today:
-                                      viewModel.setPeriodToday(
-                                          PeriodGroupSelectType.qrManage);
+                                      viewModel.setPeriodToday();
                                       break;
                                     case PeriodSelectType.week:
-                                      viewModel.setPeriodWeek(
-                                          PeriodGroupSelectType.qrManage);
+                                      viewModel.setPeriodWeek();
                                       break;
                                     case PeriodSelectType.oneMonth:
-                                      viewModel.setPeriodOneMonth(
-                                          PeriodGroupSelectType.qrManage);
+                                      viewModel.setPeriodOneMonth();
                                       break;
                                     case PeriodSelectType.twoMonth:
-                                      viewModel.setPeriodTwoMonth(
-                                          PeriodGroupSelectType.qrManage);
+                                      viewModel.setPeriodTwoMonth();
                                       break;
                                     case PeriodSelectType.threeMonth:
-                                      viewModel.setPeriodThreeMonth(
-                                          PeriodGroupSelectType.qrManage);
+                                      viewModel.setPeriodThreeMonth();
                                       break;
                                   }
                                 },
@@ -311,9 +307,9 @@ class _QrManageWidgetState extends State<QrManageWidget> {
                                       ),
                                       ElevatedButton(
                                         onPressed: () {
-                                          viewModel.setCalendarSelectState(
-                                              false, CalendarType.qrCreate);
-                                          viewModel.setSelectedDay(null);
+                                          // viewModel.setCalendarSelectState(
+                                          //     false, CalendarType.qrCreate);
+                                          // viewModel.setSelectedDay(null);
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(

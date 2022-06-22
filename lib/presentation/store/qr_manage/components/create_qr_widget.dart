@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instapay_admin/presentation/home/home_state.dart';
-import 'package:instapay_admin/presentation/home/home_view_model.dart';
-import 'package:instapay_admin/presentation/home/widgets/trade_history/components/calendar_widget.dart';
+import 'package:instapay_admin/presentation/common_widget/calendar_widget.dart';
+import 'package:instapay_admin/presentation/store/qr_manage/qr_manage_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +18,7 @@ class _CreateQrWidgetState extends State<CreateQrWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<HomeViewModel>();
+    final viewModel = context.watch<QrManageViewModel>();
     final state = viewModel.state;
 
     return Scaffold(
@@ -108,9 +107,9 @@ class _CreateQrWidgetState extends State<CreateQrWidget> {
                                     const EdgeInsets.symmetric(vertical: 10.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    viewModel.setCalendarSelectState(
-                                        !state.isQrCreateCalendarSelected,
-                                        CalendarType.qrCreate);
+                                    // viewModel.setCalendarSelectState(
+                                    //     !state.isQrCreateCalendarSelected,
+                                    //     CalendarType.qrCreate);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(13),

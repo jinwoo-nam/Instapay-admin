@@ -3,13 +3,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/home/components/drawer_widget.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
-import 'package:instapay_admin/presentation/home/widgets/calc_history/tras_history_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/franchisee_info_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/franchisee/qr_manage/qr_manage_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/trade_history/trade_history_widget.dart';
 import 'package:instapay_admin/presentation/root/root_view_model.dart';
+import 'package:instapay_admin/presentation/store/qr_manage/qr_manage_screen.dart';
+import 'package:instapay_admin/presentation/trade_histroy/trade_history_screen.dart';
+import 'package:instapay_admin/presentation/tras_history/tras_history_screen.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:provider/provider.dart';
+
+import '../store/store_info/store_info_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -52,13 +53,13 @@ class HomeScreen extends StatelessWidget {
   Widget getScreen(SelectScreenType type) {
     switch (type) {
       case SelectScreenType.calculateHistoryScreen:
-        return const TrasHistoryWidget();
+        return const TrasHistoryScreen();
       case SelectScreenType.franchiseeInfoScreen:
-        return const FranchiseeInfoWidget();
+        return const StoreInfoScreen();
       case SelectScreenType.qrCodeManageScreen:
-        return const QrManageWidget();
+        return const QrManageScreen();
       default:
-        return const TradeHistoryWidget();
+        return const TradeHistoryScreen();
     }
   }
 }

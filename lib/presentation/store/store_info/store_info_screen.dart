@@ -3,22 +3,21 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:instapay_admin/domain/model/franchisee/contact.dart';
-import 'package:instapay_admin/presentation/home/home_view_model.dart';
-import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/business_info_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/manager_info_widget.dart';
-import 'package:instapay_admin/presentation/root/root_view_model.dart';
+import 'package:instapay_admin/presentation/store/store_info/store_info_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
-import 'package:instapay_admin/util/constant.dart';
 import 'package:provider/provider.dart';
 
-class FranchiseeInfoWidget extends StatefulWidget {
-  const FranchiseeInfoWidget({Key? key}) : super(key: key);
+import 'components/business_info_widget.dart';
+import 'components/manager_info_widget.dart';
+
+class StoreInfoScreen extends StatefulWidget {
+  const StoreInfoScreen({Key? key}) : super(key: key);
 
   @override
-  State<FranchiseeInfoWidget> createState() => _FranchiseeInfoWidgetState();
+  State<StoreInfoScreen> createState() => _StoreInfoScreenState();
 }
 
-class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
+class _StoreInfoScreenState extends State<StoreInfoScreen> {
   final _nameEditController = TextEditingController();
   final _departmentEditController = TextEditingController();
   final _emailEditController = TextEditingController();
@@ -63,16 +62,14 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
         },
       );
 
-      final viewModel = context.read<HomeViewModel>();
-      final rootViewModel = context.read<RootViewModel>();
+      final viewModel = context.read<StoreInfoViewModel>();
 
       _streamSubscription = viewModel.eventStream.listen((event) {
-        event.when(showSnackBar: (message) {
-          _showToast(message);
-        }, logout: () {
-          print('logout');
-          rootViewModel.setLoginResult(false);
-        });
+        event.when(
+          showSnackBar: (message) {
+            _showToast(message);
+          },
+        );
       });
     });
     super.initState();
@@ -90,7 +87,7 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<HomeViewModel>();
+    final viewModel = context.watch<StoreInfoViewModel>();
     final state = viewModel.state;
     int index = -1;
 

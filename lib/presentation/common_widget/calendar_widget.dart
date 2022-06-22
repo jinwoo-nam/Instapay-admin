@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarWidget extends StatefulWidget {
-  const CalendarWidget({Key? key}) : super(key: key);
+  final DateTime Function()? onCalendarTap;
+
+  const CalendarWidget({
+    Key? key,
+    this.onCalendarTap,
+  }) : super(key: key);
 
   @override
   State<CalendarWidget> createState() => _CalendarWidgetState();
@@ -31,8 +34,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<HomeViewModel>();
-
     return Column(
       children: [
         ValueListenableBuilder<DateTime>(
@@ -73,7 +74,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
             setState(() {
-              viewModel.setSelectedDay(selectedDay);
+              widget.onCalendarTap;
 
               if (!isSameDay(_selectedDay, selectedDay)) {
                 _selectedDay = selectedDay;

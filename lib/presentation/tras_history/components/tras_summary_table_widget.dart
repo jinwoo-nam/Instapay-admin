@@ -1,6 +1,6 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/presentation/home/home_state.dart';
+import 'package:instapay_admin/presentation/tras_history/tras_history_state.dart';
 import 'package:instapay_admin/util/util.dart';
 
 class TrasSummaryTableWidget extends StatelessWidget {
@@ -11,7 +11,7 @@ class TrasSummaryTableWidget extends StatelessWidget {
   }) : super(key: key);
 
   final double dataTableWidth;
-  final HomeState state;
+  final TrasHistoryState state;
 
   @override
   Widget build(BuildContext context) {

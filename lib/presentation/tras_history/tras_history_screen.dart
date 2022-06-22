@@ -2,25 +2,26 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
-import 'package:instapay_admin/presentation/home/home_view_model.dart';
-import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_date_select_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_detail_history_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_history_table.dart';
-import 'package:instapay_admin/presentation/home/widgets/calc_history/components/tras_summary_table_widget.dart';
-import 'package:instapay_admin/presentation/home/widgets/trade_history/components/calendar_widget.dart';
+import 'package:instapay_admin/presentation/tras_history/tras_history_view_model.dart';
 import 'package:instapay_admin/responsive/responsive.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class TrasHistoryWidget extends StatefulWidget {
-  const TrasHistoryWidget({Key? key}) : super(key: key);
+import '../common_widget/calendar_widget.dart';
+import 'components/tras_date_select_widget.dart';
+import 'components/tras_detail_history_widget.dart';
+import 'components/tras_history_table.dart';
+import 'components/tras_summary_table_widget.dart';
+
+class TrasHistoryScreen extends StatefulWidget {
+  const TrasHistoryScreen({Key? key}) : super(key: key);
 
   @override
-  State<TrasHistoryWidget> createState() => _TrasHistoryWidgetState();
+  State<TrasHistoryScreen> createState() => _TrasHistoryScreenState();
 }
 
-class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
+class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
   final items = [10, 30, 50];
   int selectedValue = 10;
   final _pagingController = PagingController<int, TrasInfo>(firstPageKey: 1);
@@ -28,7 +29,7 @@ class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
   @override
   void initState() {
     Future.microtask(() {
-      final viewModel = context.read<HomeViewModel>();
+      final viewModel = context.read<TrasHistoryViewModel>();
       _pagingController.addPageRequestListener((pageKey) {
         viewModel.fetchHistoryPage(pageKey, selectedValue);
       });
@@ -41,7 +42,7 @@ class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<HomeViewModel>();
+    final viewModel = context.watch<TrasHistoryViewModel>();
     final state = viewModel.state;
     double dateContainerWidth =
         MediaQuery.of(context).size.width < 500 ? 140 : 170;
@@ -92,7 +93,7 @@ class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: TrasDateSelectWidget(
                         dateContainerWidth: dateContainerWidth,
-                        state: state,
+                        trasDay: state.calcDay,
                       ),
                     ),
                     if (state.isCalcCalendarSelected) const CalendarWidget(),
@@ -100,7 +101,7 @@ class _TrasHistoryWidgetState extends State<TrasHistoryWidget> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            viewModel.searchCalcHistory(
+                            viewModel.searchTrasHistory(
                               DateFormat('yyyy-MM-dd').format(state.calcDay!),
                               '',
                               selectedValue,
