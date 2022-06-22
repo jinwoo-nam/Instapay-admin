@@ -1,6 +1,6 @@
 import 'package:instapay_admin/core/result.dart';
-import 'package:instapay_admin/data/data_source/franchisee_info_data_source.dart';
-import 'package:instapay_admin/data/data_source/token_local_data_source.dart';
+import 'package:instapay_admin/data/data_source/remote/franchisee_info_data_source.dart';
+import 'package:instapay_admin/data/data_source/local/token_local_data_source.dart';
 import 'package:instapay_admin/domain/model/franchisee/store.dart';
 import 'package:instapay_admin/domain/repository/franchisee_repository.dart';
 

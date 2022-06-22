@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _pwEditController = TextEditingController();
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
 
-  bool _isCheck = false;
+  bool _isAutoLoginCheck = false;
 
   late FToast fToast;
   late Widget toast;
@@ -126,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     _idEditController.text,
                                     _pwEditController.text);
                                 if (result == true) {
+                                  viewModel.saveAutoLoginState(_isAutoLoginCheck);
                                   rootViewModel.setLoginResult(true);
                                 } else {
                                   _showToast();
@@ -140,11 +141,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             Row(
                               children: [
                                 Checkbox(
-                                  value: _isCheck,
+                                  value: _isAutoLoginCheck,
                                   onChanged: (value) {
                                     setState(() {
                                       if (value != null) {
-                                        _isCheck = value;
+                                        _isAutoLoginCheck = value;
                                       }
                                     });
                                   },

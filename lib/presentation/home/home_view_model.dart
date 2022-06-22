@@ -52,15 +52,16 @@ class HomeViewModel with ChangeNotifier {
   Future<void> getFranchiseeInfoList() async {
     final token = await tokenUseCase.loadAccessToken();
     final storeInfo = await getFranchiseeInfo.getStoreInfo(token);
-    storeInfo.when(
-        success: (data) {
-          _state = state.copyWith(
-            storeData: data,
-            managers: data.contacts,
-          );
-          managerUseCase.setManagers(state.managers);
-        },
-        error: (message) {});
+    storeInfo.when(success: (data) {
+      _state = state.copyWith(
+        storeData: data,
+        managers: data.contacts,
+      );
+      managerUseCase.setManagers(state.managers);
+    }, error: (message) {
+      _eventController.add(const HomeUiEvent.logout());
+      print(message);
+    });
 
     notifyListeners();
   }
@@ -463,35 +464,35 @@ class HomeViewModel with ChangeNotifier {
 
     for (var row = 0; row < state.totalTrasHistoryData.length; row++) {
       sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: row+1))
+          .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: row + 1))
           .value = state.totalTrasHistoryData[row].tstatus;
 
       sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: row+1))
+          .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: row + 1))
           .value = state.totalTrasHistoryData[row].adate;
 
       sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: row+1))
+          .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: row + 1))
           .value = state.totalTrasHistoryData[row].paymentAmount;
 
       sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: row+1))
+          .cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: row + 1))
           .value = state.totalTrasHistoryData[row].paymentMethods;
 
       sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: row+1))
+          .cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: row + 1))
           .value = '0';
       sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: row+1))
+          .cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: row + 1))
           .value = "0";
       sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 6, rowIndex: row+1))
+          .cell(CellIndex.indexByColumnRow(columnIndex: 6, rowIndex: row + 1))
           .value = state.totalTrasHistoryData[row].paymentAmount;
       sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: row+1))
+          .cell(CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: row + 1))
           .value = state.totalTrasHistoryData[row].payerName;
       sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 8, rowIndex: row+1))
+          .cell(CellIndex.indexByColumnRow(columnIndex: 8, rowIndex: row + 1))
           .value = state.totalTrasHistoryData[row].productName;
     }
     excel.save(fileName: "세부 거래내역.xlsx");

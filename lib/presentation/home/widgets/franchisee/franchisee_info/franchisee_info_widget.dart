@@ -6,6 +6,7 @@ import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/business_info_widget.dart';
 import 'package:instapay_admin/presentation/home/widgets/franchisee/franchisee_info/components/manager_info_widget.dart';
+import 'package:instapay_admin/presentation/root/root_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:instapay_admin/util/constant.dart';
 import 'package:provider/provider.dart';
@@ -63,10 +64,14 @@ class _FranchiseeInfoWidgetState extends State<FranchiseeInfoWidget> {
       );
 
       final viewModel = context.read<HomeViewModel>();
+      final rootViewModel = context.read<RootViewModel>();
 
       _streamSubscription = viewModel.eventStream.listen((event) {
         event.when(showSnackBar: (message) {
           _showToast(message);
+        }, logout: () {
+          print('logout');
+          rootViewModel.setLoginResult(false);
         });
       });
     });

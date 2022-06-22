@@ -35,7 +35,9 @@ List<SingleChildWidget> getProviders() {
 
   return [
     ChangeNotifierProvider<RootViewModel>(
-      create: (context) => RootViewModel(),
+      create: (context) => RootViewModel(
+        tokenUseCase: tokenUseCase,
+      ),
     ),
     ChangeNotifierProvider<LoginViewModel>(
       create: (context) => LoginViewModel(
