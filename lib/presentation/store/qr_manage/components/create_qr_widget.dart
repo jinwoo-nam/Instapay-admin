@@ -107,9 +107,8 @@ class _CreateQrWidgetState extends State<CreateQrWidget> {
                                     const EdgeInsets.symmetric(vertical: 10.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    // viewModel.setCalendarSelectState(
-                                    //     !state.isQrCreateCalendarSelected,
-                                    //     CalendarType.qrCreate);
+                                    viewModel.setQrCreateCalendarSelectState(
+                                        !state.isQrCreateCalendarSelected);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(13),
@@ -146,7 +145,11 @@ class _CreateQrWidgetState extends State<CreateQrWidget> {
                             ],
                           ),
                         if (state.isQrCreateCalendarSelected)
-                          const CalendarWidget(),
+                          CalendarWidget(
+                            onCalendarTap: (date) {
+                              viewModel.selectQrCreateDateOnCalendar(date);
+                            },
+                          ),
                         const SizedBox(
                           height: 30,
                         ),

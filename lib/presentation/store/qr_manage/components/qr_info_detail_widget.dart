@@ -122,9 +122,8 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                                     const EdgeInsets.symmetric(vertical: 10.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    // viewModel.setCalendarSelectState(
-                                    //     !state.isQrDetailCalendarSelected,
-                                    //     CalendarType.qrDetail);
+                                    viewModel.setQrDetailCalendarSelectState(
+                                        !state.isQrDetailCalendarSelected);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(13),
@@ -166,7 +165,11 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                             ],
                           ),
                         if (state.isQrDetailCalendarSelected)
-                          const CalendarWidget(),
+                          CalendarWidget(
+                            onCalendarTap: (date) {
+                              viewModel.selectQrDetailDateOnCalendar(date);
+                            },
+                          ),
                         const SizedBox(
                           height: 30,
                         ),

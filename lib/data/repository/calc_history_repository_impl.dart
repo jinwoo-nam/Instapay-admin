@@ -3,7 +3,7 @@ import 'package:instapay_admin/data/data_source/remote/calc_history_data_source.
 import 'package:instapay_admin/domain/model/calc_history/tras_history.dart';
 import 'package:instapay_admin/domain/repository/calc_history_repository.dart';
 
-class CalcHistoryRepositoryImpl implements CalcHistoryRepository {
+class TrasHistoryRepositoryImpl implements CalcHistoryRepository {
   final dataSource = CalcHistoryDataSource();
 
   @override

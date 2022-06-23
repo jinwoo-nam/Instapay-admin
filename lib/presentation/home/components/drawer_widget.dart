@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/home/home_state.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
+import 'package:instapay_admin/ui/color.dart';
 import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -12,7 +13,14 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+  final scrollController = ScrollController();
   List<ListItem> _items = [];
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -35,6 +43,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               return viewModel
                   .setSelectScreenType(SelectScreenType.tradeHistoryScreen);
             },
+            type: SelectScreenType.tradeHistoryScreen,
           )
         ],
       ),
@@ -51,8 +60,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             press: () {
               Navigator.pop(context);
               return viewModel
-                  .setSelectScreenType(SelectScreenType.calculateHistoryScreen);
+                  .setSelectScreenType(SelectScreenType.trasHistoryScreen);
             },
+            type: SelectScreenType.trasHistoryScreen,
           )
         ],
       ),
@@ -69,8 +79,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             press: () {
               Navigator.pop(context);
               return viewModel
-                  .setSelectScreenType(SelectScreenType.franchiseeInfoScreen);
+                  .setSelectScreenType(SelectScreenType.storeInfoScreen);
             },
+            type: SelectScreenType.storeInfoScreen,
           ),
           ListChildrenItem(
             title: ' - QR코드 관리',
@@ -79,37 +90,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               return viewModel
                   .setSelectScreenType(SelectScreenType.qrCodeManageScreen);
             },
+            type: SelectScreenType.qrCodeManageScreen,
           ),
         ],
       ),
     ];
-  }
-
-  List<ExpansionPanel> _getExpansionPanels(
-      List<ListItem> items, HomeViewModel viewModel) {
-    return items.map<ExpansionPanel>((ListItem item) {
-      return ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return DrawerListTile(
-              title: item.title,
-              faIcon: item.faIcon,
-            );
-          },
-          body: Column(
-            children: item.childrenItems.map((child) {
-              return ListTile(
-                horizontalTitleGap: 0.0,
-                title: Text(
-                  child.title,
-                  style: const TextStyle(color: Colors.white54, fontSize: 22),
-                ),
-                onTap: child.press,
-              );
-            }).toList(),
-          ),
-          isExpanded: item.isExpanded,
-          backgroundColor: Colors.transparent);
-    }).toList();
   }
 
   @override
@@ -118,6 +103,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
     return Drawer(
       child: ListView(
+        controller: scrollController,
         children: [
           DrawerHeader(
             padding: const EdgeInsets.all(62),
@@ -137,6 +123,36 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ],
       ),
     );
+  }
+
+  List<ExpansionPanel> _getExpansionPanels(
+      List<ListItem> items, HomeViewModel viewModel) {
+    return items.map<ExpansionPanel>((ListItem item) {
+      return ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return DrawerListTile(
+              title: item.title,
+              faIcon: item.faIcon,
+            );
+          },
+          body: Column(
+            children: item.childrenItems.map((child) {
+              return ListTile(
+                tileColor: viewModel.state.selectScreenType == child.type
+                    ? pointColor.withOpacity(0.5)
+                    : null,
+                horizontalTitleGap: 0.0,
+                title: Text(
+                  child.title,
+                  style: const TextStyle(color: Colors.white54, fontSize: 22),
+                ),
+                onTap: child.press,
+              );
+            }).toList(),
+          ),
+          isExpanded: item.isExpanded,
+          backgroundColor: Colors.transparent);
+    }).toList();
   }
 }
 
@@ -181,9 +197,11 @@ class ListItem {
 class ListChildrenItem {
   final String title;
   final VoidCallback press;
+  final SelectScreenType type;
 
   ListChildrenItem({
     required this.title,
     required this.press,
+    required this.type,
   });
 }

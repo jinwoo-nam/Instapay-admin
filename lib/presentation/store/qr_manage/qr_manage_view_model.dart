@@ -105,4 +105,57 @@ class QrManageViewModel with ChangeNotifier {
     );
     notifyListeners();
   }
+
+  void setQrCreateCalendarSelectState(bool isSelected) {
+    _state = state.copyWith(
+      isQrCreateCalendarSelected: isSelected,
+    );
+    notifyListeners();
+  }
+
+  void setQrDetailCalendarSelectState(bool isSelected) {
+    _state = state.copyWith(
+      isQrDetailCalendarSelected: isSelected,
+    );
+    notifyListeners();
+  }
+
+  void setQrManageCalendarSelectState(bool isSelected, bool isStartSelect) {
+    _state = state.copyWith(
+      isQrManageCalendarSelected: isSelected,
+      isStartDateCalendarSelected: isStartSelect,
+    );
+    notifyListeners();
+  }
+
+  void selectDateOnCalendar(DateTime date) {
+    if (state.isStartDateCalendarSelected) {
+      _state = state.copyWith(
+        qrManageStartDay: date,
+        isQrManageCalendarSelected: false,
+      );
+    } else {
+      _state = state.copyWith(
+        qrManageEndDay: date,
+        isQrManageCalendarSelected: false,
+      );
+    }
+    notifyListeners();
+  }
+
+  void selectQrCreateDateOnCalendar(DateTime date) {
+    _state = state.copyWith(
+      qrCreateEndDay: date,
+      isQrCreateCalendarSelected: false,
+    );
+    notifyListeners();
+  }
+
+  void selectQrDetailDateOnCalendar(DateTime date) {
+    _state = state.copyWith(
+      qrDetailEndDay: date,
+      isQrDetailCalendarSelected: false,
+    );
+    notifyListeners();
+  }
 }

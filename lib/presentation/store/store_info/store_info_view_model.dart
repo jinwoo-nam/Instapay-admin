@@ -11,7 +11,7 @@ import 'package:instapay_admin/presentation/store/store_info/store_info_ui_event
 class StoreInfoViewModel with ChangeNotifier {
   final ManagerUseCase managerUseCase;
   final TokenUseCase tokenUseCase;
-  final GetFranchiseeInfoUseCase getFranchiseeInfo;
+  final GetStoreInfoUseCase getFranchiseeInfo;
 
   StoreInfoViewModel({
     required this.managerUseCase,

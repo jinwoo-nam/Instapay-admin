@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarWidget extends StatefulWidget {
-  final DateTime Function()? onCalendarTap;
+  final void Function(DateTime date)? onCalendarTap;
 
   const CalendarWidget({
     Key? key,
@@ -74,7 +74,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
             setState(() {
-              widget.onCalendarTap;
+              widget.onCalendarTap?.call(selectedDay);
 
               if (!isSameDay(_selectedDay, selectedDay)) {
                 _selectedDay = selectedDay;

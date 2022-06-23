@@ -22,9 +22,18 @@ class TrasHistoryScreen extends StatefulWidget {
 }
 
 class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
+  final scrollController = ScrollController();
+  final historyScrollController = ScrollController();
   final items = [10, 30, 50];
   int selectedValue = 10;
   final _pagingController = PagingController<int, TrasInfo>(firstPageKey: 1);
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    historyScrollController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -61,6 +70,7 @@ class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
     }
 
     return SingleChildScrollView(
+      controller: scrollController,
       child: Center(
         child: SizedBox(
           width: mainWidth,
@@ -230,6 +240,8 @@ class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
                                       SizedBox(
                                         height: 600,
                                         child: PagedListView(
+                                          scrollController:
+                                              historyScrollController,
                                           pagingController: _pagingController,
                                           builderDelegate:
                                               PagedChildBuilderDelegate<

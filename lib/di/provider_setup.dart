@@ -19,6 +19,10 @@ import 'package:instapay_admin/domain/use_case/trade_history/get_payment_history
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/login/login_view_model.dart';
 import 'package:instapay_admin/presentation/root/root_view_model.dart';
+import 'package:instapay_admin/presentation/store/qr_manage/qr_manage_view_model.dart';
+import 'package:instapay_admin/presentation/store/store_info/store_info_view_model.dart';
+import 'package:instapay_admin/presentation/trade_histroy/trade_history_view_model.dart';
+import 'package:instapay_admin/presentation/tras_history/tras_history_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -26,8 +30,8 @@ List<SingleChildWidget> getProviders() {
   final managerRepository = ManagerRepositoryImpl();
   final qrRepository = QrCodeRepositoryImpl();
   final tradeRepository = TradeHistoryRepositoryImpl();
-  final calcRepository = CalcHistoryRepositoryImpl();
-  final franchiseeRepository = FranchiseeRepositoryImpl();
+  final trasRepository = TrasHistoryRepositoryImpl();
+  final storeRepository = StoreRepositoryImpl();
   final loginRepository = LoginRepositoryImpl();
   final tokenRepository = TokenRepositoryImpl();
 
@@ -46,21 +50,35 @@ List<SingleChildWidget> getProviders() {
       ),
     ),
     ChangeNotifierProvider<HomeViewModel>(
-      create: (context) => HomeViewModel(
+      create: (context) => HomeViewModel(),
+    ),
+    ChangeNotifierProvider<QrManageViewModel>(
+      create: (context) => QrManageViewModel(
+        getQrInfo: GetQrInfoListUseCase(qrRepository),
+      ),
+    ),
+    ChangeNotifierProvider<StoreInfoViewModel>(
+      create: (context) => StoreInfoViewModel(
         managerUseCase: ManagerUseCase(
           getManagers: GetManagersUseCase(managerRepository),
           setManagers: SetManagerUseCase(managerRepository),
           addManager: AddManagerUseCase(managerRepository),
           deleteManager: DeleteManagerUseCase(managerRepository),
         ),
-        getQrInfo: GetQrInfoListUseCase(
-          qrRepository,
-        ),
-        getPaymentHistory: GetPaymentHistoryUseCase(tradeRepository),
-        getFranchiseeInfo: GetFranchiseeInfoUseCase(franchiseeRepository),
         tokenUseCase: tokenUseCase,
-        getTrasHistory: GetTrasHistoryUseCase(calcRepository),
+        getFranchiseeInfo: GetStoreInfoUseCase(storeRepository),
       ),
-    )
+    ),
+    ChangeNotifierProvider<TradeHistoryViewModel>(
+      create: (context) => TradeHistoryViewModel(
+        getPaymentHistory: GetPaymentHistoryUseCase(tradeRepository),
+      ),
+    ),
+    ChangeNotifierProvider<TrasHistoryViewModel>(
+      create: (context) => TrasHistoryViewModel(
+        tokenUseCase: tokenUseCase,
+        getTrasHistory: GetTrasHistoryUseCase(trasRepository),
+      ),
+    ),
   ];
 }

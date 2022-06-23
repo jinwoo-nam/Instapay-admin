@@ -10,6 +10,7 @@ part 'qr_manage_state.g.dart';
 class QrManageState with _$QrManageState {
   factory QrManageState({
     @Default(false) bool isQrManageCalendarSelected,
+    @Default(false) bool isStartDateCalendarSelected,
     @Default(false) bool isQrDetailCalendarSelected,
     @Default(false) bool isQrCreateCalendarSelected,
     @Default(false) bool isLoadingQrManageSearch,

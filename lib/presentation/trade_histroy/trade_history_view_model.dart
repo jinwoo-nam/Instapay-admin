@@ -104,4 +104,27 @@ class TradeHistoryViewModel with ChangeNotifier {
     );
     notifyListeners();
   }
+
+  void setCalendarSelectState(bool isSelected, bool isStartSelect) {
+    _state = state.copyWith(
+      isTradeCalendarSelected: isSelected,
+      isStartDateCalendarSelected: isStartSelect,
+    );
+    notifyListeners();
+  }
+
+  void selectDateOnCalendar(DateTime date) {
+    if (state.isStartDateCalendarSelected) {
+      _state = state.copyWith(
+        tradeStartDay: date,
+        isTradeCalendarSelected: false,
+      );
+    } else {
+      _state = state.copyWith(
+        tradeEndDay: date,
+        isTradeCalendarSelected: false,
+      );
+    }
+    notifyListeners();
+  }
 }

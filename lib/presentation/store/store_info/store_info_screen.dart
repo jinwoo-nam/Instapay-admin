@@ -18,6 +18,7 @@ class StoreInfoScreen extends StatefulWidget {
 }
 
 class _StoreInfoScreenState extends State<StoreInfoScreen> {
+  final scrollController = ScrollController();
   final _nameEditController = TextEditingController();
   final _departmentEditController = TextEditingController();
   final _emailEditController = TextEditingController();
@@ -83,6 +84,7 @@ class _StoreInfoScreenState extends State<StoreInfoScreen> {
     _departmentEditController.dispose();
     _emailEditController.dispose();
     _phoneEditController.dispose();
+    scrollController.dispose();
   }
 
   @override
@@ -96,6 +98,7 @@ class _StoreInfoScreenState extends State<StoreInfoScreen> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: SingleChildScrollView(
+        controller: scrollController,
         child: Center(
           child: SizedBox(
             width: 500,

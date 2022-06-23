@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/trade_histroy/trade_history_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
+import 'package:instapay_admin/util/constant.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -17,18 +18,18 @@ class TradeHistoryScreen extends StatefulWidget {
 }
 
 class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
+  final scrollController = ScrollController();
   String startDateNotSelect = '';
   String endDateNotSelect = '';
 
   @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final periodSelect = [
-      PeriodSelectData(title: '당일', type: PeriodSelectType.today),
-      PeriodSelectData(title: '일주일', type: PeriodSelectType.week),
-      PeriodSelectData(title: '1개월', type: PeriodSelectType.oneMonth),
-      PeriodSelectData(title: '2개월', type: PeriodSelectType.twoMonth),
-      PeriodSelectData(title: '3개월', type: PeriodSelectType.threeMonth),
-    ];
     final viewModel = context.watch<TradeHistoryViewModel>();
     final state = viewModel.state;
     final selectButtonWidth = MediaQuery.of(context).size.width < 500
@@ -38,6 +39,7 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
         MediaQuery.of(context).size.width < 500 ? 140 : 170;
 
     return SingleChildScrollView(
+      controller: scrollController,
       child: Center(
         child: SizedBox(
           width: 500,
@@ -77,9 +79,8 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      // viewModel.setCalendarSelectState(
-                                      //     !state.isTradeCalendarSelected,
-                                      //     CalendarType.trade_start);
+                                      viewModel.setCalendarSelectState(
+                                          !state.isTradeCalendarSelected, true);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),
@@ -133,9 +134,9 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      // viewModel.setCalendarSelectState(
-                                      //     !state.isTradeCalendarSelected,
-                                      //     CalendarType.trade_end);
+                                      viewModel.setCalendarSelectState(
+                                          !state.isTradeCalendarSelected,
+                                          false);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),
@@ -182,7 +183,11 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
                             ],
                           ),
                           if (state.isTradeCalendarSelected)
-                            const CalendarWidget(),
+                            CalendarWidget(
+                              onCalendarTap: (date) {
+                                viewModel.selectDateOnCalendar(date);
+                              },
+                            ),
                         ],
                       ),
                     ),

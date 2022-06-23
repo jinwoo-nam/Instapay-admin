@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/store/qr_manage/qr_manage_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
+import 'package:instapay_admin/util/constant.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +10,6 @@ import '../../common_widget/calendar_widget.dart';
 import '../../common_widget/period_select_widget.dart';
 import 'components/create_qr_widget.dart';
 import 'components/qr_info_list_widget.dart';
-
 
 class QrManageScreen extends StatefulWidget {
   const QrManageScreen({Key? key}) : super(key: key);
@@ -19,18 +19,18 @@ class QrManageScreen extends StatefulWidget {
 }
 
 class _QrManageScreenState extends State<QrManageScreen> {
+  final scrollController = ScrollController();
   String startDateNotSelect = '';
   String endDateNotSelect = '';
 
   @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final periodSelect = [
-      PeriodSelectData(title: '당일', type: PeriodSelectType.today),
-      PeriodSelectData(title: '일주일', type: PeriodSelectType.week),
-      PeriodSelectData(title: '1개월', type: PeriodSelectType.oneMonth),
-      PeriodSelectData(title: '2개월', type: PeriodSelectType.twoMonth),
-      PeriodSelectData(title: '3개월', type: PeriodSelectType.threeMonth),
-    ];
     final viewModel = context.watch<QrManageViewModel>();
     final state = viewModel.state;
     final selectButtonWidth = MediaQuery.of(context).size.width < 500
@@ -40,6 +40,7 @@ class _QrManageScreenState extends State<QrManageScreen> {
         MediaQuery.of(context).size.width < 500 ? 140 : 170;
 
     return SingleChildScrollView(
+      controller: scrollController,
       child: Center(
         child: SizedBox(
           width: 500,
@@ -79,9 +80,8 @@ class _QrManageScreenState extends State<QrManageScreen> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      // viewModel.setCalendarSelectState(
-                                      //     !state.isQrManageCalendarSelected,
-                                      //     CalendarType.qrManage_start);
+                                      viewModel.setQrManageCalendarSelectState(
+                                          !state.isQrManageCalendarSelected, true);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),
@@ -133,9 +133,8 @@ class _QrManageScreenState extends State<QrManageScreen> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      // viewModel.setCalendarSelectState(
-                                      //     !state.isQrManageCalendarSelected,
-                                      //     CalendarType.qrManage_end);
+                                      viewModel.setQrManageCalendarSelectState(
+                                          !state.isQrManageCalendarSelected, false);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),
@@ -183,7 +182,11 @@ class _QrManageScreenState extends State<QrManageScreen> {
                             ],
                           ),
                           if (state.isQrManageCalendarSelected)
-                            const CalendarWidget(),
+                            CalendarWidget(
+                              onCalendarTap: (date) {
+                                viewModel.selectDateOnCalendar(date);
+                              },
+                            ),
                         ],
                       ),
                     ),
