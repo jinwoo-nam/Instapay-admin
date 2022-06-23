@@ -139,7 +139,7 @@ class _CalendarHeaderState extends State<_CalendarHeader> {
 
   @override
   Widget build(BuildContext context) {
-    final headerText = DateFormat.yMMM().format(widget.focusedDay);
+    final headerText = DateFormat("yyyy.MM").format(widget.focusedDay);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -148,7 +148,14 @@ class _CalendarHeaderState extends State<_CalendarHeader> {
           const SizedBox(width: 16.0),
           IconButton(
             icon: const Icon(Icons.chevron_left),
-            onPressed: widget.onLeftArrowTap,
+            onPressed: () {
+              widget.onLeftArrowTap();
+              setState(() {
+                if (widget.focusedDay.year > DateTime.now().year-10) {
+                  selectedValue = '${widget.focusedDay.year}년';
+                }
+              });
+            },
           ),
           SizedBox(
             width: 130.0,
@@ -159,10 +166,22 @@ class _CalendarHeaderState extends State<_CalendarHeader> {
           ),
           IconButton(
             icon: const Icon(Icons.chevron_right),
-            onPressed: widget.onRightArrowTap,
+            onPressed: () {
+              widget.onRightArrowTap();
+              setState(() {
+                if (widget.focusedDay.year <= DateTime.now().year) {
+                  selectedValue = '${widget.focusedDay.year}년';
+                }
+              });
+            },
           ),
           GestureDetector(
-            onTap: widget.onTodayButtonTap,
+            onTap: () {
+              widget.onTodayButtonTap();
+              setState(() {
+                selectedValue = '${DateTime.now().year}년';
+              });
+            },
             child: Container(
               padding: const EdgeInsets.all(7),
               decoration: BoxDecoration(
