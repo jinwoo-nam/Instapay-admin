@@ -21,6 +21,7 @@ class LoginViewModel with ChangeNotifier {
     var j = {};
     j["wid"] = id;
     j["wpw"] = pw;
+    await tokenUseCase.saveUserLoginId(id);
     String jsonStr = json.encode(j);
 
     var byte = utf8.encode(jsonStr);

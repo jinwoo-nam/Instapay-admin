@@ -140,6 +140,7 @@ class _StoreInfoScreenState extends State<StoreInfoScreen> {
                         if (state.storeData != null)
                           BusinessInfoWidget(
                             store: state.storeData!,
+                            userId: state.userID,
                           ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -10,6 +10,10 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<RootViewModel>();
-    return viewModel.isSigned ? const HomeScreen() : const LoginScreen();
+    return viewModel.isLoadDone == false
+        ? Container()
+        : viewModel.isSigned
+            ? const HomeScreen()
+            : const LoginScreen();
   }
 }

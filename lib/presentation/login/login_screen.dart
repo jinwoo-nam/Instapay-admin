@@ -126,7 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     _idEditController.text,
                                     _pwEditController.text);
                                 if (result == true) {
-                                  viewModel.saveAutoLoginState(_isAutoLoginCheck);
+                                  viewModel
+                                      .saveAutoLoginState(_isAutoLoginCheck);
                                   rootViewModel.setLoginResult(true);
                                 } else {
                                   _showToast();

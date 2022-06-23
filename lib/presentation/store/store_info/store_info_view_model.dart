@@ -17,8 +17,8 @@ class StoreInfoViewModel with ChangeNotifier {
     required this.managerUseCase,
     required this.tokenUseCase,
     required this.getFranchiseeInfo,
-  }){
-    getFranchiseeInfoList();
+  }) {
+    getStoreInfoList();
   }
 
   StoreInfoState _state = StoreInfoState();
@@ -29,13 +29,16 @@ class StoreInfoViewModel with ChangeNotifier {
 
   Stream<StoreInfoUiEvent> get eventStream => _eventController.stream;
 
-  Future<void> getFranchiseeInfoList() async {
+  Future<void> getStoreInfoList() async {
     final token = await tokenUseCase.loadAccessToken();
     final storeInfo = await getFranchiseeInfo.getStoreInfo(token);
+    final userId = await tokenUseCase.loadUserLoginId();
+
     storeInfo.when(success: (data) {
       _state = state.copyWith(
         storeData: data,
         managers: data.contacts,
+        userID: userId,
       );
       managerUseCase.setManagers(state.managers);
     }, error: (message) {
@@ -44,7 +47,6 @@ class StoreInfoViewModel with ChangeNotifier {
 
     notifyListeners();
   }
-
 
   void addManagerData(Contact manager) async {
     String token = await tokenUseCase.loadAccessToken();
@@ -60,7 +62,8 @@ class StoreInfoViewModel with ChangeNotifier {
             .add(const StoreInfoUiEvent.showSnackBar('담당자 추가에 실패 했습니다.'));
       }
     }, error: (message) {
-      _eventController.add(const StoreInfoUiEvent.showSnackBar('담당자 추가에 실패 했습니다.'));
+      _eventController
+          .add(const StoreInfoUiEvent.showSnackBar('담당자 추가에 실패 했습니다.'));
     });
     notifyListeners();
   }
@@ -79,9 +82,9 @@ class StoreInfoViewModel with ChangeNotifier {
             .add(const StoreInfoUiEvent.showSnackBar('담당자 삭제에 실패 했습니다.'));
       }
     }, error: (message) {
-      _eventController.add(const StoreInfoUiEvent.showSnackBar('담당자 삭제에 실패 했습니다.'));
+      _eventController
+          .add(const StoreInfoUiEvent.showSnackBar('담당자 삭제에 실패 했습니다.'));
     });
     notifyListeners();
   }
-
 }

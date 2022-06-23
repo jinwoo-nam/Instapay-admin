@@ -3,10 +3,12 @@ import 'package:instapay_admin/domain/model/franchisee/store.dart';
 
 class BusinessInfoWidget extends StatelessWidget {
   final Store store;
+  final String userId;
 
   const BusinessInfoWidget({
     Key? key,
     required this.store,
+    required this.userId,
   }) : super(key: key);
 
   @override
@@ -112,8 +114,8 @@ class BusinessInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
-            children: const [
-              Expanded(
+            children: [
+              const Expanded(
                 child: Text(
                   'ID',
                   style: TextStyle(
@@ -124,8 +126,8 @@ class BusinessInfoWidget extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Text(
-                  'id',
-                  style: TextStyle(
+                  userId,
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
 class RootViewModel with ChangeNotifier {
   final TokenUseCase tokenUseCase;
   bool isSigned = false;
+  bool isLoadDone = false;
 
   RootViewModel({
     required this.tokenUseCase,
@@ -13,6 +14,8 @@ class RootViewModel with ChangeNotifier {
 
   void setIsAutoLogin() async {
     isSigned = await tokenUseCase.loadIsAutoLogin();
+    isLoadDone = true;
+    notifyListeners();
   }
 
   void setLoginResult(bool res) {
