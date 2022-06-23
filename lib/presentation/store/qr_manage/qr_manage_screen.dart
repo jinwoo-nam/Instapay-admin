@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/store/qr_manage/qr_manage_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
-import 'package:instapay_admin/util/constant.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -81,7 +80,8 @@ class _QrManageScreenState extends State<QrManageScreen> {
                                   GestureDetector(
                                     onTap: () {
                                       viewModel.setQrManageCalendarSelectState(
-                                          !state.isQrManageCalendarSelected, true);
+                                          !state.isQrManageCalendarSelected,
+                                          true);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),
@@ -134,7 +134,8 @@ class _QrManageScreenState extends State<QrManageScreen> {
                                   GestureDetector(
                                     onTap: () {
                                       viewModel.setQrManageCalendarSelectState(
-                                          !state.isQrManageCalendarSelected, false);
+                                          !state.isQrManageCalendarSelected,
+                                          false);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(13),

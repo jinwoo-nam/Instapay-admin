@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/trade_histroy/trade_history_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
-import 'package:instapay_admin/util/constant.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -16,6 +17,7 @@ class CalendarWidget extends StatefulWidget {
 
 class _CalendarWidgetState extends State<CalendarWidget> {
   late final PageController _pageController;
+
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
   DateTime? _selectedDay;
 
@@ -63,6 +65,13 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   curve: Curves.easeOut,
                 );
               },
+              onYearSelect: (year) {
+                int res = int.parse(year.substring(0, year.length - 1));
+                int gap = res - _focusedDay.value.year;
+                _focusedDay.value = DateTime(res, DateTime.now().month);
+                _pageController
+                    .jumpToPage(_pageController.page!.round() + (12 * gap));
+              },
             );
           },
         ),
@@ -91,13 +100,14 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   }
 }
 
-class _CalendarHeader extends StatelessWidget {
+class _CalendarHeader extends StatefulWidget {
   final DateTime focusedDay;
   final VoidCallback onLeftArrowTap;
   final VoidCallback onRightArrowTap;
   final VoidCallback onTodayButtonTap;
   final VoidCallback onClearButtonTap;
   final bool clearButtonVisible;
+  final void Function(String) onYearSelect;
 
   const _CalendarHeader({
     Key? key,
@@ -107,17 +117,39 @@ class _CalendarHeader extends StatelessWidget {
     required this.onTodayButtonTap,
     required this.onClearButtonTap,
     required this.clearButtonVisible,
+    required this.onYearSelect,
   }) : super(key: key);
 
   @override
+  State<_CalendarHeader> createState() => _CalendarHeaderState();
+}
+
+class _CalendarHeaderState extends State<_CalendarHeader> {
+  List<String> yearItems = [];
+  List<String> monthtems = [];
+  String selectedValue = '${DateTime.now().year}년';
+
+  @override
+  void initState() {
+    for (int i = 0; i < 10; i++) {
+      yearItems.add('${DateTime.now().year - i}년');
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final headerText = DateFormat.yMMM().format(focusedDay);
+    final headerText = DateFormat.yMMM().format(widget.focusedDay);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: [
           const SizedBox(width: 16.0),
+          IconButton(
+            icon: const Icon(Icons.chevron_left),
+            onPressed: widget.onLeftArrowTap,
+          ),
           SizedBox(
             width: 130.0,
             child: Text(
@@ -125,8 +157,12 @@ class _CalendarHeader extends StatelessWidget {
               style: const TextStyle(fontSize: 26.0),
             ),
           ),
+          IconButton(
+            icon: const Icon(Icons.chevron_right),
+            onPressed: widget.onRightArrowTap,
+          ),
           GestureDetector(
-            onTap: onTodayButtonTap,
+            onTap: widget.onTodayButtonTap,
             child: Container(
               padding: const EdgeInsets.all(7),
               decoration: BoxDecoration(
@@ -137,13 +173,53 @@ class _CalendarHeader extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.chevron_left),
-            onPressed: onLeftArrowTap,
-          ),
-          IconButton(
-            icon: const Icon(Icons.chevron_right),
-            onPressed: onRightArrowTap,
+          DropdownButton2(
+            isExpanded: true,
+            items: yearItems
+                .map((item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ))
+                .toList(),
+            value: selectedValue,
+            onChanged: (value) {
+              setState(() {
+                selectedValue = value as String;
+                widget.onYearSelect.call(selectedValue);
+              });
+            },
+            icon: const Icon(
+              Icons.arrow_forward_ios_outlined,
+            ),
+            iconSize: 14,
+            iconDisabledColor: Colors.grey,
+            buttonHeight: 40,
+            buttonWidth: 100,
+            buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+            buttonDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            itemHeight: 40,
+            itemPadding: const EdgeInsets.only(left: 14, right: 14),
+            dropdownMaxHeight: 200,
+            dropdownWidth: 200,
+            dropdownPadding: null,
+            dropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            dropdownElevation: 8,
+            scrollbarRadius: const Radius.circular(40),
+            scrollbarThickness: 6,
+            scrollbarAlwaysShow: true,
+            offset: const Offset(-20, 0),
           ),
         ],
       ),
@@ -152,5 +228,5 @@ class _CalendarHeader extends StatelessWidget {
 }
 
 final kToday = DateTime.now();
-final kFirstDay = DateTime(kToday.year - 3, 1, 1);
+final kFirstDay = DateTime(kToday.year - 20, 1, 1);
 final kLastDay = DateTime(kToday.year + 3, 1, 1);

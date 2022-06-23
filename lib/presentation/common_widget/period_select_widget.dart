@@ -8,6 +8,14 @@ enum PeriodSelectType {
   threeMonth,
 }
 
+final periodSelect = [
+  PeriodSelectData(title: '당일', type: PeriodSelectType.today),
+  PeriodSelectData(title: '일주일', type: PeriodSelectType.week),
+  PeriodSelectData(title: '1개월', type: PeriodSelectType.oneMonth),
+  PeriodSelectData(title: '2개월', type: PeriodSelectType.twoMonth),
+  PeriodSelectData(title: '3개월', type: PeriodSelectType.threeMonth),
+];
+
 class PeriodSelectWidget extends StatelessWidget {
   final double selectButtonWidth;
   final PeriodSelectData data;
