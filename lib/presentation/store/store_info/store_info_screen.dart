@@ -64,7 +64,9 @@ class _StoreInfoScreenState extends State<StoreInfoScreen> {
       );
 
       final viewModel = context.read<StoreInfoViewModel>();
-
+      if (viewModel.state.storeData == null) {
+        viewModel.getStoreInfoList();
+      }
       _streamSubscription = viewModel.eventStream.listen((event) {
         event.when(
           showSnackBar: (message) {

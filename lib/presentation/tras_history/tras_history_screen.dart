@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -29,13 +31,6 @@ class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
   final _pagingController = PagingController<int, TrasInfo>(firstPageKey: 1);
 
   @override
-  void dispose() {
-    scrollController.dispose();
-    historyScrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
     Future.microtask(() {
       final viewModel = context.read<TrasHistoryViewModel>();
@@ -47,6 +42,13 @@ class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
       _pagingController.appendPage(viewModel.state.totalTrasHistoryData, 1);
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    historyScrollController.dispose();
+    super.dispose();
   }
 
   @override

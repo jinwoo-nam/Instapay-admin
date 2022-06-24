@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -14,7 +16,7 @@ class TrasHistoryViewModel with ChangeNotifier {
   TrasHistoryViewModel({
     required this.tokenUseCase,
     required this.getTrasHistory,
-  }){
+  }) {
     setDefaultCalcDateTime();
   }
 
@@ -88,7 +90,6 @@ class TrasHistoryViewModel with ChangeNotifier {
       calcDay: DateTime.now(),
     );
   }
-
 
   void ExcelExport() async {
     final Sheet sheet = excel[excel.getDefaultSheet()!];

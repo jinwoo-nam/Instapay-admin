@@ -5,6 +5,7 @@ import 'package:instapay_admin/domain/model/franchisee/contact.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/info/get_franchisee_info_use_case.dart';
 import 'package:instapay_admin/domain/use_case/franchisee/manager/manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
+import 'package:instapay_admin/presentation/home/home_ui_event.dart';
 import 'package:instapay_admin/presentation/store/store_info/store_info_state.dart';
 import 'package:instapay_admin/presentation/store/store_info/store_info_ui_event.dart';
 
@@ -17,9 +18,7 @@ class StoreInfoViewModel with ChangeNotifier {
     required this.managerUseCase,
     required this.tokenUseCase,
     required this.getFranchiseeInfo,
-  }) {
-    getStoreInfoList();
-  }
+  });
 
   StoreInfoState _state = StoreInfoState();
 
@@ -29,10 +28,11 @@ class StoreInfoViewModel with ChangeNotifier {
 
   Stream<StoreInfoUiEvent> get eventStream => _eventController.stream;
 
-  Future<void> getStoreInfoList() async {
+  Future<bool> getStoreInfoList() async {
     final token = await tokenUseCase.loadAccessToken();
     final storeInfo = await getFranchiseeInfo.getStoreInfo(token);
     final userId = await tokenUseCase.loadUserLoginId();
+    bool res = false;
 
     storeInfo.when(success: (data) {
       _state = state.copyWith(
@@ -41,11 +41,12 @@ class StoreInfoViewModel with ChangeNotifier {
         userID: userId,
       );
       managerUseCase.setManagers(state.managers);
+      res = true;
     }, error: (message) {
       print(message);
     });
-
     notifyListeners();
+    return res;
   }
 
   void addManagerData(Contact manager) async {
