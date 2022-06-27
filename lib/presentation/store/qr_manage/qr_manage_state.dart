@@ -1,4 +1,4 @@
-import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
+import 'package:instapay_admin/domain/model/store/goods.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -14,7 +14,7 @@ class QrManageState with _$QrManageState {
     @Default(false) bool isQrDetailCalendarSelected,
     @Default(false) bool isQrCreateCalendarSelected,
     @Default(false) bool isLoadingQrManageSearch,
-    @Default([]) List<QrCodeInfo> qrInfoList,
+    @Default([]) List<Goods> qrInfoList,
     DateTime? qrManageStartDay,
     DateTime? qrManageEndDay,
     DateTime? qrDetailEndDay,

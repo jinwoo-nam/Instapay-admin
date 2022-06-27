@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/trade_histroy/trade_history_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
@@ -20,6 +21,46 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
   final scrollController = ScrollController();
   String startDateNotSelect = '';
   String endDateNotSelect = '';
+
+  late FToast fToast;
+  late Widget toast;
+
+  _removeToast() {
+    fToast.removeCustomToast();
+  }
+
+  _showToast(String message) {
+    _removeToast();
+
+    fToast.showToast(
+      child: Container(
+          width: 250,
+          height: 50,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.zero,
+            color: Colors.grey,
+          ),
+          child: Center(
+            child: Text(message),
+          )),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 4),
+    );
+  }
+
+  @override
+  void initState() {
+    Future.microtask(() {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          fToast = FToast();
+          fToast.init(context);
+        },
+      );
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -234,17 +275,20 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
                     Row(
                       children: [
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (state.tradeStartDay != null &&
                                 state.tradeEndDay != null) {
                               startDateNotSelect = '';
                               endDateNotSelect = '';
 
-                              viewModel.searchTradeHistory(
+                              final result = await viewModel.searchTradeHistory(
                                   DateFormat('yyyy-MM-dd')
                                       .format(state.tradeStartDay!),
                                   DateFormat('yyyy-MM-dd')
                                       .format(state.tradeEndDay!));
+                              if (result == false) {
+                                _showToast('로그인이 만료 되었습니다. 다시 로그인 해주세요.');
+                              }
                             } else if (state.tradeStartDay == null &&
                                 state.tradeEndDay == null) {
                               setState(() {

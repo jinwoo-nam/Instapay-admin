@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/franchisee/contact.dart';
-import 'package:instapay_admin/domain/use_case/franchisee/info/get_franchisee_info_use_case.dart';
-import 'package:instapay_admin/domain/use_case/franchisee/manager/manager_use_case.dart';
+import 'package:instapay_admin/domain/model/store/contact.dart';
 import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
-import 'package:instapay_admin/presentation/home/home_ui_event.dart';
+import 'package:instapay_admin/domain/use_case/store/info/get_franchisee_info_use_case.dart';
+import 'package:instapay_admin/domain/use_case/store/manager/manager_use_case.dart';
 import 'package:instapay_admin/presentation/store/store_info/store_info_state.dart';
 import 'package:instapay_admin/presentation/store/store_info/store_info_ui_event.dart';
 
@@ -49,7 +48,8 @@ class StoreInfoViewModel with ChangeNotifier {
     return res;
   }
 
-  void addManagerData(Contact manager) async {
+  Future<bool> addManagerData(Contact manager) async {
+    bool result = false;
     String token = await tokenUseCase.loadAccessToken();
     final res = await managerUseCase.addManager(manager, token);
     res.when(success: (data) {
@@ -57,6 +57,7 @@ class StoreInfoViewModel with ChangeNotifier {
         _state = state.copyWith(
           managers: managerUseCase.getManagers(),
         );
+        result = true;
         _eventController.add(const StoreInfoUiEvent.showSnackBar('담당자 추가 성공'));
       } else {
         _eventController
@@ -67,6 +68,7 @@ class StoreInfoViewModel with ChangeNotifier {
           .add(const StoreInfoUiEvent.showSnackBar('담당자 추가에 실패 했습니다.'));
     });
     notifyListeners();
+    return result;
   }
 
   void deleteManagerData(int index) async {

@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:instapay_admin/core/result.dart';
-import 'package:instapay_admin/domain/model/franchisee/store.dart';
+import 'package:instapay_admin/domain/model/store/store.dart';
 import 'package:instapay_admin/util/constant.dart';
 
-class FranchiseeInfoDataSource {
+class StoreInfoDataSource {
   Future<Result<Store>> getStoreInfo(String token) async {
     try {
       Response response;

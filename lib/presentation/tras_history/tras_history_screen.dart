@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
 import 'package:instapay_admin/presentation/tras_history/tras_history_view_model.dart';
@@ -30,8 +31,41 @@ class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
   int selectedValue = 10;
   final _pagingController = PagingController<int, TrasInfo>(firstPageKey: 1);
 
+  late FToast fToast;
+  late Widget toast;
+
+  _removeToast() {
+    fToast.removeCustomToast();
+  }
+
+  _showToast(String message) {
+    _removeToast();
+
+    fToast.showToast(
+      child: Container(
+          width: 250,
+          height: 50,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.zero,
+            color: Colors.grey,
+          ),
+          child: Center(
+            child: Text(message),
+          )),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 4),
+    );
+  }
+
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        fToast = FToast();
+        fToast.init(context);
+      },
+    );
     Future.microtask(() {
       final viewModel = context.read<TrasHistoryViewModel>();
       _pagingController.addPageRequestListener((pageKey) {
@@ -112,12 +146,15 @@ class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
                     Row(
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            viewModel.searchTrasHistory(
+                          onPressed: () async {
+                            final result = await viewModel.searchTrasHistory(
                               DateFormat('yyyy-MM-dd').format(state.calcDay!),
                               '',
                               selectedValue,
                             );
+                            if (result == false) {
+                              _showToast('로그인이 만료 되었습니다. 다시 로그인 해주세요.');
+                            }
                           },
                           child: const Text('보기'),
                         ),

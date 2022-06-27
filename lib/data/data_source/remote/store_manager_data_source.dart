@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:instapay_admin/core/result.dart';
-import 'package:instapay_admin/domain/model/franchisee/contact.dart';
+import 'package:instapay_admin/domain/model/store/contact.dart';
 import 'package:instapay_admin/util/constant.dart';
 import 'package:instapay_admin/util/util.dart';
 
-class FranchiseeManagerDataSource {
+class StoreManagerDataSource {
   Future<Result<String>> updateManagerInfo(
       List<Contact> manager, String token) async {
     String contact =

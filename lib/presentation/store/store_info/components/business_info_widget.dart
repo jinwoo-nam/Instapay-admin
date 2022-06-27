@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/franchisee/store.dart';
+import 'package:instapay_admin/domain/model/store/store.dart';
 
 class BusinessInfoWidget extends StatelessWidget {
   final Store store;

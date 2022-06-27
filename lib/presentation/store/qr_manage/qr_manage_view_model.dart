@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/use_case/franchisee/qr/get_qr_info_list_use_case.dart';
+import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
+import 'package:instapay_admin/domain/use_case/store/qr/get_qr_info_list_use_case.dart';
 import 'package:instapay_admin/presentation/store/qr_manage/qr_manage_state.dart';
 
 class QrManageViewModel with ChangeNotifier {
   final GetQrInfoListUseCase getQrInfo;
+  final TokenUseCase tokenUseCase;
 
   QrManageViewModel({
     required this.getQrInfo,
+    required this.tokenUseCase,
   });
 
   QrManageState _state = QrManageState();
@@ -69,32 +72,36 @@ class QrManageViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void getQrInfoList() async {
-    final qrInfo = await getQrInfo();
+  Future<bool> getQrInfoList() async {
+    String token = await tokenUseCase.loadAccessToken();
+    bool res = false;
+
+    final qrInfo = await getQrInfo(token);
     qrInfo.when(
         success: (data) {
           _state = state.copyWith(
             qrInfoList: data,
           );
+          res = true;
         },
         error: (message) {});
 
-    notifyListeners();
+    return res;
   }
 
-  Future<void> searchQrInfoList(String startDate, String endDate) async {
+  Future<bool> searchQrInfoList(String startDate, String endDate) async {
     _state = state.copyWith(
       isLoadingQrManageSearch: true,
     );
     notifyListeners();
 
-    await Future.delayed(const Duration(milliseconds: 800));
-    getQrInfoList();
+    bool res = await getQrInfoList();
 
     _state = state.copyWith(
       isLoadingQrManageSearch: false,
     );
     notifyListeners();
+    return res;
   }
 
   Future<void> resetQrManage() async {

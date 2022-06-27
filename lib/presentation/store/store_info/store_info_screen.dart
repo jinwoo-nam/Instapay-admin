@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:instapay_admin/domain/model/franchisee/contact.dart';
+import 'package:instapay_admin/domain/model/store/contact.dart';
 import 'package:instapay_admin/presentation/store/store_info/store_info_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:provider/provider.dart';
@@ -156,7 +156,7 @@ class _StoreInfoScreenState extends State<StoreInfoScreen> {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async{
                                 if (_globalKey.currentState != null) {
                                   if (_globalKey.currentState!.validate()) {
                                     final manager = Contact(

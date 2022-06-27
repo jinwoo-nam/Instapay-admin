@@ -1,8 +1,8 @@
-import 'package:instapay_admin/domain/model/franchisee/adjust.dart';
-import 'package:instapay_admin/domain/model/franchisee/contact.dart';
-import 'package:instapay_admin/domain/model/franchisee/info.dart';
-import 'package:instapay_admin/domain/model/franchisee/juso.dart';
-import 'package:instapay_admin/domain/model/franchisee/staff.dart';
+import 'package:instapay_admin/domain/model/store/adjust.dart';
+import 'package:instapay_admin/domain/model/store/contact.dart';
+import 'package:instapay_admin/domain/model/store/info.dart';
+import 'package:instapay_admin/domain/model/store/juso.dart';
+import 'package:instapay_admin/domain/model/store/staff.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'store.freezed.dart';

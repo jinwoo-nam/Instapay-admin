@@ -49,10 +49,12 @@ class TrasHistoryViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getTrasHistoryInfo(String tid, int limit) async {
+  Future<bool> getTrasHistoryInfo(String tid, int limit) async {
     String token = await tokenUseCase.loadAccessToken();
     final history = await getTrasHistory(token, tid, limit);
     List<TrasInfo> trasInfoList = List.from(state.totalTrasHistoryData);
+    bool result = false;
+
     history.when(
       success: (data) {
         List<TrasInfo> temp = List.from(trasInfoList)..addAll(data.tras);
@@ -60,14 +62,17 @@ class TrasHistoryViewModel with ChangeNotifier {
           trasHistory: data,
           totalTrasHistoryData: temp,
         );
+        result = true;
       },
       error: (message) {
         print(message);
       },
     );
+
+    return result;
   }
 
-  Future<void> searchTrasHistory(
+  Future<bool> searchTrasHistory(
       String searchDate, String tid, int limit) async {
     _state = state.copyWith(
       isLoadingCalcHistorySearch: true,
@@ -75,7 +80,7 @@ class TrasHistoryViewModel with ChangeNotifier {
     );
     notifyListeners();
 
-    await getTrasHistoryInfo(tid, limit);
+    final result = await getTrasHistoryInfo(tid, limit);
     _pagingController.appendPage(state.trasHistory!.tras, 1);
 
     _state = state.copyWith(
@@ -83,6 +88,7 @@ class TrasHistoryViewModel with ChangeNotifier {
       trasHistoryTotalCount: state.trasHistory!.count,
     );
     notifyListeners();
+    return result;
   }
 
   void setDefaultCalcDateTime() {

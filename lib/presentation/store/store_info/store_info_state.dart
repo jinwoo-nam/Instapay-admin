@@ -1,5 +1,5 @@
-import 'package:instapay_admin/domain/model/franchisee/contact.dart';
-import 'package:instapay_admin/domain/model/franchisee/store.dart';
+import 'package:instapay_admin/domain/model/store/contact.dart';
+import 'package:instapay_admin/domain/model/store/store.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

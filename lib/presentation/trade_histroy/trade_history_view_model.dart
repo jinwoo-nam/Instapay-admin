@@ -69,7 +69,7 @@ class TradeHistoryViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> searchTradeHistory(String startDate, String endDate) async {
+  Future<bool> searchTradeHistory(String startDate, String endDate) async {
     _state = state.copyWith(
       isLoadingTradeHistorySearch: true,
     );
@@ -82,6 +82,7 @@ class TradeHistoryViewModel with ChangeNotifier {
       isLoadingTradeHistorySearch: false,
     );
     notifyListeners();
+    return true;
   }
 
   void getPaymentHistoryList() async {

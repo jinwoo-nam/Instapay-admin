@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
+import 'package:instapay_admin/domain/model/store/goods.dart';
 import 'package:instapay_admin/presentation/common_widget/calendar_widget.dart';
 import 'package:instapay_admin/presentation/store/qr_manage/qr_manage_view_model.dart';
 import 'package:instapay_admin/ui/color.dart';
@@ -8,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class QrInfoDetailWidget extends StatefulWidget {
-  final QrCodeInfo data;
+  final Goods data;
 
   const QrInfoDetailWidget({
     Key? key,
@@ -21,6 +23,56 @@ class QrInfoDetailWidget extends StatefulWidget {
 
 class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
   bool check = false;
+  final controller = TextEditingController();
+  String textCode = '';
+  bool showSource = false;
+  late FToast fToast;
+  late Widget toast;
+
+  _removeToast() {
+    fToast.removeCustomToast();
+  }
+
+  _showToast(String message) {
+    _removeToast();
+
+    fToast.showToast(
+      child: Container(
+          width: 200,
+          height: 60,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.zero,
+            color: Colors.grey,
+          ),
+          child: Center(
+            child: Text(message),
+          )),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 4),
+    );
+  }
+
+  @override
+  void initState() {
+    Future.microtask(() {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          fToast = FToast();
+          fToast.init(context);
+        },
+      );
+    });
+    textCode = 'https://api.instapay.kr/v3/qrm?i=${widget.data.gid}';
+    controller.text = textCode;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +112,7 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                                   borderRadius: BorderRadius.circular(15.0),
                                   color: secondaryColor,
                                 ),
-                                child: Text(widget.data.title),
+                                child: Text(widget.data.gname!),
                               ),
                             ),
                           ],
@@ -157,7 +209,7 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                               ),
                               const Text('24:00 까지 유효합니다.'),
                               Text(
-                                widget.data.expireDate,
+                                widget.data.ldate!,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -188,17 +240,8 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                           height: 30,
                         ),
                         Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                              color: Colors.white,
-                            )),
-                            width: 250,
-                            height: 250,
-                            child: const Center(
-                              child: Text('qr'),
-                            ),
-                          ),
+                          child: Image.network(
+                              'https://api.instapay.kr/v3/qrn?i=${widget.data.gid}'),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -225,11 +268,30 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                                 minimumSize:
                                     const Size(120, 40), //width, height
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  showSource = !showSource;
+                                });
+                              },
                               child: const Text('소스보기'),
                             ),
                           ),
                         ),
+                        if (showSource)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: TextField(
+                                maxLines: 3,
+                                readOnly: true,
+                                controller: controller,
+                                decoration: const InputDecoration(
+                                  fillColor: Colors.grey,
+                                  filled: true,
+                                ),
+                              ),
+                            ),
+                          ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
@@ -240,7 +302,11 @@ class _QrInfoDetailWidgetState extends State<QrInfoDetailWidget> {
                                 minimumSize:
                                     const Size(120, 40), //width, height
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Clipboard.setData(
+                                    ClipboardData(text: textCode));
+                                _showToast('클립보드에 복사 완료');
+                              },
                               child: const Text('복사하기'),
                             ),
                           ),

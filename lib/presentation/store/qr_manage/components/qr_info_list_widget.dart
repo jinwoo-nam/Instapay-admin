@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/franchisee/qr_code_info.dart';
+import 'package:instapay_admin/domain/model/store/goods.dart';
 import 'package:instapay_admin/presentation/store/qr_manage/components/qr_info_detail_widget.dart';
 import 'package:instapay_admin/ui/color.dart';
+import 'package:instapay_admin/util/util.dart';
 
 class QrInfoListWidget extends StatefulWidget {
-  final QrCodeInfo data;
+  final Goods data;
 
   const QrInfoListWidget({
     Key? key,
@@ -20,6 +21,31 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    String expireDate = '';
+    String qrState = '';
+    if (widget.data.ldate == null) {
+      qrState = '사용중';
+      expireDate = 'always';
+    } else {
+      if (widget.data.ldate!.isEmpty) {
+        qrState = '사용중';
+        expireDate = 'always';
+      } else {
+        expireDate = widget.data.ldate!;
+        int year = int.parse(widget.data.ldate!.substring(0, 4));
+        int month = int.parse(widget.data.ldate!.substring(5, 7));
+        int day = int.parse(widget.data.ldate!.substring(8, 10));
+        int hour = int.parse(widget.data.ldate!.substring(11, 13));
+        int min = int.parse(widget.data.ldate!.substring(14, 16));
+        int sec = int.parse(widget.data.ldate!.substring(17, 19));
+        DateTime temp = DateTime(year, month, day, hour, min, sec);
+
+        Duration duration = temp.difference(DateTime.now());
+        if (duration.inDays < 0) {
+          qrState = '사용 중단';
+        }
+      }
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -62,7 +88,7 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
                         ),
                         Expanded(
                           flex: 3,
-                          child: Text(widget.data.title),
+                          child: Text(widget.data.gname!),
                         ),
                       ],
                     ),
@@ -73,7 +99,8 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
                         ),
                         Expanded(
                           flex: 3,
-                          child: Text('${widget.data.price}'),
+                          child: Text(
+                              currencyFormat(int.parse(widget.data.price!))),
                         ),
                       ],
                     ),
@@ -84,7 +111,7 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
                         ),
                         Expanded(
                           flex: 3,
-                          child: Text(widget.data.expireDate),
+                          child: Text(expireDate),
                         ),
                       ],
                     ),
@@ -95,7 +122,7 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
                         ),
                         Expanded(
                           flex: 3,
-                          child: Text(widget.data.createDate),
+                          child: Text(widget.data.adate!),
                         ),
                       ],
                     ),
@@ -106,7 +133,7 @@ class _QrInfoListWidgetState extends State<QrInfoListWidget> {
                         ),
                         Expanded(
                           flex: 3,
-                          child: Text(widget.data.state),
+                          child: Text(qrState),
                         ),
                       ],
                     ),

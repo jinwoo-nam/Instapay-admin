@@ -1,10 +1,10 @@
 import 'package:instapay_admin/core/result.dart';
-import 'package:instapay_admin/data/data_source/remote/franchisee_manager_data_source.dart';
-import 'package:instapay_admin/domain/model/franchisee/contact.dart';
+import 'package:instapay_admin/data/data_source/remote/store_manager_data_source.dart';
+import 'package:instapay_admin/domain/model/store/contact.dart';
 import 'package:instapay_admin/domain/repository/manaer_repository.dart';
 
 class ManagerRepositoryImpl implements ManagerRepository {
-  final dataSource = FranchiseeManagerDataSource();
+  final dataSource = StoreManagerDataSource();
 
   @override
   List<Contact> getManagers() {
