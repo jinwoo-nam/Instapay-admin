@@ -7,7 +7,8 @@ class GetTrasHistoryUseCase {
 
   GetTrasHistoryUseCase(this.repository);
 
-  Future<Result<TrasHistory>> call(String token, String tid, int limit) async {
-    return repository.getTrasHistory(token, tid, limit);
+  Future<Result<TrasHistory>> call(String token, String tid, int limit,
+      {String state = ''}) async {
+    return repository.getTrasHistory(token, tid, limit, state: state);
   }
 }

@@ -5,14 +5,15 @@ import 'package:instapay_admin/util/constant.dart';
 
 class CalcHistoryDataSource {
   Future<Result<TrasHistory>> getTrasHistory(
-      String token, String tid, int limit) async {
+      String token, String tid, int limit,
+      {String state = ''}) async {
     try {
       Response response;
       var dio = Dio();
       dio.options.headers['authorization'] = 'Bearer $token';
       response = await dio.get(
         trasBaseUrl,
-        queryParameters: {'offset': tid, 'limit': limit},
+        queryParameters: {'offset': tid, 'limit': limit, 'state': state},
       );
 
       print(response.data);

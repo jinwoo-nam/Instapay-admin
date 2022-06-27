@@ -31,6 +31,11 @@ class TrasHistoryViewModel with ChangeNotifier {
   }
 
   void fetchHistoryPage(int page, int limit) async {
+    if (state.trasHistory != null &&
+        state.trasHistory!.count == state.totalTrasHistoryData.length) {
+      _pagingController.appendLastPage([]);
+      return;
+    }
     String tid = '';
     if (state.trasHistory!.tras.isNotEmpty) {
       tid = state.trasHistory!.tras.last.tid!;
@@ -68,7 +73,6 @@ class TrasHistoryViewModel with ChangeNotifier {
         print(message);
       },
     );
-
     return result;
   }
 

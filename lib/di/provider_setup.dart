@@ -4,7 +4,6 @@ import 'package:instapay_admin/data/repository/login_repository_impl.dart';
 import 'package:instapay_admin/data/repository/manager_repository_impl.dart';
 import 'package:instapay_admin/data/repository/qr_code_repository_impl.dart';
 import 'package:instapay_admin/data/repository/token_repository_impl.dart';
-import 'package:instapay_admin/data/repository/trade_history_repository_impl.dart';
 import 'package:instapay_admin/domain/use_case/calc_history/get_tras_history_use_case.dart';
 import 'package:instapay_admin/domain/use_case/login/login_use_case.dart';
 import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
@@ -15,7 +14,6 @@ import 'package:instapay_admin/domain/use_case/store/manager/get_managers_use_ca
 import 'package:instapay_admin/domain/use_case/store/manager/manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/store/manager/set_manager_use_case.dart';
 import 'package:instapay_admin/domain/use_case/store/qr/get_qr_info_list_use_case.dart';
-import 'package:instapay_admin/domain/use_case/trade_history/get_payment_history_use_case.dart';
 import 'package:instapay_admin/presentation/home/home_view_model.dart';
 import 'package:instapay_admin/presentation/login/login_view_model.dart';
 import 'package:instapay_admin/presentation/root/root_view_model.dart';
@@ -29,13 +27,13 @@ import 'package:provider/single_child_widget.dart';
 List<SingleChildWidget> getProviders() {
   final managerRepository = ManagerRepositoryImpl();
   final qrRepository = QrCodeRepositoryImpl();
-  final tradeRepository = TradeHistoryRepositoryImpl();
   final trasRepository = TrasHistoryRepositoryImpl();
   final storeRepository = StoreRepositoryImpl();
   final loginRepository = LoginRepositoryImpl();
   final tokenRepository = TokenRepositoryImpl();
 
   final tokenUseCase = TokenUseCase(tokenRepository);
+  final trasUseCase = GetTrasHistoryUseCase(trasRepository);
 
   return [
     ChangeNotifierProvider<RootViewModel>(
@@ -72,13 +70,14 @@ List<SingleChildWidget> getProviders() {
     ),
     ChangeNotifierProvider<TradeHistoryViewModel>(
       create: (context) => TradeHistoryViewModel(
-        getPaymentHistory: GetPaymentHistoryUseCase(tradeRepository),
+        getTrasHistory: trasUseCase,
+        tokenUseCase: tokenUseCase,
       ),
     ),
     ChangeNotifierProvider<TrasHistoryViewModel>(
       create: (context) => TrasHistoryViewModel(
         tokenUseCase: tokenUseCase,
-        getTrasHistory: GetTrasHistoryUseCase(trasRepository),
+        getTrasHistory: trasUseCase,
       ),
     ),
   ];

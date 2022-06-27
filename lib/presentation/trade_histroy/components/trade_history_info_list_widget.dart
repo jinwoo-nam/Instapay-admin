@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
 import 'package:instapay_admin/domain/model/trade_history/payment_complete_info.dart';
 
 class TradeHistoryInfoListWidget extends StatelessWidget {
-  final PaymentCompleteInfo paymentInfo;
+  final TrasInfo info;
 
   const TradeHistoryInfoListWidget({
     Key? key,
-    required this.paymentInfo,
+    required this.info,
   }) : super(key: key);
 
   @override
@@ -28,7 +29,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
                 width: 30,
               ),
               Text(
-                paymentInfo.title,
+                info.productName!,
                 style: const TextStyle(
                   fontSize: 15,
                 ),
@@ -51,7 +52,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
                 width: 30,
               ),
               Text(
-                paymentInfo.userName,
+                info.payerName!,
                 style: const TextStyle(
                   fontSize: 15,
                 ),
@@ -74,7 +75,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
                 width: 30,
               ),
               Text(
-                '${paymentInfo.price}',
+                info.paymentAmount!,
                 style: const TextStyle(
                   fontSize: 15,
                 ),
@@ -97,7 +98,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
                 width: 30,
               ),
               Text(
-                paymentInfo.paymentInstitution,
+                info.bankName!,
                 style: const TextStyle(
                   fontSize: 15,
                 ),
@@ -121,7 +122,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  paymentInfo.orderNumber,
+                  info.orderNo!,
                   style: const TextStyle(
                     fontSize: 15,
                   ),
@@ -145,7 +146,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
                 width: 30,
               ),
               Text(
-                paymentInfo.paymentDateTime,
+                info.adate!,
                 style: const TextStyle(
                   fontSize: 15,
                 ),

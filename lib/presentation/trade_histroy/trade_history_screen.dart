@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:instapay_admin/presentation/trade_histroy/components/trade_history_info_list_widget.dart';
 import 'package:instapay_admin/presentation/trade_histroy/trade_history_view_model.dart';
+import 'package:instapay_admin/presentation/tras_history/components/tras_history_table.dart';
+import 'package:instapay_admin/responsive/responsive.dart';
 import 'package:instapay_admin/ui/color.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../domain/model/calc_history/tras_info.dart';
 import '../common_widget/calendar_widget.dart';
 import '../common_widget/period_select_widget.dart';
-import 'components/trade_history_info_list_widget.dart';
 
 class TradeHistoryScreen extends StatefulWidget {
   const TradeHistoryScreen({Key? key}) : super(key: key);
@@ -19,8 +23,12 @@ class TradeHistoryScreen extends StatefulWidget {
 
 class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
   final scrollController = ScrollController();
+  final tradeScrollController = ScrollController();
   String startDateNotSelect = '';
   String endDateNotSelect = '';
+  final _pagingController = PagingController<int, TrasInfo>(firstPageKey: 1);
+  final items = [10, 30, 50];
+  int selectedValue = 10;
 
   late FToast fToast;
   late Widget toast;
@@ -51,20 +59,29 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        fToast = FToast();
+        fToast.init(context);
+      },
+    );
     Future.microtask(() {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) {
-          fToast = FToast();
-          fToast.init(context);
-        },
-      );
+      final viewModel = context.read<TradeHistoryViewModel>();
+      _pagingController.addPageRequestListener((pageKey) {
+        viewModel.fetchHistoryPage(pageKey, 0);
+      });
+      viewModel.pagingController = _pagingController;
+
+      _pagingController.appendPage(viewModel.state.totalTrasHistoryData, 1);
     });
     super.initState();
   }
 
   @override
   void dispose() {
+    _pagingController.dispose();
     scrollController.dispose();
+    tradeScrollController.dispose();
     super.dispose();
   }
 
@@ -72,17 +89,30 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<TradeHistoryViewModel>();
     final state = viewModel.state;
+    final double mainWidth;
+    final double dataTableWidth;
+    if (Responsive.isMobile(context)) {
+      mainWidth = 500;
+      dataTableWidth = 400;
+    } else if (Responsive.isTablet(context)) {
+      mainWidth = 750;
+      dataTableWidth = 700;
+    } else {
+      mainWidth = 1000;
+      dataTableWidth = 900;
+    }
+
     final selectButtonWidth = MediaQuery.of(context).size.width < 500
         ? (MediaQuery.of(context).size.width - 40) / 5
-        : (500 - 40) / 5;
+        : (mainWidth - 40) / 5;
     double dateContainerWidth =
-        MediaQuery.of(context).size.width < 500 ? 140 : 170;
+        MediaQuery.of(context).size.width < mainWidth ? 140 : 170;
 
     return SingleChildScrollView(
       controller: scrollController,
       child: Center(
         child: SizedBox(
-          width: 500,
+          width: mainWidth,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -276,35 +306,22 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
                       children: [
                         ElevatedButton(
                           onPressed: () async {
-                            if (state.tradeStartDay != null &&
-                                state.tradeEndDay != null) {
-                              startDateNotSelect = '';
-                              endDateNotSelect = '';
+                            String start = '', end = '';
 
-                              final result = await viewModel.searchTradeHistory(
-                                  DateFormat('yyyy-MM-dd')
-                                      .format(state.tradeStartDay!),
-                                  DateFormat('yyyy-MM-dd')
-                                      .format(state.tradeEndDay!));
-                              if (result == false) {
-                                _showToast('로그인이 만료 되었습니다. 다시 로그인 해주세요.');
-                              }
-                            } else if (state.tradeStartDay == null &&
-                                state.tradeEndDay == null) {
-                              setState(() {
-                                startDateNotSelect = '날짜를 선택해 주세요';
-                                endDateNotSelect = '날짜를 선택해 주세요';
-                              });
-                            } else if (state.tradeStartDay == null) {
-                              setState(() {
-                                startDateNotSelect = '날짜를 선택해 주세요';
-                                endDateNotSelect = '';
-                              });
-                            } else if (state.tradeEndDay == null) {
-                              setState(() {
-                                startDateNotSelect = '';
-                                endDateNotSelect = '날짜를 선택해 주세요';
-                              });
+                            if (state.tradeStartDay != null) {
+                              start = DateFormat('yyyy-MM-dd')
+                                  .format(state.tradeStartDay!);
+                            }
+                            if (state.tradeEndDay != null) {
+                              end = DateFormat('yyyy-MM-dd')
+                                  .format(state.tradeEndDay!);
+                            }
+
+                            final result = await viewModel.searchTradeHistory(
+                                start, end, '', 0);
+
+                            if (result == false) {
+                              _showToast('로그인이 만료 되었습니다. 다시 로그인 해주세요.');
                             }
                           },
                           child: const Text('검색'),
@@ -325,37 +342,81 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
                       ],
                     ),
                     (state.isLoadingTradeHistorySearch == false)
-                        ? (state.paymentHistoryList.isNotEmpty)
+                        ? (state.trasHistory != null)
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                    const Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 16.0,
-                                        bottom: 8,
-                                      ),
-                                      child: Text(
-                                        '결제 완료',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22,
-                                          color: pointColor,
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 35.0,
+                                      bottom: 8,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          '결제 완료',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 22,
+                                            color: pointColor,
+                                          ),
                                         ),
-                                      ),
+                                        Row(
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                viewModel.ExcelExport();
+                                              },
+                                              child: const Text('엑셀로 내려받기'),
+                                            ),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            Text(
+                                                '거래 내역 : ${state.totalTrasHistoryData.length} / ${state.trasHistoryTotalCount}'),
+                                          ],
+                                        )
+                                      ],
                                     ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(bottom: 16.0),
+                                    child: Divider(
+                                      height: 1,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  if (!Responsive.isMobile(context))
                                     const Padding(
-                                      padding: EdgeInsets.only(bottom: 16.0),
-                                      child: Divider(
-                                        height: 1,
-                                        color: Colors.white,
-                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8.0),
+                                      child: TrasHistoryTableHeader(),
                                     ),
-                                    ...state.paymentHistoryList.map((e) {
-                                      return TradeHistoryInfoListWidget(
-                                        paymentInfo: e,
-                                      );
-                                    }).toList(),
-                                  ])
+                                  SizedBox(
+                                    height: 600,
+                                    child: PagedListView(
+                                      scrollController: tradeScrollController,
+                                      pagingController: _pagingController,
+                                      builderDelegate:
+                                          PagedChildBuilderDelegate<TrasInfo>(
+                                              itemBuilder:
+                                                  (context, tras, index) {
+                                        if (Responsive.isMobile(context)) {
+                                          return TradeHistoryInfoListWidget(
+                                            info: tras,
+                                          );
+                                        } else {
+                                          return TrasHistoryTableBody(
+                                            info: tras,
+                                          );
+                                        }
+                                      }),
+                                    ),
+                                  ),
+                                ],
+                              )
                             : Container()
                         : const Center(child: CircularProgressIndicator()),
                   ],

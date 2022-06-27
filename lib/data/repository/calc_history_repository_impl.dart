@@ -8,7 +8,8 @@ class TrasHistoryRepositoryImpl implements CalcHistoryRepository {
 
   @override
   Future<Result<TrasHistory>> getTrasHistory(
-      String token, String tid, int limit) {
-    return dataSource.getTrasHistory(token, tid, limit);
+      String token, String tid, int limit,
+      {String state = ''}) {
+    return dataSource.getTrasHistory(token, tid, limit, state: state);
   }
 }

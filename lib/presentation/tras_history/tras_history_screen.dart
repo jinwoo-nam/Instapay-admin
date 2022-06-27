@@ -69,7 +69,7 @@ class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
     Future.microtask(() {
       final viewModel = context.read<TrasHistoryViewModel>();
       _pagingController.addPageRequestListener((pageKey) {
-        viewModel.fetchHistoryPage(pageKey, selectedValue);
+        viewModel.fetchHistoryPage(pageKey, 0);
       });
       viewModel.pagingController = _pagingController;
 
@@ -80,6 +80,7 @@ class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
 
   @override
   void dispose() {
+    _pagingController.dispose();
     scrollController.dispose();
     historyScrollController.dispose();
     super.dispose();
@@ -150,7 +151,7 @@ class _TrasHistoryScreenState extends State<TrasHistoryScreen> {
                             final result = await viewModel.searchTrasHistory(
                               DateFormat('yyyy-MM-dd').format(state.calcDay!),
                               '',
-                              selectedValue,
+                              0,
                             );
                             if (result == false) {
                               _showToast('로그인이 만료 되었습니다. 다시 로그인 해주세요.');
