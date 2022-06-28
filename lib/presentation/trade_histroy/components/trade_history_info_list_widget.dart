@@ -14,31 +14,28 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Row(
-            children: [
-              const Text(
-                '결제건명',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
+        Row(
+          children: [
+            const Text(
+              '결제건명',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
               ),
-              const SizedBox(
-                width: 30,
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            Text(
+              info.productName!,
+              style: const TextStyle(
+                fontSize: 15,
               ),
-              Text(
-                info.productName!,
-                style: const TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
         Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.only(top: 4.0),
           child: Row(
             children: [
               const Text(
@@ -61,7 +58,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.only(top: 4.0),
           child: Row(
             children: [
               const Text(
@@ -84,7 +81,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.only(top: 4.0),
           child: Row(
             children: [
               const Text(
@@ -107,7 +104,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.only(top: 4.0),
           child: Row(
             children: [
               const Text(
@@ -132,7 +129,7 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.only(top: 4.0),
           child: Row(
             children: [
               const Text(
@@ -154,8 +151,11 @@ class TradeHistoryInfoListWidget extends StatelessWidget {
             ],
           ),
         ),
-        const Divider(
-          color: Colors.white,
+        const Padding(
+          padding: EdgeInsets.only(top: 8.0),
+          child: Divider(
+            color: Colors.white,
+          ),
         )
       ],
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:instapay_admin/presentation/trade_histroy/components/trade_detail_page_widget.dart';
 import 'package:instapay_admin/presentation/trade_histroy/components/trade_history_info_list_widget.dart';
 import 'package:instapay_admin/presentation/trade_histroy/trade_history_view_model.dart';
 import 'package:instapay_admin/presentation/tras_history/components/tras_history_table.dart';
@@ -404,12 +405,36 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
                                               itemBuilder:
                                                   (context, tras, index) {
                                         if (Responsive.isMobile(context)) {
-                                          return TradeHistoryInfoListWidget(
-                                            info: tras,
+                                          return InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TradeDetailPageWidget(
+                                                          info: tras,
+                                                        )),
+                                              );
+                                            },
+                                            child: TradeHistoryInfoListWidget(
+                                              info: tras,
+                                            ),
                                           );
                                         } else {
-                                          return TrasHistoryTableBody(
-                                            info: tras,
+                                          return InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TradeDetailPageWidget(
+                                                          info: tras,
+                                                        )),
+                                              );
+                                            },
+                                            child: TrasHistoryTableBody(
+                                              info: tras,
+                                            ),
                                           );
                                         }
                                       }),

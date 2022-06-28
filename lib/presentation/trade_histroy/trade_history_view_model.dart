@@ -128,6 +128,7 @@ class TradeHistoryViewModel with ChangeNotifier {
 
   Future<bool> getPaymentHistoryList(String tid, int limit) async {
     String token = await tokenUseCase.loadAccessToken();
+    print('search trade history token: $token');
     final history = await getTrasHistory(token, tid, limit, state: 'approve');
     List<TrasInfo> trasInfoList = List.from(state.totalTrasHistoryData);
     bool result = false;

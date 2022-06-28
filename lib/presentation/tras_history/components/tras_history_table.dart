@@ -125,7 +125,7 @@ class TrasHistoryTableBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.only(top: 16.0),
       child: Column(
         children: [
           Row(
@@ -223,9 +223,9 @@ class TrasHistoryTableBody extends StatelessWidget {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: const Divider(
+          const Padding(
+            padding: EdgeInsets.only(top: 16.0),
+            child: Divider(
               height: 1,
               color: Colors.grey,
             ),
