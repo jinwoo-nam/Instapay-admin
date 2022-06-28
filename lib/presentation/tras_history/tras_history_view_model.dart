@@ -32,7 +32,7 @@ class TrasHistoryViewModel with ChangeNotifier {
 
   void fetchHistoryPage(int page, int limit) async {
     if (state.trasHistory != null &&
-        state.trasHistory!.count == state.totalTrasHistoryData.length) {
+        state.trasHistory!.count <= state.totalTrasHistoryData.length) {
       _pagingController.appendLastPage([]);
       return;
     }
