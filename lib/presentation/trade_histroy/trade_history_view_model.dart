@@ -114,6 +114,7 @@ class TradeHistoryViewModel with ChangeNotifier {
     );
     notifyListeners();
 
+    _pagingController.refresh();
     final result = await getPaymentHistoryList(tid, limit);
     _pagingController.appendPage(state.trasHistory!.tras, 1);
 
