@@ -107,8 +107,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         children: [
           DrawerHeader(
             padding: const EdgeInsets.all(62),
-            child: Image.asset(
-              'img/home-logo@2x.png',
+            child: SizedBox(
+              width: 130,
+              child: Image.asset(
+                'img/home-logo@3x.png',
+              ),
             ),
           ),
           ExpansionPanelList(

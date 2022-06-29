@@ -13,9 +13,11 @@ class RootViewModel with ChangeNotifier {
   }
 
   void setIsAutoLogin() async {
-    isSigned = await tokenUseCase.loadIsAutoLogin();
-    isLoadDone = true;
-    notifyListeners();
+    tokenUseCase.loadIsAutoLogin().then((value) {
+      isSigned = value;
+      isLoadDone = true;
+      notifyListeners();
+    });
   }
 
   void setLoginResult(bool res) {

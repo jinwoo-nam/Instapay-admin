@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instapay_admin/presentation/login/login_view_model.dart';
@@ -73,8 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<LoginViewModel>();
-
     final rootViewModel = context.watch<RootViewModel>();
+
     return Scaffold(
       key: globalKey,
       body: Center(
@@ -87,11 +88,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 key: _globalFormKey,
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 90),
-                      child: Image.asset(
-                        'img/home-logo@2x.png',
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 90),
+                      child: Image(
+                        image: AssetImage(
+                          'img/home-logo@3x.png',
+                        ),
                         width: 180,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     LoginTextField(

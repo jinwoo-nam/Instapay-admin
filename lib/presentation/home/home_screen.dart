@@ -81,9 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: bgColor,
-        title: Image.asset(
-          'img/home-logo@2x.png',
+        title: SizedBox(
           width: 120,
+          child: Image.asset(
+            'img/home-logo@3x.png',
+          ),
         ),
         centerTitle: true,
         actions: [
