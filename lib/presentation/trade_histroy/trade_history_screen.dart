@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:instapay_admin/domain/model/tras/tras_info.dart';
 import 'package:instapay_admin/presentation/trade_histroy/components/trade_detail_page_widget.dart';
 import 'package:instapay_admin/presentation/trade_histroy/components/trade_history_info_list_widget.dart';
 import 'package:instapay_admin/presentation/trade_histroy/trade_history_view_model.dart';
@@ -11,7 +12,6 @@ import 'package:instapay_admin/ui/color.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/model/calc_history/tras_info.dart';
 import '../common_widget/calendar_widget.dart';
 import '../common_widget/period_select_widget.dart';
 
@@ -91,16 +91,12 @@ class _TradeHistoryScreenState extends State<TradeHistoryScreen> {
     final viewModel = context.watch<TradeHistoryViewModel>();
     final state = viewModel.state;
     final double mainWidth;
-    final double dataTableWidth;
     if (Responsive.isMobile(context)) {
       mainWidth = 500;
-      dataTableWidth = 400;
     } else if (Responsive.isTablet(context)) {
       mainWidth = 750;
-      dataTableWidth = 700;
     } else {
       mainWidth = 1000;
-      dataTableWidth = 900;
     }
 
     final selectButtonWidth = MediaQuery.of(context).size.width < 500

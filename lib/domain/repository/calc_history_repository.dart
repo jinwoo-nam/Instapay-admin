@@ -1,7 +1,7 @@
 import 'package:instapay_admin/core/result.dart';
-import 'package:instapay_admin/domain/model/calc_history/tras_history.dart';
+import 'package:instapay_admin/domain/model/tras/tras_history.dart';
 
-abstract class CalcHistoryRepository {
+abstract class TrasRepository {
   Future<Result<TrasHistory>> getTrasHistory(
       String token, String tid, int limit,
       {String state = ''});

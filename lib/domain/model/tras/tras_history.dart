@@ -1,5 +1,5 @@
-import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
-import 'package:instapay_admin/domain/model/calc_history/tras_summary.dart';
+import 'package:instapay_admin/domain/model/tras/tras_info.dart';
+import 'package:instapay_admin/domain/model/tras/tras_summary.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

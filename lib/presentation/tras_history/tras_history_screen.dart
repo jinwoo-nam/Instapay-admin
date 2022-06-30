@@ -4,7 +4,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
+import 'package:instapay_admin/domain/model/tras/tras_info.dart';
 import 'package:instapay_admin/presentation/tras_history/tras_history_view_model.dart';
 import 'package:instapay_admin/responsive/responsive.dart';
 import 'package:instapay_admin/ui/color.dart';

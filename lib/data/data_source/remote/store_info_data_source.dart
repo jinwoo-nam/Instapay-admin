@@ -16,6 +16,7 @@ class StoreInfoDataSource {
             headers: {HttpHeaders.authorizationHeader: 'Bearer $token'}),
       );
 
+      print(response.data);
       if (response.data["result"] == "ok") {
         Store store = Store.fromJson(response.data["store"]);
         return Result.success(store);

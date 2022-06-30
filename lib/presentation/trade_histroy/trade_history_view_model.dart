@@ -1,9 +1,9 @@
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
-import 'package:instapay_admin/domain/use_case/calc_history/get_tras_history_use_case.dart';
+import 'package:instapay_admin/domain/model/tras/tras_info.dart';
 import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
+import 'package:instapay_admin/domain/use_case/tras/get_tras_history_use_case.dart';
 import 'package:instapay_admin/presentation/trade_histroy/trade_history_state.dart';
 
 class TradeHistoryViewModel with ChangeNotifier {
@@ -128,7 +128,6 @@ class TradeHistoryViewModel with ChangeNotifier {
 
   Future<bool> getPaymentHistoryList(String tid, int limit) async {
     String token = await tokenUseCase.loadAccessToken();
-    print('search trade history token: $token');
     final history = await getTrasHistory(token, tid, limit, state: 'approve');
     List<TrasInfo> trasInfoList = List.from(state.totalTrasHistoryData);
     bool result = false;
@@ -151,7 +150,6 @@ class TradeHistoryViewModel with ChangeNotifier {
 
   Future<void> resetTradeHistory() async {
     _state = state.copyWith(
-      paymentHistoryList: [],
       tradeStartDay: null,
       tradeEndDay: null,
     );

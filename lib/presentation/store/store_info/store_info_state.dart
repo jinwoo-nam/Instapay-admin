@@ -13,6 +13,7 @@ class StoreInfoState with _$StoreInfoState {
     @Default([]) List<Contact> managers,
     Store? storeData,
     @Default('') String userID,
+    @Default(false) bool isLoading,
   }) = _StoreInfoState;
 
   factory StoreInfoState.fromJson(Map<String, dynamic> json) =>

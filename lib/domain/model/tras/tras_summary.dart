@@ -1,4 +1,4 @@
-import 'package:instapay_admin/domain/model/calc_history/pay_state_info.dart';
+import 'package:instapay_admin/domain/model/tras/pay_state_info.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

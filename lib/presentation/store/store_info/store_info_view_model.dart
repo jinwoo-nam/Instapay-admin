@@ -28,6 +28,11 @@ class StoreInfoViewModel with ChangeNotifier {
   Stream<StoreInfoUiEvent> get eventStream => _eventController.stream;
 
   Future<bool> getStoreInfoList() async {
+    _state = state.copyWith(
+      isLoading: true,
+    );
+    notifyListeners();
+
     final token = await tokenUseCase.loadAccessToken();
     final storeInfo = await getFranchiseeInfo.getStoreInfo(token);
     final userId = await tokenUseCase.loadUserLoginId();
@@ -44,6 +49,10 @@ class StoreInfoViewModel with ChangeNotifier {
     }, error: (message) {
       print(message);
     });
+
+    _state = state.copyWith(
+      isLoading: false,
+    );
     notifyListeners();
     return res;
   }

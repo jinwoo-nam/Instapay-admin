@@ -139,6 +139,10 @@ class _StoreInfoScreenState extends State<StoreInfoScreen> {
                             color: Colors.white54,
                           ),
                         ),
+                        if (state.isLoading)
+                          const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         if (state.storeData != null)
                           BusinessInfoWidget(
                             store: state.storeData!,
@@ -156,7 +160,7 @@ class _StoreInfoScreenState extends State<StoreInfoScreen> {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () async{
+                              onPressed: () async {
                                 if (_globalKey.currentState != null) {
                                   if (_globalKey.currentState!.validate()) {
                                     final manager = Contact(

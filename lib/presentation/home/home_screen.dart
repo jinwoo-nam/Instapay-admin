@@ -59,15 +59,15 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       );
     });
-    final storeInfoViewModel = context.read<StoreInfoViewModel>();
-    final rootViewModel = context.read<RootViewModel>();
-    storeInfoViewModel.getStoreInfoList().then((value) {
-      if (!value) {
-        print('logout');
-        rootViewModel.setLoginResult(false);
-        _showToast('로그인이 만료되었습니다.\n다시 로그인 해주세요.');
-      }
-    });
+    // final storeInfoViewModel = context.read<StoreInfoViewModel>();
+    // final rootViewModel = context.read<RootViewModel>();
+    // storeInfoViewModel.getStoreInfoList().then((value) {
+    //   if (!value) {
+    //     print('logout');
+    //     rootViewModel.setLoginResult(false);
+    //     _showToast('로그인이 만료되었습니다.\n다시 로그인 해주세요.');
+    //   }
+    // });
     super.initState();
   }
 

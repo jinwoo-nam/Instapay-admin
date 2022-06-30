@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:instapay_admin/core/result.dart';
-import 'package:instapay_admin/domain/model/calc_history/tras_history.dart';
+import 'package:instapay_admin/domain/model/tras/tras_history.dart';
 import 'package:instapay_admin/util/constant.dart';
 
-class CalcHistoryDataSource {
+class TrasDataSource {
   Future<Result<TrasHistory>> getTrasHistory(
       String token, String tid, int limit,
       {String state = ''}) async {
@@ -21,8 +21,7 @@ class CalcHistoryDataSource {
         TrasHistory history = TrasHistory.fromJson(response.data);
         return Result.success(history);
       } else {
-        throw Exception(
-            'getTrasHistory result is not ok result : ${response.data["result"]}');
+        return Result.error('getTrasHistory result is not ok result : ${response.data["result"]}');
       }
     } catch (e) {
       return Result.error(e.toString());

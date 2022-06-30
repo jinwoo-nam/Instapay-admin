@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
-import 'package:instapay_admin/domain/model/trade_history/payment_complete_info.dart';
+import 'package:instapay_admin/domain/model/tras/tras_info.dart';
 
 class TradeHistoryInfoListWidget extends StatelessWidget {
   final TrasInfo info;

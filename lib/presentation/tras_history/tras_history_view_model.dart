@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:instapay_admin/domain/model/calc_history/tras_info.dart';
-import 'package:instapay_admin/domain/use_case/calc_history/get_tras_history_use_case.dart';
+import 'package:instapay_admin/domain/model/tras/tras_info.dart';
 import 'package:instapay_admin/domain/use_case/login/token_use_case.dart';
+import 'package:instapay_admin/domain/use_case/tras/get_tras_history_use_case.dart';
 import 'package:instapay_admin/presentation/tras_history/tras_history_state.dart';
 
 class TrasHistoryViewModel with ChangeNotifier {
