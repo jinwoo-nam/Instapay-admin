@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instapay_admin/domain/model/tras/tras_info.dart';
 import 'package:instapay_admin/responsive/responsive.dart';
+import 'package:instapay_admin/ui/color.dart';
 
 class TradeDetailPageWidget extends StatefulWidget {
   final TrasInfo info;
@@ -76,6 +77,7 @@ class _TradeDetailPageWidgetState extends State<TradeDetailPageWidget> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
+                        color: pointColor,
                       ),
                     ),
                     const Divider(
@@ -244,6 +246,7 @@ class _TradeDetailPageWidgetState extends State<TradeDetailPageWidget> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
+                        color: pointColor,
                       ),
                     ),
                     const Divider(
@@ -502,6 +505,7 @@ class _TradeDetailPageWidgetState extends State<TradeDetailPageWidget> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
+                        color: pointColor,
                       ),
                     ),
                     const Divider(
